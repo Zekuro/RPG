@@ -5,13 +5,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 import javax.imageio.ImageIO;
-import javax.swing.text.StyledEditorKit.ForegroundAction;
-
-import org.lwjgl.opengl.GL11;
-import org.newdawn.slick.Color;
-import org.newdawn.slick.opengl.Texture;
-import org.newdawn.slick.opengl.TextureLoader;
-import org.newdawn.slick.util.ResourceLoader;
 
 import rpg.game.objects.Chest;
 import rpg.game.objects.GameObject;
@@ -52,6 +45,7 @@ public class Map {
 				object = new GameObject(false,TILESIZE, TILESIZE, previousTile);
 			}
 			
+			// turn me into real GameObjects and delete Tile
 			for(Tile t: Tile.tiles){
 				tileCheck: 
 					if(t != null && t.getLevelColor().matchesColor(color)){

@@ -1,10 +1,11 @@
 package rpg.game;
-import java.awt.Color;
-import java.awt.RenderingHints.Key;
+import java.io.IOException;
 
 import org.lwjgl.input.Keyboard;
-import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.GL11;
+import org.newdawn.slick.opengl.Texture;
+import org.newdawn.slick.opengl.TextureLoader;
+import org.newdawn.slick.util.ResourceLoader;
 
 import rpg.game.objects.Chest;
 import rpg.game.objects.GameObject;
@@ -17,40 +18,48 @@ public class Player {
 	private int y;
 	private int cameraX = 0;
 	private int cameraY = 0;
+	private int textPos = 2;
 	private final int width = 32;
 	private final int height = 32;
 	private final int speed = 4;
+	private int delta = 0;
+	private int change = 0;
+	
+	private Texture texture;
+	
+	private boolean onSpecialTile = false;
 	
 	public Player(int x, int y){
 		this.x = x;
 		this.y = y;
-		cameraX = x + width/2 - Game.SCREEN_WIDTH/2;
-		cameraY = y + height/2 - Game.SCREEN_HEIGHT/2;
-		
-		if(cameraX < 0){
-			cameraX = 0;
-		}
-		
-		if(cameraX > Game.WORLD_WIDTH - Game.SCREEN_WIDTH){
-			cameraX = Game.WORLD_WIDTH - Game.SCREEN_WIDTH;
-		}
-		
-		if(cameraY < 0){
-			cameraY = 0;
-		}
-		
-		if(cameraY > Game.WORLD_HEIGHT - Game.SCREEN_HEIGHT){
-			cameraY = Game.WORLD_HEIGHT - Game.SCREEN_HEIGHT;
-		}
+		centerCamera();
+		try {
+			 texture = TextureLoader.getTexture("PNG", ResourceLoader.getResourceAsStream("res/player.png"));
+			} catch (IOException e) {
+				e.printStackTrace();
+		}  
 	}
 	
 	public void update(){
+		delta++;
 		move();
+
+		if(delta % 60 == 0){
+			change = 0;
+		}else
+		if(delta % 40 == 0){
+			change = 2;
+		}else
+		if(delta % 20 == 0){
+			change = 1;
+		}
+		
 	}
 
 	private void move() {
 		if(Keyboard.isKeyDown(Keyboard.KEY_LEFT) || Keyboard.isKeyDown(Keyboard.KEY_A)){
 			if(x-speed > 0 && !hasCollision(x-speed, y)){
+				textPos = 5 + change;
 				x-=speed;
 			}
 			
@@ -60,6 +69,7 @@ public class Player {
 		}
 		if(Keyboard.isKeyDown(Keyboard.KEY_RIGHT) || Keyboard.isKeyDown(Keyboard.KEY_D)){
 			if(x+speed < Game.WORLD_WIDTH-width && !hasCollision(x+speed,y)){
+				textPos = 9 + change;
 				x+=speed;
 			}
 			
@@ -69,6 +79,7 @@ public class Player {
 		}
 		if(Keyboard.isKeyDown(Keyboard.KEY_UP) || Keyboard.isKeyDown(Keyboard.KEY_W)){
 			if(y+speed < Game.WORLD_HEIGHT-height && !hasCollision(x, y+speed)){
+				textPos = 13 + change;
 				y+=speed;
 			}
 			
@@ -78,6 +89,7 @@ public class Player {
 		}
 		if(Keyboard.isKeyDown(Keyboard.KEY_DOWN) || Keyboard.isKeyDown(Keyboard.KEY_S)){
 			if(y-speed > 0 && !hasCollision(x, y-speed)){
+				textPos = 1 + change;
 				y-=speed;
 			}
 			
@@ -103,20 +115,23 @@ public class Player {
 	public void render(){
 		// ???????
 		GL11.glBindTexture(GL11.GL_TEXTURE_2D, 0);
-		// draw quad
-		GL11.glColor3f(1f,1f,1f);
+
+		texture.bind(); // or GL11.glBind(texture.getTextureID());
+		
 		GL11.glBegin(GL11.GL_QUADS);
-	    GL11.glVertex2f(x,y);
-		GL11.glVertex2f(x+width,y);
-		GL11.glVertex2f(x+width,y+height);
-		GL11.glVertex2f(x,y+height);
+		GL11.glTexCoord2f((textPos%4-1)*0.25f, (textPos/4+1)*0.25f);
+		GL11.glVertex2f(x, y);
+		GL11.glTexCoord2f(textPos%4*0.25f,(textPos/4+1)*0.25f);
+		GL11.glVertex2f(x+width, y);
+		GL11.glTexCoord2f(textPos%4*0.25f,textPos/4*0.25f);
+		GL11.glVertex2f(x+width, y+height);
+		GL11.glTexCoord2f((textPos%4-1)*0.25f,textPos/4*0.25f);
+		GL11.glVertex2f(x, y+height);
 	    GL11.glEnd();
 	}
 	
 	public boolean hasCollision(int x, int y){
 		
-		
-		// TODO check my edges pls
 		for (GameObject object : Map.objectList) {
 			if(	object.isSolid()
 				&& x + width > object.getX()
@@ -124,13 +139,21 @@ public class Player {
 				&& y + height > object.getY()
 				&& y < object.getY()+object.getHeight()){
 				
-				if(object.getClass() == Portal.class){
-					Portal portal = (Portal) object;
-					portal.teleport(this);
-				}
-				
 				return true;
 			}
+			
+			if(	object.getClass() == Portal.class
+				&& x + width > object.getX()
+				&& x < object.getX()+object.getWidth()
+				&& y + height > object.getY()
+				&& y < object.getY()+object.getHeight()){
+				
+				Portal portal = (Portal) object;
+				if(portal.isActive()) portal.teleport(this);
+				
+				return false;
+			}
+			
 			
 		}
 		
@@ -140,6 +163,36 @@ public class Player {
 	public void setPosition(int x, int y){
 		this.x = x;
 		this.y = y;
+		centerCamera();
+	}
+	
+	public void setOnSpecialTile(boolean b){
+		onSpecialTile = b;
+	}
+	
+	public boolean isOnSpecialTile(){
+		return onSpecialTile;
+	}
+	
+	public void centerCamera(){
+		cameraX = x + width/2 - Game.SCREEN_WIDTH/2;
+		cameraY = y + height/2 - Game.SCREEN_HEIGHT/2;
+		
+		if(cameraX < 0){
+			cameraX = 0;
+		}
+		
+		if(cameraX > Game.WORLD_WIDTH - Game.SCREEN_WIDTH){
+			cameraX = Game.WORLD_WIDTH - Game.SCREEN_WIDTH;
+		}
+		
+		if(cameraY < 0){
+			cameraY = 0;
+		}
+		
+		if(cameraY > Game.WORLD_HEIGHT - Game.SCREEN_HEIGHT){
+			cameraY = Game.WORLD_HEIGHT - Game.SCREEN_HEIGHT;
+		}
 	}
 	
 }

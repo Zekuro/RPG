@@ -30,7 +30,27 @@ public class Game {
 	
 	public void init(){
 		try {
-			Display.setDisplayMode(new DisplayMode(SCREEN_WIDTH, SCREEN_HEIGHT));
+			
+			DisplayMode mode = new DisplayMode(SCREEN_WIDTH, SCREEN_HEIGHT);
+			
+			 DisplayMode modes[] = Display.getAvailableDisplayModes();
+	            for (int i=0; i< modes.length; i++) {
+	               DisplayMode m = modes[i];
+	               int bpp = Display.getDisplayMode().getBitsPerPixel();
+	               if (m.getBitsPerPixel() == bpp
+	                ) {
+	                   if ( m.getWidth() <= 640 && m.getHeight() <= 480&&
+	                        m.getFrequency() <= 85)
+	                       mode = m;
+	                   if ( m.getWidth() == 640 && m.getHeight() == 480 &&
+	                        m.getFrequency() == 60)
+	                       break;
+	                   }
+	            }
+	                       
+	        Display.setDisplayMode(mode);
+			
+			//Display.setDisplayMode(new DisplayMode(SCREEN_WIDTH, SCREEN_HEIGHT));
 			Display.create();
 		} catch (LWJGLException e) {
 			e.printStackTrace();
@@ -100,6 +120,15 @@ public class Game {
 	}
 	
 	public void update(){
+		
+		if(Keyboard.isKeyDown(Keyboard.KEY_F11)){
+			try {
+				Display.setFullscreen(!Display.isFullscreen());
+			} catch (LWJGLException e) {
+				e.printStackTrace();
+			}
+		}
+		
 		player.update();
 	}
 	
