@@ -44,16 +44,18 @@ public class Player {
 		delta++;
 		move();
 
-		if(delta % 60 == 0){
+		
+		if(delta%60 == 0){
 			change = 0;
 		}else
-		if(delta % 40 == 0){
-			change = 2;
-		}else
-		if(delta % 20 == 0){
+		if(delta%60 == 15|| delta%60== 45){
 			change = 1;
+		}else
+		if(delta%60 == 30){
+			change = 2;
 		}
 		
+
 	}
 
 	private void move() {
