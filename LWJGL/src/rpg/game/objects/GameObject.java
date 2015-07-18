@@ -13,25 +13,30 @@ public class GameObject {
 	private byte id;
 	private int x;
 	private int y;
+	private int colX;
+	private int colY;
 	private int width;
 	private int height;
 	private Tile tile;
 	private Texture texture;
 	
+	private boolean isBackground;
 	private boolean solid;
 	
-	public GameObject(boolean solid,int width, int height, Tile tile){
+	public GameObject(boolean solid, boolean background,int width, int height, Tile tile){
 		this.width = width;
 		this.height = height;
 		this.tile = tile;
 		this.solid = solid;
+		this.isBackground = background;
 	}
 	
-	public GameObject(boolean solid,int width, int height, String texture){
+	public GameObject(boolean solid, boolean background,int width, int height, String texture){
 		this.width = width;
 		this.height = height;
 		this.tile = tile;
 		this.solid = solid;
+		this.isBackground = background;
 		setTexture(texture);
 	}
 	
@@ -101,4 +106,35 @@ public class GameObject {
 		}  
 	}
 	
+	protected void setCollisionOffset(int x, int y){
+		this.colX = x;
+		this.colY = y;
+	}
+	
+	public int getColX(){
+		return colX;
+	}
+	
+	public int getColY(){
+		return colY;
+	}
+	
+	public boolean isBackground(){
+		return isBackground;
+	}
+	
+	public void setCollisionBox(int x, int y, int width, int height){
+		this.colX = x;
+		this.colY = y;
+		this.width = width;
+		this.height = height;
+	}
+	
+	public void setX(int x){
+		this.x = x;
+	}
+	
+	public void setY(int y){
+		this.y = y;
+	}
 }

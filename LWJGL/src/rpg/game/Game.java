@@ -6,6 +6,9 @@ import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.DisplayMode;
 import org.lwjgl.opengl.GL11;
 
+import rpg.game.player.Interface;
+import rpg.game.player.Player;
+
 
 public class Game {
 	
@@ -15,7 +18,8 @@ public class Game {
 	public static int WORLD_WIDTH = 0;
 	public static int WORLD_HEIGHT = 0;
 	
-	private Player player;
+	public static Player PLAYER;
+	public static Interface UI;
 	private Map map;
 	private int fps;
 
@@ -68,7 +72,8 @@ public class Game {
     	GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
 
 		map = new Map();
-		player = new Player(100,100);
+		PLAYER = new Player(100,100);
+		UI = new Interface();
 	}
 
 	public void run(){
@@ -123,20 +128,25 @@ public class Game {
 		
 		if(Keyboard.isKeyDown(Keyboard.KEY_F11)){
 			try {
+				Display.setVSyncEnabled(!Display.isFullscreen());
 				Display.setFullscreen(!Display.isFullscreen());
 			} catch (LWJGLException e) {
 				e.printStackTrace();
 			}
 		}
 		
-		player.update();
+		PLAYER.update();
+		UI.update();
 	}
 	
 	public void render(){
 		GL11.glClear(GL11.GL_COLOR_BUFFER_BIT | GL11.GL_DEPTH_BUFFER_BIT);
 		
-		map.render();
-		player.render();
+		map.renderBackground();
+		PLAYER.render();
+		map.renderObjects();
+		UI.render();
+		
 		Display.update();
 	}
 	

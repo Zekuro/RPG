@@ -1,5 +1,4 @@
 package rpg.game.objects;
-import java.awt.Image;
 import java.io.IOException;
 
 import org.lwjgl.opengl.GL11;
@@ -22,10 +21,10 @@ public class Tile {
 	private Texture texture;
 	
 	public static final Tile[] tiles = new Tile[10];
-	public static final Tile GRASS = new Tile(1,new LevelColor(0, 255, 0),"res/grass.png");
-	public static final Tile STONE = new Tile(2,new LevelColor(200,200,200),"res/stone.png");
-	public static final Tile WATER = new Tile(3,new LevelColor(0,0,255),"res/water.png");
-	public static final Tile SAND = new Tile(4,new LevelColor(255,255,0),"res/sand.png");
+	public static final Tile GRASS = new Tile(1,new LevelColor(0, 255, 0),"res/background/grass.png");
+	public static final Tile STONE = new Tile(2,new LevelColor(200,200,200),"res/background/stone.png");
+	public static final Tile WATER = new Tile(3,new LevelColor(0,0,255),"res/background/water.png");
+	public static final Tile SAND = new Tile(4,new LevelColor(255,255,0),"res/background/sand.png");
 	
 	public Tile(int id, LevelColor color,String texturePath){
 		this.id = (byte)id;

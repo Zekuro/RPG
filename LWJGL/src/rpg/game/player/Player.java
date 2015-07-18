@@ -1,4 +1,4 @@
-package rpg.game;
+package rpg.game.player;
 import java.io.IOException;
 
 import org.lwjgl.input.Keyboard;
@@ -7,6 +7,8 @@ import org.newdawn.slick.opengl.Texture;
 import org.newdawn.slick.opengl.TextureLoader;
 import org.newdawn.slick.util.ResourceLoader;
 
+import rpg.game.Game;
+import rpg.game.Map;
 import rpg.game.objects.Chest;
 import rpg.game.objects.GameObject;
 import rpg.game.objects.Portal;
@@ -25,9 +27,8 @@ public class Player {
 	private int delta = 0;
 	private int change = 0;
 	
+	private int wait = 0;
 	private Texture texture;
-	
-	private boolean onSpecialTile = false;
 	
 	public Player(int x, int y){
 		this.x = x;
@@ -38,12 +39,21 @@ public class Player {
 			} catch (IOException e) {
 				e.printStackTrace();
 		}  
+		
 	}
 	
 	public void update(){
 		delta++;
 		move();
+		
+		if(Keyboard.isKeyDown(Keyboard.KEY_E) && wait == 0){
+		action();
+		wait = 30;
+		}
 
+		if(wait > 0){
+			wait--;
+		}
 		
 		if(delta%60 == 0){
 			change = 0;
@@ -55,7 +65,6 @@ public class Player {
 			change = 2;
 		}
 		
-
 	}
 
 	private void move() {
@@ -100,6 +109,7 @@ public class Player {
 			}
 		}
 		
+		// TEST KEY
 		if(Keyboard.isKeyDown(Keyboard.KEY_B)){
 			for (GameObject object : Map.objectList) {
 				if(object.getClass() == Chest.class){
@@ -114,8 +124,25 @@ public class Player {
 		GL11.glOrtho(cameraX, cameraX + Game.SCREEN_WIDTH, cameraY, cameraY + Game.SCREEN_HEIGHT, 1, -1);
 	}
 	
+	
+	private void action(){
+			for (GameObject object : Map.backgroundTiles) {
+				
+				if(	object.getClass() == Portal.class
+						&& x + width > object.getX()
+						&& x < object.getX()+object.getWidth()
+						&& y + height > object.getY()
+						&& y < object.getY()+object.getHeight()){
+					
+					Portal portal = (Portal) object;
+					portal.teleport(this);
+					break;
+				}
+				
+			}
+	}
+	
 	public void render(){
-		// ???????
 		GL11.glBindTexture(GL11.GL_TEXTURE_2D, 0);
 
 		texture.bind(); // or GL11.glBind(texture.getTextureID());
@@ -135,29 +162,18 @@ public class Player {
 	public boolean hasCollision(int x, int y){
 		
 		for (GameObject object : Map.objectList) {
+			
 			if(	object.isSolid()
-				&& x + width > object.getX()
-				&& x < object.getX()+object.getWidth()
-				&& y + height > object.getY()
-				&& y < object.getY()+object.getHeight()){
+				&& x + width > object.getX() + object.getColX()
+				&& x < object.getX() + object.getColX() + object.getWidth()
+				&& y + height > object.getY() + object.getColY()
+				&& y < object.getY() + object.getColY() + object.getHeight()){
 				
 				return true;
 			}
 			
-			if(	object.getClass() == Portal.class
-				&& x + width > object.getX()
-				&& x < object.getX()+object.getWidth()
-				&& y + height > object.getY()
-				&& y < object.getY()+object.getHeight()){
-				
-				Portal portal = (Portal) object;
-				if(portal.isActive()) portal.teleport(this);
-				
-				return false;
-			}
-			
-			
 		}
+		
 		
 		return false;
 	}
@@ -168,12 +184,12 @@ public class Player {
 		centerCamera();
 	}
 	
-	public void setOnSpecialTile(boolean b){
-		onSpecialTile = b;
+	public int getCameraX(){
+		return cameraX;
 	}
 	
-	public boolean isOnSpecialTile(){
-		return onSpecialTile;
+	public int getCameraY(){
+		return cameraY;
 	}
 	
 	public void centerCamera(){

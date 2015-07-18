@@ -10,6 +10,7 @@ import rpg.game.objects.Chest;
 import rpg.game.objects.GameObject;
 import rpg.game.objects.Portal;
 import rpg.game.objects.Tile;
+import rpg.game.objects.Tree;
 
 
 public class Map {
@@ -21,6 +22,7 @@ public class Map {
 	private Tile previousTile;
 	
 	public static final ArrayList<GameObject> objectList = new ArrayList<GameObject>();
+	public static final ArrayList<GameObject> backgroundTiles = new ArrayList<GameObject>();
 	
 	public Map(){
 		loadFromImage();
@@ -31,30 +33,27 @@ public class Map {
 			
 		GameObject object = null;
 		
-		if(color.hasColors(120, 60, 0)) object = new GameObject(true,4*32, 3*32, new Tile("res/house.png"));
+		if(color.hasColors(120, 60, 0)) object = new GameObject(true,false,4*32, 3*32, new Tile("res/objects/house.png"));
 		if(color.hasColors(160, 60, 0)) object = new Chest();
 		if(color.hasRed(255) && color.hasGreen(255) && !color.hasBlue(0)) object = new Portal(color.getBlue());
+		if(color.hasColors(0, 100, 0)) object = new Tree();
 		return object;
 	}
 		
 	public GameObject createBackground(LevelColor color){
 			
-			GameObject object = null;
+			GameObject object = new GameObject(false,true,TILESIZE, TILESIZE, previousTile);;
 
-			if(color.hasColors(0, 0, 0)){
-				object = new GameObject(false,TILESIZE, TILESIZE, previousTile);
-			}
-			
 			// turn me into real GameObjects and delete Tile
 			for(Tile t: Tile.tiles){
 				tileCheck: 
 					if(t != null && t.getLevelColor().matchesColor(color)){
-						 object = new GameObject(false,TILESIZE, TILESIZE, t);
+						 object = new GameObject(false, true,TILESIZE, TILESIZE, t);
 						 previousTile = t;
 						break tileCheck;
 					}
 		    }
-			
+
 			return object;
 		}
 	
@@ -66,7 +65,13 @@ public class Map {
 		
 	}
 	
-	public void render(){
+	public void renderBackground(){
+		for (GameObject gameObject : backgroundTiles) {
+			gameObject.render();
+		}
+	}
+	
+	public void renderObjects(){
 			for (GameObject gameObject : objectList) {
 				gameObject.render();
 			}
@@ -111,7 +116,8 @@ public class Map {
 			    
 			    if(object != null){
 			    	object.setPosition(j*TILESIZE, height*TILESIZE-TILESIZE - i*TILESIZE);
-			    	objectList.add(object);
+			    	if(object.isBackground()) backgroundTiles.add(object);
+			    	if(!object.isBackground()) objectList.add(object);
 			    }
 			    
 		      }
