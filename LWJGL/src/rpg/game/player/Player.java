@@ -70,9 +70,9 @@ public class Player {
 
 	private void move() {
 		if(Keyboard.isKeyDown(Keyboard.KEY_LEFT) || Keyboard.isKeyDown(Keyboard.KEY_A)){
+			textPos = 5 + change;
+			faceDir = 4;
 			if(x-speed > 0 && !hasCollision(x-speed, y)){
-				textPos = 5 + change;
-				faceDir = 4;
 				x-=speed;
 			}
 			
@@ -81,9 +81,9 @@ public class Player {
 			}
 		}
 		if(Keyboard.isKeyDown(Keyboard.KEY_RIGHT) || Keyboard.isKeyDown(Keyboard.KEY_D)){
+			textPos = 9 + change;
+			faceDir = 6;
 			if(x+speed < Game.WORLD_WIDTH-width && !hasCollision(x+speed,y)){
-				textPos = 9 + change;
-				faceDir = 6;
 				x+=speed;
 			}
 			
@@ -92,9 +92,9 @@ public class Player {
 			}
 		}
 		if(Keyboard.isKeyDown(Keyboard.KEY_UP) || Keyboard.isKeyDown(Keyboard.KEY_W)){
+			textPos = 13 + change;
+			faceDir = 8;
 			if(y+speed < Game.WORLD_HEIGHT-height && !hasCollision(x, y+speed)){
-				textPos = 13 + change;
-				faceDir = 8;
 				y+=speed;
 			}
 			
@@ -103,9 +103,9 @@ public class Player {
 			}
 		}
 		if(Keyboard.isKeyDown(Keyboard.KEY_DOWN) || Keyboard.isKeyDown(Keyboard.KEY_S)){
+			textPos = 1 + change;
+			faceDir = 2;
 			if(y-speed > 0 && !hasCollision(x, y-speed)){
-				textPos = 1 + change;
-				faceDir = 2;
 				y-=speed;
 			}
 			

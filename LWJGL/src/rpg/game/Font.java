@@ -28,7 +28,11 @@ public class Font {
 		} 
 	}
 	
-	public static void renderColored(String msg, int x, int y, float r, float g, float b){
+	public static void renderColored(String msg, int x, int y, int scale, float r, float g, float b){
+		int size = 8;
+		
+		if(size > 0) size = size*scale;
+		
 		for(int i = 0; i < msg.length(); i++){
 			int charIndex = chars.indexOf(msg.charAt(i));
 			
@@ -40,20 +44,24 @@ public class Font {
 				GL11.glColor3f(r, g, b);
 				GL11.glBegin(GL11.GL_QUADS);
 				GL11.glTexCoord2f(charX * 0.0625f, (charY + 1) * 0.0625f);
-				GL11.glVertex2f(x+i*8, y);
+				GL11.glVertex2f(x+i*size, y);
 				GL11.glTexCoord2f((charX+1) * 0.0625f,(charY + 1) * 0.0625f);
-				GL11.glVertex2f(x+8+i*8, y);
+				GL11.glVertex2f(x+size+i*size, y);
 				GL11.glTexCoord2f((charX+1) * 0.0625f, charY * 0.0625f);
-				GL11.glVertex2f(x+8+i*8, y+8);
+				GL11.glVertex2f(x+size+i*size, y+size);
 				GL11.glTexCoord2f(charX * 0.0625f, charY * 0.0625f);
-				GL11.glVertex2f(x+i*8, y+8);
+				GL11.glVertex2f(x+i*size, y+size);
 			    GL11.glEnd();
 			}
 		}
 	}
 	
 	public static void render(String msg, int x, int y){
-		renderColored(msg, x, y, 0, 0, 0);
+		render(msg, x, y, 1);
+	}
+	
+	public static void render(String msg, int x, int y, int size){
+		renderColored(msg, x, y, size, 1, 1, 1);
 	}
 	
 	

@@ -6,6 +6,7 @@ import java.util.ArrayList;
 
 import javax.imageio.ImageIO;
 
+import rpg.game.entities.Mob;
 import rpg.game.objects.Chest;
 import rpg.game.objects.GameObject;
 import rpg.game.objects.Portal;
@@ -33,9 +34,25 @@ public class Map {
 			
 		GameObject object = null;
 		
+		
+		/*
+		 *	reserves colors:
+		 *						255.255.1-255 portals
+		 *						255.1-200.255 npc's	 	
+		 *						
+		 *						1-255.1-255.255 mobs
+		 *						id.lvl.255
+		 */
+
+		// DevObjects
 		if(color.hasColors(120, 60, 0)) object = new GameObject(true,false,4*32, 2*32, new Tile("res/objects/house.png"));
-		if(color.hasColors(160, 60, 0)) object = new Chest();
+		
+		// Objects with soft Color
 		if(color.hasRed(255) && color.hasGreen(255) && !color.hasBlue(0)) object = new Portal(color.getBlue());
+		if(!color.hasRed(0) && !color.hasGreen(0) && color.hasBlue(255)) object = new Mob(color.getRed(), color.getGreen());
+		
+		// Objects with hard Color
+		if(color.hasColors(160, 60, 0)) object = new Chest();
 		if(color.hasColors(0, 100, 0)) object = new Tree();
 		return object;
 	}
