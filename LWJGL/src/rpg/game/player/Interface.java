@@ -2,17 +2,21 @@ package rpg.game.player;
 
 import java.io.IOException;
 
+import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.GL11;
 import org.newdawn.slick.opengl.Texture;
 import org.newdawn.slick.opengl.TextureLoader;
 import org.newdawn.slick.util.ResourceLoader;
 
+import rpg.game.Font;
 import rpg.game.Game;
 
 public class Interface {
 
+	private boolean renderInfos = false;
 	private final int actionSlots = 9;
 	private Texture actionBar;
+	private int wait = 0;
 	
 	public Interface(){
 		actionBar = loadTexture("res/actionbar.png");
@@ -20,8 +24,29 @@ public class Interface {
 	
 
 	public void render(){
-
 		
+		renderActionBar();
+		renderInfos();
+		
+	}
+	
+	public void update(){
+		
+		if(wait == 0){
+			if(Keyboard.isKeyDown(Keyboard.KEY_F1)){
+				renderInfos = !renderInfos;
+				wait = 30;
+			}
+		}
+		
+		
+		if(wait > 0){
+			wait--;
+		}
+		
+	}
+	
+	private void renderActionBar(){
 		
 		actionBar.bind();
 		
@@ -39,12 +64,15 @@ public class Interface {
 			GL11.glEnd();
 		}
 		
+	}
+	
+	private void renderInfos(){
+		if(!renderInfos)return;
+		
+		Font.render("FPS: " + Game.FPS, Game.PLAYER.getCameraX() + Game.SCREEN_WIDTH - 80, Game.PLAYER.getCameraY() + Game.SCREEN_HEIGHT - 15);
 		
 	}
 	
-	public void update(){
-		
-	}
 	
 	public Texture loadTexture(String path){
 		Texture tex = null;

@@ -61,6 +61,10 @@ public class GameObject {
 		GL11.glEnd();
 	}
 	
+	public void use(){
+		
+	}
+	
 	
 	public void setBounds(int x, int y, int width, int height){
 		this.x = x;
@@ -111,11 +115,11 @@ public class GameObject {
 		this.colY = y;
 	}
 	
-	public int getColX(){
+	public int getXColOffset(){
 		return colX;
 	}
 	
-	public int getColY(){
+	public int getYColOffset(){
 		return colY;
 	}
 	

@@ -21,7 +21,7 @@ public class Game {
 	public static Player PLAYER;
 	public static Interface UI;
 	private Map map;
-	private int fps;
+	public static int FPS;
 
 	public static void main(String[] args) {
 		Game launcher = new Game();
@@ -70,6 +70,8 @@ public class Game {
     	// enable alpha blending
     	GL11.glEnable(GL11.GL_BLEND);
     	GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
+    	
+    	Font.loadFonts();
 
 		map = new Map();
 		PLAYER = new Player(100,100);
@@ -114,8 +116,7 @@ public class Game {
 
 			if (System.currentTimeMillis() - lastTimer > 100) {
 				lastTimer += 1000;
-				fps = frames;
-				System.out.println("FPS: " + fps);
+				FPS = frames;
 				frames = 0;
 				updates = 0;
 			}

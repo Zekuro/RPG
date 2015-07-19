@@ -28,6 +28,7 @@ public class Player {
 	private int change = 0;
 	
 	private int wait = 0;
+	private int faceDir = 2;
 	private Texture texture;
 	
 	public Player(int x, int y){
@@ -71,6 +72,7 @@ public class Player {
 		if(Keyboard.isKeyDown(Keyboard.KEY_LEFT) || Keyboard.isKeyDown(Keyboard.KEY_A)){
 			if(x-speed > 0 && !hasCollision(x-speed, y)){
 				textPos = 5 + change;
+				faceDir = 4;
 				x-=speed;
 			}
 			
@@ -81,6 +83,7 @@ public class Player {
 		if(Keyboard.isKeyDown(Keyboard.KEY_RIGHT) || Keyboard.isKeyDown(Keyboard.KEY_D)){
 			if(x+speed < Game.WORLD_WIDTH-width && !hasCollision(x+speed,y)){
 				textPos = 9 + change;
+				faceDir = 6;
 				x+=speed;
 			}
 			
@@ -91,6 +94,7 @@ public class Player {
 		if(Keyboard.isKeyDown(Keyboard.KEY_UP) || Keyboard.isKeyDown(Keyboard.KEY_W)){
 			if(y+speed < Game.WORLD_HEIGHT-height && !hasCollision(x, y+speed)){
 				textPos = 13 + change;
+				faceDir = 8;
 				y+=speed;
 			}
 			
@@ -101,6 +105,7 @@ public class Player {
 		if(Keyboard.isKeyDown(Keyboard.KEY_DOWN) || Keyboard.isKeyDown(Keyboard.KEY_S)){
 			if(y-speed > 0 && !hasCollision(x, y-speed)){
 				textPos = 1 + change;
+				faceDir = 2;
 				y-=speed;
 			}
 			
@@ -112,10 +117,6 @@ public class Player {
 		// TEST KEY
 		if(Keyboard.isKeyDown(Keyboard.KEY_B)){
 			for (GameObject object : Map.objectList) {
-				if(object.getClass() == Chest.class){
-					Chest chest = (Chest) object;
-					chest.open();
-				}
 			}
 		}
 		
@@ -140,6 +141,51 @@ public class Player {
 				}
 				
 			}
+			
+			for (GameObject object : Map.objectList) {
+				if(	object.getClass() == Chest.class){
+					
+					boolean inFront = false;
+					
+					switch(faceDir){
+					case 2:
+						if( y - height/2 > object.getYColOffset() + object.getY()
+							&& x + width/2  > object.getXColOffset() + object.getX()
+							&& x + width/2 < object.getXColOffset() + object.getX()+ object.getWidth()){
+							inFront = true;
+						}
+						break;
+					case 4:
+						if( x - width/2 > object.getXColOffset() + object.getX()
+								&& y + height/2  > object.getYColOffset() + object.getY()
+								&& y + height/2 < object.getYColOffset() + object.getY()+ object.getHeight()){
+								inFront = true;
+							}
+						break;
+					case 6:
+						if( x + width + width/2 < object.getXColOffset() + object.getX() + object.getWidth()
+								&& y + height/2  > object.getYColOffset() + object.getY()
+								&& y + height/2 < object.getYColOffset() + object.getY()+ object.getHeight()){
+								inFront = true;
+							}
+						break;
+					case 8:
+						if(	y + height + height/2 < object.getYColOffset() + object.getY() +  object.getHeight()
+							&& x + width/2 > object.getXColOffset() + object.getX()
+							&& x + width/2 < object.getXColOffset() + object.getX() + object.getWidth()){
+							inFront = true;
+						}
+						break;
+					}
+					
+					if(inFront){
+						object.use();
+					}
+					break;
+				}
+				
+			}
+			
 	}
 	
 	public void render(){
@@ -164,10 +210,10 @@ public class Player {
 		for (GameObject object : Map.objectList) {
 			
 			if(	object.isSolid()
-				&& x + width > object.getX() + object.getColX()
-				&& x < object.getX() + object.getColX() + object.getWidth()
-				&& y + height > object.getY() + object.getColY()
-				&& y < object.getY() + object.getColY() + object.getHeight()){
+				&& x + width > object.getX() + object.getXColOffset()
+				&& x < object.getX() + object.getXColOffset() + object.getWidth()
+				&& y + height > object.getY() + object.getYColOffset()
+				&& y < object.getY() + object.getYColOffset() + object.getHeight()){
 				
 				return true;
 			}

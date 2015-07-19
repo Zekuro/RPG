@@ -33,7 +33,7 @@ public class Map {
 			
 		GameObject object = null;
 		
-		if(color.hasColors(120, 60, 0)) object = new GameObject(true,false,4*32, 3*32, new Tile("res/objects/house.png"));
+		if(color.hasColors(120, 60, 0)) object = new GameObject(true,false,4*32, 2*32, new Tile("res/objects/house.png"));
 		if(color.hasColors(160, 60, 0)) object = new Chest();
 		if(color.hasRed(255) && color.hasGreen(255) && !color.hasBlue(0)) object = new Portal(color.getBlue());
 		if(color.hasColors(0, 100, 0)) object = new Tree();
@@ -81,6 +81,7 @@ public class Map {
 		try {
 			BufferedImage img = ImageIO.read(new File("res/Map.png"));
 			createMap(img);
+			System.out.println("ready");
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
