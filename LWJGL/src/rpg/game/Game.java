@@ -12,8 +12,10 @@ import rpg.game.player.Player;
 
 public class Game {
 	
-	public static final int SCREEN_WIDTH = 640;
-	public static final int SCREEN_HEIGHT = 480;
+	
+	// on windows
+	public static final int SCREEN_WIDTH = 800;
+	public static final int SCREEN_HEIGHT = 600;
 	
 	public static int WORLD_WIDTH = 0;
 	public static int WORLD_HEIGHT = 0;
@@ -35,26 +37,28 @@ public class Game {
 	public void init(){
 		try {
 			
-			DisplayMode mode = new DisplayMode(SCREEN_WIDTH, SCREEN_HEIGHT);
+			// uncomment on windows
 			
-			 DisplayMode modes[] = Display.getAvailableDisplayModes();
-	            for (int i=0; i< modes.length; i++) {
-	               DisplayMode m = modes[i];
-	               int bpp = Display.getDisplayMode().getBitsPerPixel();
-	               if (m.getBitsPerPixel() == bpp
-	                ) {
-	                   if ( m.getWidth() <= 640 && m.getHeight() <= 480&&
-	                        m.getFrequency() <= 85)
-	                       mode = m;
-	                   if ( m.getWidth() == 640 && m.getHeight() == 480 &&
-	                        m.getFrequency() == 60)
-	                       break;
-	                   }
-	            }
-	                       
-	        Display.setDisplayMode(mode);
+//			DisplayMode mode = new DisplayMode(SCREEN_WIDTH, SCREEN_HEIGHT);
+//			
+//			 DisplayMode modes[] = Display.getAvailableDisplayModes();
+//	            for (int i=0; i< modes.length; i++) {
+//	               DisplayMode m = modes[i];
+//	               int bpp = Display.getDisplayMode().getBitsPerPixel();
+//	               if (m.getBitsPerPixel() == bpp
+//	                ) {
+//	                   if ( m.getWidth() <= 640 && m.getHeight() <= 480&&
+//	                        m.getFrequency() <= 85)
+//	                       mode = m;
+//	                   if ( m.getWidth() == 640 && m.getHeight() == 480 &&
+//	                        m.getFrequency() == 60)
+//	                       break;
+//	                   }
+//	            }
+//	                       
+//	        Display.setDisplayMode(mode);
 			
-			//Display.setDisplayMode(new DisplayMode(SCREEN_WIDTH, SCREEN_HEIGHT));
+			Display.setDisplayMode(new DisplayMode(SCREEN_WIDTH, SCREEN_HEIGHT));
 			Display.create();
 		} catch (LWJGLException e) {
 			e.printStackTrace();
@@ -136,6 +140,7 @@ public class Game {
 			}
 		}
 		
+		map.update();
 		PLAYER.update();
 		UI.update();
 	}
@@ -145,6 +150,7 @@ public class Game {
 		
 		map.renderBackground();
 		PLAYER.render();
+		map.renderEntities();
 		map.renderObjects();
 		UI.render();
 		

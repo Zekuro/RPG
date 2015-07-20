@@ -11,14 +11,14 @@ import org.newdawn.slick.util.ResourceLoader;
 public class GameObject {
 
 	private byte id;
-	private int x;
-	private int y;
-	private int colX;
-	private int colY;
-	private int width;
-	private int height;
+	protected int x;
+	protected int y;
+	protected int colOffsetX;
+	protected int colOffsetY;
+	protected int width;
+	protected int height;
 	private Tile tile;
-	private Texture texture;
+	protected Texture texture;
 	
 	private boolean isBackground;
 	private boolean solid;
@@ -41,7 +41,7 @@ public class GameObject {
 	}
 	
 	public void update(){
-		
+
 	}
 	
 	public void render(){
@@ -111,16 +111,16 @@ public class GameObject {
 	}
 	
 	protected void setCollisionOffset(int x, int y){
-		this.colX = x;
-		this.colY = y;
+		this.colOffsetX = x;
+		this.colOffsetY = y;
 	}
 	
 	public int getXColOffset(){
-		return colX;
+		return colOffsetX;
 	}
 	
 	public int getYColOffset(){
-		return colY;
+		return colOffsetY;
 	}
 	
 	public boolean isBackground(){
@@ -128,8 +128,8 @@ public class GameObject {
 	}
 	
 	public void setCollisionBox(int x, int y, int width, int height){
-		this.colX = x;
-		this.colY = y;
+		this.colOffsetX = x;
+		this.colOffsetY = y;
 		this.width = width;
 		this.height = height;
 	}

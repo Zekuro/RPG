@@ -6,7 +6,7 @@ import java.util.ArrayList;
 
 import javax.imageio.ImageIO;
 
-import rpg.game.entities.Mob;
+import rpg.game.entities.Entity;
 import rpg.game.objects.Chest;
 import rpg.game.objects.GameObject;
 import rpg.game.objects.Portal;
@@ -23,6 +23,7 @@ public class Map {
 	private Tile previousTile;
 	
 	public static final ArrayList<GameObject> objectList = new ArrayList<GameObject>();
+	public static final ArrayList<GameObject> entityList = new ArrayList<GameObject>();
 	public static final ArrayList<GameObject> backgroundTiles = new ArrayList<GameObject>();
 	
 	public Map(){
@@ -34,14 +35,9 @@ public class Map {
 			
 		GameObject object = null;
 		
-		
 		/*
 		 *	reserves colors:
 		 *						255.255.1-255 portals
-		 *						255.1-200.255 npc's	 	
-		 *						
-		 *						1-255.1-255.255 mobs
-		 *						id.lvl.255
 		 */
 
 		// DevObjects
@@ -49,7 +45,6 @@ public class Map {
 		
 		// Objects with soft Color
 		if(color.hasRed(255) && color.hasGreen(255) && !color.hasBlue(0)) object = new Portal(color.getBlue());
-		if(!color.hasRed(0) && !color.hasGreen(0) && color.hasBlue(255)) object = new Mob(color.getRed(), color.getGreen());
 		
 		// Objects with hard Color
 		if(color.hasColors(160, 60, 0)) object = new Chest();
@@ -57,6 +52,24 @@ public class Map {
 		return object;
 	}
 		
+	public GameObject createEntity(LevelColor color){
+		
+		GameObject object = null;
+		
+		/*
+		 *	reserves colors:
+		 *						255.1-200.255 npc's	 	
+		 *						
+		 *						1-255.1-255.255 mobs
+		 *						id.lvl.255
+		 */
+
+		// Objects with soft Color
+		if(!color.hasRed(0) && !color.hasGreen(0) && color.hasBlue(255)) object = Entity.create(color.getRed(), color.getGreen());
+		
+		return object;
+	}
+	
 	public GameObject createBackground(LevelColor color){
 			
 			GameObject object = new GameObject(false,true,TILESIZE, TILESIZE, previousTile);;
@@ -80,10 +93,20 @@ public class Map {
 			gameObject.update();
 		}
 		
+		for (GameObject gameObject : entityList) {
+			gameObject.update();
+		}
+		
 	}
 	
 	public void renderBackground(){
 		for (GameObject gameObject : backgroundTiles) {
+			gameObject.render();
+		}
+	}
+	
+	public void renderEntities(){
+		for (GameObject gameObject : entityList) {
 			gameObject.render();
 		}
 	}
@@ -113,7 +136,7 @@ public class Map {
 	    
 	    Tile previousTile = null;
 	    
-	    for(int e = 1; e <= 2; e++){
+	    for(int e = 1; e <= 3; e++){
 		    for (int i = 0; i < height; i++) {
 		      for (int j = 0; j < width; j++) {
 		        int pixel = image.getRGB(j, i);
@@ -130,12 +153,15 @@ public class Map {
 				    object = createBackground(levelColor);
 			    }if(e == 2){
 			    	object = createObject(levelColor);
+			    }if(e == 3){
+			    	object = createEntity(levelColor);
 			    }
 			    
 			    if(object != null){
 			    	object.setPosition(j*TILESIZE, height*TILESIZE-TILESIZE - i*TILESIZE);
-			    	if(object.isBackground()) backgroundTiles.add(object);
-			    	if(!object.isBackground()) objectList.add(object);
+			    	if(object.isBackground() && e != 3) backgroundTiles.add(object);
+			    	if(!object.isBackground() && e != 3) objectList.add(object);
+			    	if(e == 3) entityList.add(object);
 			    }
 			    
 		      }

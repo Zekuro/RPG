@@ -220,6 +220,19 @@ public class Player {
 			
 		}
 		
+		for (GameObject object : Map.entityList) {
+			
+			if(	object.isSolid()
+				&& x + width > object.getX() + object.getXColOffset()
+				&& x < object.getX() + object.getXColOffset() + object.getWidth()
+				&& y + height > object.getY() + object.getYColOffset()
+				&& y < object.getY() + object.getYColOffset() + object.getHeight()){
+				
+				return true;
+			}
+			
+		}	
+		
 		
 		return false;
 	}
@@ -257,6 +270,22 @@ public class Player {
 		if(cameraY > Game.WORLD_HEIGHT - Game.SCREEN_HEIGHT){
 			cameraY = Game.WORLD_HEIGHT - Game.SCREEN_HEIGHT;
 		}
+	}
+	
+	public int getX(){
+		return x;
+	}
+	
+	public int getY(){
+		return y;
+	}
+	
+	public int getWidth(){
+		return width;
+	}
+	
+	public int getHeight(){
+		return height;
 	}
 	
 }
