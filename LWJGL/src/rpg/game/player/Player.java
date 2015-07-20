@@ -31,6 +31,19 @@ public class Player {
 	private int faceDir = 2;
 	private Texture texture;
 	
+	
+	
+	private int lvl = 1;
+	private int maxHealth = 100;
+	private int maxMana = 100;
+	private int maxExp = 100;
+	private int health = 50;
+	private int mana = 50;
+	private int exp = 0;
+	
+	private int healthReg = 5;
+	private int manaReg = 5;
+	
 	public Player(int x, int y){
 		this.x = x;
 		this.y = y;
@@ -46,6 +59,18 @@ public class Player {
 	public void update(){
 		delta++;
 		move();
+		
+		if(delta%120 == 0){
+			if(mana < maxMana){
+				mana += manaReg;
+				if(mana > maxMana) mana = maxMana;
+			}
+			
+			if(health < maxHealth){
+				health += healthReg;
+				if(health > maxHealth) health= maxHealth;
+			}
+		}
 		
 		if(Keyboard.isKeyDown(Keyboard.KEY_E) && wait == 0){
 		action();
@@ -205,6 +230,13 @@ public class Player {
 	    GL11.glEnd();
 	}
 	
+	public void levelUp(){
+		exp = exp - maxExp;
+		lvl++;
+		
+		// calc max exp and other stats
+	}
+	
 	public boolean hasCollision(int x, int y){
 		
 		for (GameObject object : Map.objectList) {
@@ -286,6 +318,41 @@ public class Player {
 	
 	public int getHeight(){
 		return height;
+	}
+	
+	public void setHealth(int value){
+		this.health = health;
+	}
+	
+	public int getHealth(){
+		return health;
+	}
+	
+	public void setMana(int value){
+		this.mana = value;
+	}
+	
+	public int getMana(){
+		return mana;
+	}
+	
+	public int getMaxHealth(){
+		return maxHealth;
+	}
+	
+	public int getMaxMana(){
+		return maxMana;
+	}
+	
+	public void addExp(int xp){
+		exp += xp;
+		if(exp > maxExp){
+			levelUp();
+		}
+	}
+
+	public int getLvl(){
+		return lvl;
 	}
 	
 }

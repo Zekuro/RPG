@@ -24,6 +24,8 @@ public class Game {
 	public static Interface UI;
 	private Map map;
 	public static int FPS;
+	
+	private static boolean paused = false;
 
 	public static void main(String[] args) {
 		Game launcher = new Game();
@@ -140,8 +142,11 @@ public class Game {
 			}
 		}
 		
-		map.update();
-		PLAYER.update();
+		if(!paused){
+			map.update();
+			PLAYER.update();
+		}
+
 		UI.update();
 	}
 	
@@ -157,4 +162,11 @@ public class Game {
 		Display.update();
 	}
 	
+	public static void setPaused(boolean b){
+		paused = b;
+	}
+	
+	public static boolean isPaused(){
+		return paused;
+	}
 }

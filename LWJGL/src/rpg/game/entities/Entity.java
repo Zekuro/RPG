@@ -51,7 +51,6 @@ public class Entity extends GameObject{
 				&& x + colOffsetX < object.getX() + object.getXColOffset() + object.getWidth()
 				&& y + colOffsetY + height > object.getY() + object.getYColOffset()
 				&& y + colOffsetY < object.getY() + object.getYColOffset() + object.getHeight()){
-				System.out.println(object.getClass().toString());
 				return true;
 			}
 			
@@ -65,7 +64,6 @@ public class Entity extends GameObject{
 				&& x + colOffsetX < object.getX() + object.getXColOffset() + object.getWidth()
 				&& y + colOffsetY + height > object.getY() + object.getYColOffset()
 				&& y + colOffsetY < object.getY() + object.getYColOffset() + object.getHeight()){
-				System.out.println(object.getClass().toString());
 				return true;
 			}
 			
