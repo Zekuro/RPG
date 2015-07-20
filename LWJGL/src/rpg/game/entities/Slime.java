@@ -19,18 +19,19 @@ public class Slime extends Entity{
 	public void update(){
 		delta++;
 		
-		int update = delta%180;
+		int animationSpeed = 120;
+		int update = delta%animationSpeed;
 		
 		if(update == 0){
 			change = 1;
 		}else
-		if(update == 30|| update == 150){
+		if(update == animationSpeed/6|| update == 5*animationSpeed/6){
 			change = 2;
 		}else
-		if(update == 60 || update == 120){
+		if(update == 2*animationSpeed/6 || update == 4*animationSpeed/6){
 			change = 3;
 		}else
-		if(update == 90){
+		if(update == 3*animationSpeed/6){
 			change = 4;
 		}
 		

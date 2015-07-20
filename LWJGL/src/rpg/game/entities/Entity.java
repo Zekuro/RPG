@@ -30,6 +30,8 @@ public class Entity extends GameObject{
 		switch(id){
 		case 1: mob = new Slime(lvl);
 		break;
+		case 2: mob = new Bear(lvl);
+		break;
 		}
 		
 		return mob;
