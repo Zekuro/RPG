@@ -11,8 +11,8 @@ public class Slime extends Entity{
 	private int delta = (int) (Math.random() * 180);
 	
 	public Slime(int lvl) {
-		super(lvl, 24, 16, false);
-		colOffsetX = 5;
+		super(lvl, 15, 16, false);
+		colOffsetX = 10;
 		setTexture("res/entities/slime.png");
 	}
 	

@@ -7,6 +7,7 @@ public class Bear extends Entity{
 	private int speed = 1;
 	private int movingDir = 0;
 	private int movingDirAnimation = 0;
+	private int yChange = 0;
 	
 	private int change = 1;
 	private int delta = (int) (Math.random() * 180);
@@ -77,14 +78,39 @@ public class Bear extends Entity{
 					movingDirAnimation = 6;
 					break;
 			}}
+		
+		
+		if(movingDirAnimation == 2 || movingDirAnimation == 8){
+			if(	!hasCollision(x+15, y) 
+					&& !hasCollision(x+15, y+45)
+					&& !hasCollision(x+45, y)
+					&& !hasCollision(x+45, y+45)){
+						yChange = movingDirAnimation/2 - 1;
+						colOffsetX = 20;
+						width = 25;
+						height = 45;
+					}
+		}
+		
+		if(movingDirAnimation == 4 || movingDirAnimation == 6){
+			if(	!hasCollision(x+2, y) 
+					&& !hasCollision(x+2, y+32)
+					&& !hasCollision(x+34, y)
+					&& !hasCollision(x+34, y+32)){
+					yChange = movingDirAnimation/2 - 1;
+					colOffsetX = 0;
+					width = 55;
+					height = 32;
+				}
+		}
+		
+		
 	}
 	
 	public void render(){
 		texture.bind();
 		
 		int xChange = (change-1) % 3;
-		int yChange = movingDirAnimation/2 - 1;
-
 		
 		GL11.glBegin(GL11.GL_QUADS);
 		GL11.glTexCoord2f(xChange * 0.25f,yChange * 0.25f + 0.25f);
