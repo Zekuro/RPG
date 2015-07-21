@@ -1,4 +1,4 @@
-package rpg.game.player;
+package rpg.game.ui;
 
 import java.io.IOException;
 
@@ -23,6 +23,7 @@ public class Interface {
 	
 	private boolean renderInfos = false;
 	private boolean renderPaused = false;
+	private boolean renderInventory = false;
 	
 	private Entity selectedEntity = null;
 	
@@ -39,6 +40,7 @@ public class Interface {
 		x = Game.PLAYER.getCameraX();
 		y = Game.PLAYER.getCameraY();
 		
+		renderInventory();
 		renderStandardUI();
 		renderInfos();
 		
@@ -60,7 +62,12 @@ public class Interface {
 				renderPaused = !renderPaused;
 				wait = 30;
 			}
-			if(Mouse.isButtonDown(0)){
+			if(Keyboard.isKeyDown(Keyboard.KEY_I)){
+				Game.setPaused(!Game.isPaused());
+				renderInventory = !renderInventory;
+				wait = 30;
+			}
+			if(Mouse.isButtonDown(0) && Game.isPaused() == false){
 				
 				for (GameObject object: Map.entityList) {
 					
@@ -112,6 +119,7 @@ public class Interface {
 		
 		renderHealthBar();
 		renderManaBar();
+		
 	}
 	
 	private void renderInfos(){
@@ -131,6 +139,7 @@ public class Interface {
 		}  
 		return tex;
 	}
+	
 	
 	private void renderHealthBar(){
 		
@@ -229,5 +238,45 @@ public class Interface {
 			selectedEntity = null;
 		}}
 	}
-	
+
+	private void renderInventory(){
+		if(!renderInventory) return;
+		
+		GL11.glDisable(GL11.GL_TEXTURE_2D);
+		
+		
+		GL11.glColor3f(0.5f, 0.5f, 0.5f);
+		GL11.glBegin(GL11.GL_QUADS);
+		GL11.glVertex2f(x + Game.SCREEN_WIDTH/4-5, y + Game.SCREEN_HEIGHT/5-5);
+		GL11.glVertex2f(x + Game.SCREEN_WIDTH*3/4+5, y + Game.SCREEN_HEIGHT/5-5);
+		GL11.glVertex2f(x + Game.SCREEN_WIDTH*3/4+5, y + Game.SCREEN_HEIGHT*4/5+5);
+		GL11.glVertex2f(x + Game.SCREEN_WIDTH/4-5, y + Game.SCREEN_HEIGHT*4/5+5);
+		GL11.glEnd();
+		
+		GL11.glColor3f(0.3f, 0.3f, 0.3f);
+		GL11.glBegin(GL11.GL_QUADS);
+		GL11.glVertex2f(x + Game.SCREEN_WIDTH/4, y + Game.SCREEN_HEIGHT/5);
+		GL11.glVertex2f(x + Game.SCREEN_WIDTH*3/4, y + Game.SCREEN_HEIGHT/5);
+		GL11.glVertex2f(x + Game.SCREEN_WIDTH*3/4, y + Game.SCREEN_HEIGHT*4/5);
+		GL11.glVertex2f(x + Game.SCREEN_WIDTH/4, y + Game.SCREEN_HEIGHT*4/5);
+		GL11.glEnd();
+		
+		int size = 32;
+		
+		for (int j = 0; j <= 8; j++){
+		for(int i = 0; i <=9 ; i++){
+			GL11.glColor3f(0.5f, 0.5f, 0.5f);
+			GL11.glBegin(GL11.GL_QUADS);
+			GL11.glVertex2f(x + Game.SCREEN_WIDTH/4 + i*4 + i*size + size/2, y + Game.SCREEN_HEIGHT*4/5 - 25 - j*4 - j*size);
+			GL11.glVertex2f(x + Game.SCREEN_WIDTH/4 + i*4 + i*size + size*3/2, y + Game.SCREEN_HEIGHT*4/5-25 - j*4 - j*size);
+			GL11.glVertex2f(x + Game.SCREEN_WIDTH/4 + i*4 + i*size + size*3/2, y + Game.SCREEN_HEIGHT*4/5-25- j*4 -j*size - size);
+			GL11.glVertex2f(x + Game.SCREEN_WIDTH/4 + i*4 + i*size + size/2, y + Game.SCREEN_HEIGHT*4/5-25- j*4 - j*size - size);
+			GL11.glEnd();
+		}}
+		
+		
+		GL11.glEnable(GL11.GL_TEXTURE_2D);
+		
+		Font.render("Inventory", x + Game.SCREEN_WIDTH/2 - 9*4, y + Game.SCREEN_HEIGHT*4/5-16);
+	}
 }
