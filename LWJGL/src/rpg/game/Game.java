@@ -174,7 +174,7 @@ public class Game {
 			GL11.glEnable(GL11.GL_TEXTURE_2D);
 			
 			String msg = "L O A D I N G . . .";
-			Font.render(msg, SCREEN_WIDTH/2-msg.length()*4/2, SCREEN_HEIGHT/2);
+			Font.render(msg, SCREEN_WIDTH/2-msg.length()*16/2, SCREEN_HEIGHT/2,2);
 		}else{
 		
 		world.renderBackground();
