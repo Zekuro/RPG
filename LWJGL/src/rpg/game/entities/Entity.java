@@ -7,10 +7,18 @@ import rpg.game.objects.GameObject;
 public class Entity extends GameObject{
 
 	protected int lvl;
+	protected int maxHealth;
+	protected int maxMana;
+	
 	protected int health;
 	protected int mana;
 	protected int exp;
 	protected int speed = 1;
+
+	protected int imageOffsetX;
+	protected int imageOffsetY;
+	protected int imageWidth;
+	protected int imageHeight;
 	
 	private boolean aggressive;
 	
@@ -74,6 +82,44 @@ public class Entity extends GameObject{
 		return false;
 	}
 	
+	public boolean hasCollisionAt(int x, int y){
+		if(	x > Game.PLAYER.getX()
+			&& x < Game.PLAYER.getX() + Game.PLAYER.getWidth()
+			&& y > Game.PLAYER.getY()
+			&& y < Game.PLAYER.getY() + Game.PLAYER.getHeight()){
+				
+				return true;
+		}
+		
+		for (GameObject object : Map.objectList) {
+			
+			if(	object.isSolid()
+				&& !object.equals(this)
+				&& x > object.getX() + object.getXColOffset()
+				&& x < object.getX() + object.getXColOffset() + object.getWidth()
+				&& y > object.getY() + object.getYColOffset()
+				&& y < object.getY() + object.getYColOffset() + object.getHeight()){
+				return true;
+			}
+			
+		}
+		
+		for (GameObject object : Map.entityList) {
+			
+			if(	object.isSolid()
+				&& !object.equals(this)
+				&& x > object.getX() + object.getXColOffset()
+				&& x < object.getX() + object.getXColOffset() + object.getWidth()
+				&& y > object.getY() + object.getYColOffset()
+				&& y < object.getY() + object.getYColOffset() + object.getHeight()){
+				return true;
+			}
+			
+		}
+		
+		return false;
+	}
+	
 	public void move(int x, int y){
 		
 		if(!hasCollision(this.x+x*speed, this.y+y*speed)){
@@ -83,5 +129,44 @@ public class Entity extends GameObject{
 		
 	}
 	
+	// FIXME
+	protected void setImageBounds(int xOffset, int yOffset, int width, int height){
+		imageOffsetX = xOffset;
+		imageOffsetY = yOffset;
+		imageWidth = width;
+		imageHeight = height;
+	}
+	
+	// FIXME ?
+	public boolean isEntityAt(int x, int y){
+		
+		if( x > this.x + imageOffsetX
+			&& x < this.x + imageOffsetX + imageWidth
+			&& y > this.y + imageOffsetY
+			&& y < this.y + imageOffsetY + imageHeight){
+			return true;
+		}
+		return false;
+	}
+	
+	public int getHealth(){
+		return health;
+	}
+	
+	public int getMaxHealth(){
+		return maxHealth;
+	}
+	
+	public int getMana(){
+		return mana;
+	}
+	
+	public int getMaxMana(){
+		return maxMana;
+	}
+	
+	public int getLvl(){
+		return lvl;
+	}
 
 }

@@ -16,8 +16,8 @@ public class Game {
 	
 	
 	// on windows 640 x 480 on linux 800 x 600
-	public static final int SCREEN_WIDTH = 640;
-	public static final int SCREEN_HEIGHT = 480;
+	public static final int SCREEN_WIDTH = 800;
+	public static final int SCREEN_HEIGHT = 600;
 	
 	public static int WORLD_WIDTH = 0;
 	public static int WORLD_HEIGHT = 0;

@@ -3,6 +3,7 @@ package rpg.game.player;
 import java.io.IOException;
 
 import org.lwjgl.input.Keyboard;
+import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.GL11;
 import org.newdawn.slick.opengl.Texture;
 import org.newdawn.slick.opengl.TextureLoader;
@@ -10,6 +11,9 @@ import org.newdawn.slick.util.ResourceLoader;
 
 import rpg.game.Font;
 import rpg.game.Game;
+import rpg.game.Map;
+import rpg.game.entities.Entity;
+import rpg.game.objects.GameObject;
 
 public class Interface {
 
@@ -54,7 +58,23 @@ public class Interface {
 				renderPaused = !renderPaused;
 				wait = 30;
 			}
+			if(Mouse.isButtonDown(0)){
+			
+				for (GameObject object: Map.entityList) {
+					
+					Entity entity = (Entity) object;
+					
+					if(entity.isEntityAt(Mouse.getX(), Mouse.getY())){
+						System.out.println("LVL: " + entity.getLvl() + " HEALTH: " + entity.getHealth() + " MANA: " + entity.getMana());
+					}
+					
+				}
+				 wait = 30;
+				
+			}
 		}
+		
+		
 		
 		
 		if(wait > 0){
