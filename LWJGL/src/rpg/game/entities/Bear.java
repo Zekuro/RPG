@@ -13,11 +13,19 @@ public class Bear extends Entity{
 	private int change = 1;
 	private int delta = (int) (Math.random() * 180);
 	
+	// TODO UPDATE MY WHOLE CLASS AND MAKE AN ANIMATED MOB CLASS OR STH
+	
 	public Bear(int lvl) {
 		super(lvl, 45, 50, false);
 		colOffsetX = 12;
 		colOffsetY = 4;
 		setTexture("res/entities/bear.png");
+		setImageBounds(15, 0, width+10, height+10);
+		
+		healthReg = 5;
+		maxHealth = 100;
+		health = 50;
+		
 	}
 	
 	public void update(){
@@ -36,6 +44,10 @@ public class Bear extends Entity{
 		if(update == 2*animationSpeed/5 || update == 3*animationSpeed/5){
 			change = 3;
 		}}
+		
+		if(delta%120 == 0){
+			regenerate();
+		}
 		
 		if(delta % 250 == 0){
 			movingDir = (int) (Math.random() * 8);
@@ -86,28 +98,28 @@ public class Bear extends Entity{
 			}
 		
 		if(movingDirAnimation == 2 || movingDirAnimation == 8){
-			if(	!hasCollisionAt(x+15, y) 
-					&& !hasCollisionAt(x+15, y+45)
+			if(	!hasCollisionAt(x+20, y) 
+					&& !hasCollisionAt(x+20, y+45)
 					&& !hasCollisionAt(x+45, y)
 					&& !hasCollisionAt(x+45, y+45)){
 						yChange = movingDirAnimation/2 - 1;
 						colOffsetX = 20;
 						width = 25;
 						height = 45;
-						setImageBounds(20, 0, width, height);
+						setImageBounds(15, 0, width+10, height+10);
 			}
 		}
 		
 		if(movingDirAnimation == 4 || movingDirAnimation == 6){
-			if(	!hasCollisionAt(x+2, y) 
-					&& !hasCollisionAt(x+2, y+32)
-					&& !hasCollisionAt(x+57, y)
-					&& !hasCollisionAt(x+57, y+32)){
+			if(	!hasCollisionAt(x+10, y) 
+					&& !hasCollisionAt(x+10, y+32)
+					&& !hasCollisionAt(x+60, y)
+					&& !hasCollisionAt(x+60, y+32)){
 					yChange = movingDirAnimation/2 - 1;
-					colOffsetX = 0;
-					width = 55;
+					colOffsetX = 10;
+					width = 50;
 					height = 32;
-					setImageBounds(0, 0, width, height);
+					setImageBounds(0, 0, width+5, height+10);
 				}
 		}
 		
@@ -130,16 +142,6 @@ public class Bear extends Entity{
 		GL11.glVertex2f(x, y+64);
 	    GL11.glEnd();
 	    
-	    // DEBUG IMAGES
-	    GL11.glDisable(GL11.GL_TEXTURE_2D);
-	    GL11.glColor3f(1, 1, 1);
-	    GL11.glBegin(GL11.GL_QUADS);
-		GL11.glVertex2f(x+imageOffsetX, y+imageOffsetY);
-		GL11.glVertex2f(x+imageOffsetX+imageWidth, y+imageOffsetY);
-		GL11.glVertex2f(x+imageOffsetX+imageWidth, y+imageOffsetY+imageHeight);
-		GL11.glVertex2f(x+imageOffsetX, y+imageOffsetY+imageHeight);
-		GL11.glEnd();
-	    GL11.glEnable(GL11.GL_TEXTURE_2D);
 	}
 	
 }

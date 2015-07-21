@@ -54,10 +54,10 @@ public class Game {
 	               int bpp = Display.getDisplayMode().getBitsPerPixel();
 	               if (m.getBitsPerPixel() == bpp
 	                ) {
-	                   if ( m.getWidth() <= 640 && m.getHeight() <= 480&&
+	                   if ( m.getWidth() <= SCREEN_WIDTH && m.getHeight() <= SCREEN_HEIGHT&&
 	                        m.getFrequency() <= 85)
 	                       mode = m;
-	                   if ( m.getWidth() == 640 && m.getHeight() == 480 &&
+	                   if ( m.getWidth() == SCREEN_WIDTH && m.getHeight() == SCREEN_HEIGHT&&
 	                        m.getFrequency() == 60)
 	                       break;
 	                   }

@@ -24,6 +24,8 @@ public class Interface {
 	private boolean renderInfos = false;
 	private boolean renderPaused = false;
 	
+	private Entity selectedEntity = null;
+	
 	private int x;
 	private int y;
 	
@@ -59,22 +61,25 @@ public class Interface {
 				wait = 30;
 			}
 			if(Mouse.isButtonDown(0)){
-			
+				
 				for (GameObject object: Map.entityList) {
 					
 					Entity entity = (Entity) object;
 					
-					if(entity.isEntityAt(Mouse.getX(), Mouse.getY())){
-						System.out.println("LVL: " + entity.getLvl() + " HEALTH: " + entity.getHealth() + " MANA: " + entity.getMana());
+					if(entity.isEntityAt(Game.PLAYER.getCameraX() + Mouse.getX(), Game.PLAYER.getCameraY() + Mouse.getY())){
+						selectedEntity = entity;
+						break;
 					}
 					
+					selectedEntity = null;
+					
 				}
-				 wait = 30;
+				wait = 15;
 				
 			}
 		}
 		
-		
+		updateSelectedEntity();
 		
 		
 		if(wait > 0){
@@ -83,7 +88,6 @@ public class Interface {
 		
 	}
 	
-	// TODO length of blue and red bars are incorrect
 	private void renderStandardUI(){
 		
 		actionBar.bind();
@@ -100,6 +104,10 @@ public class Interface {
 			GL11.glTexCoord2f(0, 1f);
 			GL11.glVertex2f(x + Game.SCREEN_WIDTH / 2 - actionSlots*16 + i*32, y + 32);
 			GL11.glEnd();
+		}
+		
+		if(selectedEntity != null){
+			renderSelectedEntity();
 		}
 		
 		renderHealthBar();
@@ -182,6 +190,44 @@ public class Interface {
 	
 	private void renderPaused(){
 		Font.render("PAUSED", x + Game.SCREEN_WIDTH/2 - 3*8*4, y + Game.SCREEN_HEIGHT/2-4*4,4);
+	}
+
+	private void renderSelectedEntity(){
+		int startX = Game.SCREEN_WIDTH / 2 - 200;
+		int endX = Game.SCREEN_WIDTH / 2 + 200;
+		int healthBarWidth = (endX-startX) * selectedEntity.getHealth() / selectedEntity.getMaxHealth();
+		
+		GL11.glDisable(GL11.GL_TEXTURE_2D);
+			GL11.glColor3f(1, 0, 0);
+			GL11.glBegin(GL11.GL_QUADS);
+			GL11.glVertex2f(x + startX, y + Game.SCREEN_HEIGHT - 32);
+			GL11.glVertex2f(x + startX + healthBarWidth, y + Game.SCREEN_HEIGHT - 32);
+			GL11.glVertex2f(x + startX + healthBarWidth, y + Game.SCREEN_HEIGHT);
+			GL11.glVertex2f(x + startX, y + Game.SCREEN_HEIGHT);
+			GL11.glEnd();
+			GL11.glColor3f(0.3f, 0.3f, 0.3f);
+			GL11.glBegin(GL11.GL_QUADS);
+			GL11.glVertex2f(x + startX + healthBarWidth, y + Game.SCREEN_HEIGHT - 32);
+			GL11.glVertex2f(x + endX, y + Game.SCREEN_HEIGHT - 32);
+			GL11.glVertex2f(x + endX, y + Game.SCREEN_HEIGHT);
+			GL11.glVertex2f(x + startX + healthBarWidth, y + Game.SCREEN_HEIGHT);
+			GL11.glEnd();
+		GL11.glEnable(GL11.GL_TEXTURE_2D);
+		
+		
+		
+		String health = selectedEntity.getHealth() + "/" + selectedEntity.getMaxHealth();
+		Font.render(health, x + Game.SCREEN_WIDTH/2 - health.length()*4, y + Game.SCREEN_HEIGHT - 24);
+	}
+	
+	private void updateSelectedEntity(){
+		if(selectedEntity != null){
+		if(	selectedEntity.getX() > x + Game.SCREEN_WIDTH 
+			|| selectedEntity.getX() + selectedEntity.getWidth() < x
+			|| selectedEntity.getY() > y + Game.SCREEN_HEIGHT
+			|| selectedEntity.getY() + selectedEntity.getHeight() < y){
+			selectedEntity = null;
+		}}
 	}
 	
 }

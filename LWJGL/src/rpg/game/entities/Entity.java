@@ -14,6 +14,9 @@ public class Entity extends GameObject{
 	protected int mana;
 	protected int exp;
 	protected int speed = 1;
+	
+	protected int healthReg;
+	protected int manaReg;
 
 	protected int imageOffsetX;
 	protected int imageOffsetY;
@@ -147,6 +150,18 @@ public class Entity extends GameObject{
 			return true;
 		}
 		return false;
+	}
+	
+	public void regenerate(){
+		if(health < maxHealth){
+			health+=healthReg;
+			if(health > maxHealth) health = maxHealth;
+		}
+		
+		if(mana < maxMana){
+			mana+=manaReg;
+			if(mana > maxMana) mana= maxMana;
+		}
 	}
 	
 	public int getHealth(){
