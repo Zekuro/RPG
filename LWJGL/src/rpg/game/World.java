@@ -29,9 +29,6 @@ public class World {
 	public static final ArrayList<GameObject> entityList = new ArrayList<GameObject>();
 	public static final ArrayList<GameObject> backgroundTiles = new ArrayList<GameObject>();
 	
-	public World(){
-		loadFromImage();
-	}
 	
 	// DEFINE GAMEOBJECTS HERE
 	public GameObject createObject(LevelColor color){

@@ -85,7 +85,9 @@ public class Game {
     	GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
     	Font.loadFonts();
     	
-		world = new World();
+    	world = new World();
+    	render();
+    	world.loadFromImage();
 		PLAYER = new Player(100,100);
 		UI = new Interface();
 		
@@ -162,7 +164,7 @@ public class Game {
 		
 		if(world.isLoading()){
 			GL11.glDisable(GL11.GL_TEXTURE_2D);
-			GL11.glColor3f(0, 0, 1);
+			GL11.glColor3f(0, 0, 0);
 			GL11.glBegin(GL11.GL_QUADS);
 			GL11.glVertex2i(0, 0);
 			GL11.glVertex2i(SCREEN_WIDTH, 0);
@@ -170,14 +172,17 @@ public class Game {
 			GL11.glVertex2i(0, SCREEN_HEIGHT);
 			GL11.glEnd();
 			GL11.glEnable(GL11.GL_TEXTURE_2D);
-		}
+			
+			String msg = "L O A D I N G . . .";
+			Font.render(msg, SCREEN_WIDTH/2-msg.length()*4/2, SCREEN_HEIGHT/2);
+		}else{
 		
 		world.renderBackground();
 		PLAYER.render();
 		world.renderEntities();
 		world.renderObjects();
 		UI.render();
-		
+		}
 		Display.update();
 	}
 	
