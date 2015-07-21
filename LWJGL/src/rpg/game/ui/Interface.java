@@ -11,7 +11,7 @@ import org.newdawn.slick.util.ResourceLoader;
 
 import rpg.game.Font;
 import rpg.game.Game;
-import rpg.game.Map;
+import rpg.game.World;
 import rpg.game.entities.Entity;
 import rpg.game.objects.GameObject;
 
@@ -19,7 +19,6 @@ public class Interface {
 
 	private final int actionSlots = 9;
 	private Texture actionBar;
-	private int wait = 0;
 	
 	private boolean renderInfos = false;
 	private boolean renderPaused = false;
@@ -51,25 +50,21 @@ public class Interface {
 	}
 	
 	public void update(){
-		
-		if(wait == 0){
-			if(Keyboard.isKeyDown(Keyboard.KEY_F1)){
-				renderInfos = !renderInfos;
-				wait = 30;
-			}
+		while(Keyboard.next() || Mouse.next()){
+		if(Keyboard.isKeyDown(Keyboard.KEY_F1)){
+			renderInfos = !renderInfos;
+		}
 			if(Keyboard.isKeyDown(Keyboard.KEY_P)){
 				Game.setPaused(!Game.isPaused());
 				renderPaused = !renderPaused;
-				wait = 30;
 			}
 			if(Keyboard.isKeyDown(Keyboard.KEY_I)){
 				Game.setPaused(!Game.isPaused());
 				renderInventory = !renderInventory;
-				wait = 30;
 			}
 			if(Mouse.isButtonDown(0) && Game.isPaused() == false){
 				
-				for (GameObject object: Map.entityList) {
+				for (GameObject object: World.entityList) {
 					
 					Entity entity = (Entity) object;
 					
@@ -81,17 +76,14 @@ public class Interface {
 					selectedEntity = null;
 					
 				}
-				wait = 15;
 				
 			}
+			updateSelectedEntity();
 		}
 		
-		updateSelectedEntity();
-		
-		
-		if(wait > 0){
-			wait--;
-		}
+	}
+	
+	private synchronized void listenToKeyInput(){
 		
 	}
 	

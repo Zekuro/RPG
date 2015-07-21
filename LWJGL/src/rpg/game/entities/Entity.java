@@ -1,7 +1,7 @@
 package rpg.game.entities;
 
 import rpg.game.Game;
-import rpg.game.Map;
+import rpg.game.World;
 import rpg.game.objects.GameObject;
 
 public class Entity extends GameObject{
@@ -56,7 +56,7 @@ public class Entity extends GameObject{
 				return true;
 		}
 		
-		for (GameObject object : Map.objectList) {
+		for (GameObject object : World.objectList) {
 			
 			if(	object.isSolid()
 				&& !object.equals(this)
@@ -69,7 +69,7 @@ public class Entity extends GameObject{
 			
 		}
 		
-		for (GameObject object : Map.entityList) {
+		for (GameObject object : World.entityList) {
 			
 			if(	object.isSolid()
 				&& !object.equals(this)
@@ -94,7 +94,7 @@ public class Entity extends GameObject{
 				return true;
 		}
 		
-		for (GameObject object : Map.objectList) {
+		for (GameObject object : World.objectList) {
 			
 			if(	object.isSolid()
 				&& !object.equals(this)
@@ -107,7 +107,7 @@ public class Entity extends GameObject{
 			
 		}
 		
-		for (GameObject object : Map.entityList) {
+		for (GameObject object : World.entityList) {
 			
 			if(	object.isSolid()
 				&& !object.equals(this)
@@ -132,7 +132,6 @@ public class Entity extends GameObject{
 		
 	}
 	
-	// FIXME
 	protected void setImageBounds(int xOffset, int yOffset, int width, int height){
 		imageOffsetX = xOffset;
 		imageOffsetY = yOffset;
@@ -140,7 +139,6 @@ public class Entity extends GameObject{
 		imageHeight = height;
 	}
 	
-	// FIXME ?
 	public boolean isEntityAt(int x, int y){
 		
 		if( x > this.x + imageOffsetX
@@ -183,5 +181,12 @@ public class Entity extends GameObject{
 	public int getLvl(){
 		return lvl;
 	}
-
+	
+	public void setHealthReg(int i){
+		healthReg = i;
+	}
+	
+	public void setManaRed(int i){
+		manaReg = i;
+	}
 }

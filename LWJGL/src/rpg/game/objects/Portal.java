@@ -1,6 +1,6 @@
 package rpg.game.objects;
 
-import rpg.game.Map;
+import rpg.game.World;
 import rpg.game.player.Player;
 
 public class Portal extends GameObject{
@@ -25,7 +25,7 @@ public class Portal extends GameObject{
 
 	public void teleport(Player p){
 		
-		for (GameObject object : Map.backgroundTiles) {
+		for (GameObject object : World.backgroundTiles) {
 			if(object.getClass() == this.getClass()){
 				Portal portal = (Portal) object;
 				if(portal.getId() == targetId){

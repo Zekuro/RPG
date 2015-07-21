@@ -8,7 +8,7 @@ import org.newdawn.slick.opengl.TextureLoader;
 import org.newdawn.slick.util.ResourceLoader;
 
 import rpg.game.Game;
-import rpg.game.Map;
+import rpg.game.World;
 import rpg.game.objects.Chest;
 import rpg.game.objects.GameObject;
 import rpg.game.objects.Portal;
@@ -141,7 +141,7 @@ public class Player {
 		
 		// TEST KEY
 		if(Keyboard.isKeyDown(Keyboard.KEY_B)){
-			for (GameObject object : Map.objectList) {
+			for (GameObject object : World.objectList) {
 			}
 		}
 		
@@ -152,7 +152,7 @@ public class Player {
 	
 	
 	private void action(){
-			for (GameObject object : Map.backgroundTiles) {
+			for (GameObject object : World.backgroundTiles) {
 				
 				if(	object.getClass() == Portal.class
 						&& x + width > object.getX()
@@ -167,7 +167,7 @@ public class Player {
 				
 			}
 			
-			for (GameObject object : Map.objectList) {
+			for (GameObject object : World.objectList) {
 				if(	object.getClass() == Chest.class){
 					
 					boolean inFront = false;
@@ -239,7 +239,7 @@ public class Player {
 	
 	public boolean hasCollision(int x, int y){
 		
-		for (GameObject object : Map.objectList) {
+		for (GameObject object : World.objectList) {
 			
 			if(	object.isSolid()
 				&& x + width > object.getX() + object.getXColOffset()
@@ -252,7 +252,7 @@ public class Player {
 			
 		}
 		
-		for (GameObject object : Map.entityList) {
+		for (GameObject object : World.entityList) {
 			
 			if(	object.isSolid()
 				&& x + width > object.getX() + object.getXColOffset()

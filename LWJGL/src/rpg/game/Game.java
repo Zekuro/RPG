@@ -24,7 +24,7 @@ public class Game {
 	
 	public static Player PLAYER;
 	public static Interface UI;
-	private Map map;
+	private World world;
 	public static int FPS;
 	
 	private static boolean paused = false;
@@ -83,12 +83,12 @@ public class Game {
     	// enable alpha blending
     	GL11.glEnable(GL11.GL_BLEND);
     	GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
-    	
     	Font.loadFonts();
-
-		map = new Map();
+    	
+		world = new World();
 		PLAYER = new Player(100,100);
 		UI = new Interface();
+		
 	}
 
 	public void run(){
@@ -150,7 +150,7 @@ public class Game {
 		}
 		
 		if(!paused){
-			map.update();
+			world.update();
 			PLAYER.update();
 		}
 
@@ -160,10 +160,22 @@ public class Game {
 	public void render(){
 		GL11.glClear(GL11.GL_COLOR_BUFFER_BIT | GL11.GL_DEPTH_BUFFER_BIT);
 		
-		map.renderBackground();
+		if(world.isLoading()){
+			GL11.glDisable(GL11.GL_TEXTURE_2D);
+			GL11.glColor3f(0, 0, 1);
+			GL11.glBegin(GL11.GL_QUADS);
+			GL11.glVertex2i(0, 0);
+			GL11.glVertex2i(SCREEN_WIDTH, 0);
+			GL11.glVertex2i(SCREEN_WIDTH, SCREEN_HEIGHT);
+			GL11.glVertex2i(0, SCREEN_HEIGHT);
+			GL11.glEnd();
+			GL11.glEnable(GL11.GL_TEXTURE_2D);
+		}
+		
+		world.renderBackground();
 		PLAYER.render();
-		map.renderEntities();
-		map.renderObjects();
+		world.renderEntities();
+		world.renderObjects();
 		UI.render();
 		
 		Display.update();
@@ -176,4 +188,5 @@ public class Game {
 	public static boolean isPaused(){
 		return paused;
 	}
+	
 }

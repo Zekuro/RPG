@@ -14,19 +14,22 @@ import rpg.game.objects.Tile;
 import rpg.game.objects.Tree;
 
 
-public class Map {
+public class World {
 
 	public static final int TILESIZE = 32;
+	
 	private int width;
 	private int height;
 	
 	private Tile previousTile;
 	
+	private boolean loading = true;
+	
 	public static final ArrayList<GameObject> objectList = new ArrayList<GameObject>();
 	public static final ArrayList<GameObject> entityList = new ArrayList<GameObject>();
 	public static final ArrayList<GameObject> backgroundTiles = new ArrayList<GameObject>();
 	
-	public Map(){
+	public World(){
 		loadFromImage();
 	}
 	
@@ -120,14 +123,15 @@ public class Map {
 	public void loadFromImage(){
 		try {
 			BufferedImage img = ImageIO.read(new File("res/Map.png"));
-			createMap(img);
+			createWorld(img);
+			loading = false;
 			System.out.println("ready");
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 	}
 	
-	  private void createMap(BufferedImage image) {
+	  private void createWorld(BufferedImage image) {
 	    width = image.getWidth();
 	    height = image.getHeight();
 
@@ -167,6 +171,10 @@ public class Map {
 		      }
 	    	}
 	    }
+	  }
+	  
+	  public boolean isLoading(){
+		  return loading;
 	  }
 	  
 }

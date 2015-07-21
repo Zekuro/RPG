@@ -5,20 +5,23 @@ import org.lwjgl.opengl.GL11;
 public class Bear extends Entity{
 
 	private int speed = 1;
+	private int animationSpeed = 60;
+	private int movingChangeSpeed = 250;
+	private int walkTime = 100;
+	private int standTime = 150;
+	private int yChange = 0;
 	private int movingDir = 0;
 	private int movingDirAnimation = 0;
-	private int yChange = 0;
 	private boolean stopAnimation = false;
 	
 	private int change = 1;
-	private int delta = (int) (Math.random() * 180);
+	private int delta = (int) (Math.random() * 500);
 	
 	// TODO UPDATE MY WHOLE CLASS AND MAKE AN ANIMATED MOB CLASS OR STH
 	
 	public Bear(int lvl) {
 		super(lvl, 45, 50, false);
-		colOffsetX = 12;
-		colOffsetY = 4;
+		setCollisionOffset(12, 4);
 		setTexture("res/entities/bear.png");
 		setImageBounds(15, 0, width+10, height+10);
 		
@@ -31,7 +34,6 @@ public class Bear extends Entity{
 	public void update(){
 		delta++;
 		
-		int animationSpeed = 60;
 		int update = delta%animationSpeed;
 		
 		if(stopAnimation == false){
@@ -49,11 +51,11 @@ public class Bear extends Entity{
 			regenerate();
 		}
 		
-		if(delta % 250 == 0){
+		if(delta % movingChangeSpeed == 0){
 			movingDir = (int) (Math.random() * 8);
 		}
 		
-		if(delta % 250 < 100){
+		if(delta % (walkTime+standTime)< walkTime){
 			stopAnimation = false;
 			switch(movingDir){
 				case 0:
