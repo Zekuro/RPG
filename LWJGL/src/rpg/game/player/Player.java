@@ -8,7 +8,9 @@ import org.newdawn.slick.opengl.TextureLoader;
 import org.newdawn.slick.util.ResourceLoader;
 
 import rpg.game.Game;
+import rpg.game.Stats;
 import rpg.game.World;
+import rpg.game.items.HealthPotion;
 import rpg.game.objects.Chest;
 import rpg.game.objects.GameObject;
 import rpg.game.objects.Portal;
@@ -31,8 +33,6 @@ public class Player {
 	private int faceDir = 2;
 	private Texture texture;
 	
-	
-	
 	private int lvl = 1;
 	private int maxHealth = 100;
 	private int maxMana = 100;
@@ -43,11 +43,16 @@ public class Player {
 	
 	private int healthReg = 5;
 	private int manaReg = 5;
+
+	private Stats stats = new Stats();
 	
 	public Player(int x, int y){
 		this.x = x;
 		this.y = y;
 		centerCamera();
+		
+		Inventory.add(new HealthPotion());
+		
 		try {
 			 texture = TextureLoader.getTexture("PNG", ResourceLoader.getResourceAsStream("res/player.png"));
 			} catch (IOException e) {
@@ -355,4 +360,7 @@ public class Player {
 		return lvl;
 	}
 	
+	public Stats getStats(){
+		return stats;
+	}
 }
