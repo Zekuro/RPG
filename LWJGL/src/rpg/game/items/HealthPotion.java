@@ -4,15 +4,18 @@ import rpg.game.Game;
 
 public class HealthPotion extends Item{
 
-	public HealthPotion() {
+	public int heal;
+	
+	public HealthPotion(int heal) {
 		super("Lebenstrank", Tier.T1, 1, 5, 10, "res/items/healthPotion.png");
+		this.heal = heal;
 	}
 
 	@Override
 	public void use() {
 		// TESTCASE
-		Game.PLAYER.setHealth(Game.PLAYER.getHealth() + 20);
-		remove();
+		Game.PLAYER.restoreHealth(heal);
+		destroy();
 	}
 
 }

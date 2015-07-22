@@ -7,6 +7,8 @@ import org.newdawn.slick.opengl.Texture;
 import org.newdawn.slick.opengl.TextureLoader;
 import org.newdawn.slick.util.ResourceLoader;
 
+import rpg.game.player.Inventory;
+
 public abstract class Item {
 
 	private String name;
@@ -82,6 +84,10 @@ public abstract class Item {
 	
 	public void remove(){
 		stack--;
+	}
+	
+	public void destroy(){
+		Inventory.remove(this);
 	}
 	
 	public int getStacks(){

@@ -11,6 +11,7 @@ import rpg.game.Game;
 import rpg.game.Stats;
 import rpg.game.World;
 import rpg.game.items.HealthPotion;
+import rpg.game.items.ManaPotion;
 import rpg.game.objects.Chest;
 import rpg.game.objects.GameObject;
 import rpg.game.objects.Portal;
@@ -51,7 +52,13 @@ public class Player {
 		this.y = y;
 		centerCamera();
 		
-		Inventory.add(new HealthPotion());
+		// TODO remove these testcases
+
+		for(int i = 0; i<50; i++){
+			Inventory.add(new ManaPotion(20));
+			Inventory.add(new HealthPotion(20));
+		}
+		
 		
 		try {
 			 texture = TextureLoader.getTexture("PNG", ResourceLoader.getResourceAsStream("res/player.png"));
@@ -354,6 +361,16 @@ public class Player {
 		if(exp > maxExp){
 			levelUp();
 		}
+	}
+	
+	public void restoreHealth(int value){
+		health += value;
+		if(health > maxHealth) health = maxHealth;
+	}
+	
+	public void restoreMana(int value){
+		mana += value;
+		if(mana> maxMana) mana= maxMana;
 	}
 
 	public int getLvl(){
