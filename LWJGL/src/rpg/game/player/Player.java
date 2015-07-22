@@ -84,7 +84,7 @@ public class Player {
 		}
 		
 		if(Keyboard.isKeyDown(Keyboard.KEY_E) && Keyboard.next()){
-		action();
+				action();
 		}
 
 		if(delta%60 == 0){

@@ -20,6 +20,8 @@ public class GameObject {
 	private Tile tile;
 	protected Texture texture;
 	
+	protected String name;
+	
 	private boolean isBackground;
 	private boolean solid;
 	
@@ -140,5 +142,13 @@ public class GameObject {
 	
 	public void setY(int y){
 		this.y = y;
+	}
+	
+	public void setName(String name){
+		this.name = name;
+	}
+	
+	public String getName(){
+		return name;
 	}
 }

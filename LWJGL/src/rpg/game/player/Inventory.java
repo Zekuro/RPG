@@ -130,10 +130,10 @@ public class Inventory {
 			int itemX = Game.PLAYER.getCameraX() + Game.SCREEN_WIDTH/4 + i*4 + i*size + size/2;
 			int itemY = Game.PLAYER.getCameraY() + Game.SCREEN_HEIGHT*4/5 - 25 - j*4 - j*size - size;
 
-			if(	mouseX > itemX
-				&&mouseX < itemX + size
-				&&mouseY > itemY
-				&&mouseY < itemY + size
+			if(	Game.PLAYER.getCameraX()+mouseX > itemX
+				&&Game.PLAYER.getCameraX()+mouseX < itemX + size
+				&&Game.PLAYER.getCameraY()+mouseY > itemY
+				&&Game.PLAYER.getCameraY()+mouseY < itemY + size
 				&&inventory.size() > k
 				&&inventory.get(k) != null){
 				index = k;
