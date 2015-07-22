@@ -158,6 +158,7 @@ public class Game {
 		UI.update();
 	}
 	
+	// FIXME not showing correct on different resolution
 	public void render(){
 		GL11.glClear(GL11.GL_COLOR_BUFFER_BIT | GL11.GL_DEPTH_BUFFER_BIT);
 		

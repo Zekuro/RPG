@@ -122,14 +122,14 @@ public class World {
 		}
 	}
 	
-	// TODO: new Method for large worlds
+	// TODO: new Method for large worlds (sektor)
 	public void renderEntities(){
 		for (GameObject gameObject : entityList) {
 				gameObject.render();
 		}
 	}
 	
-	// TODO: new Method for large worlds
+	// TODO: new Method for large worlds (sektor)
 	public void renderObjects(){
 			for (GameObject gameObject : objectList) {
 					gameObject.render();
