@@ -88,6 +88,8 @@ public class Interface {
 					Inventory.processInput(0, Mouse.getX(), Mouse.getY());
 				}else if(Mouse.isButtonDown(1)){
 					Inventory.processInput(1, Mouse.getX(), Mouse.getY());
+				}else{
+					Inventory.processInput(-1, Mouse.getX(), Mouse.getY());
 				}
 				
 			}

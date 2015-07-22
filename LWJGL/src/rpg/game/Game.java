@@ -14,7 +14,6 @@ import rpg.game.ui.Interface;
 
 public class Game {
 	
-	
 	// on windows 640 x 480 on linux 800 x 600
 	public static final int SCREEN_WIDTH = 800;
 	public static final int SCREEN_HEIGHT = 600;
@@ -177,7 +176,8 @@ public class Game {
 			Font.render(msg, SCREEN_WIDTH/2-msg.length()*16/2, SCREEN_HEIGHT/2,2);
 		}else{
 		
-		world.renderBackground();
+		world.render(World.backgroundTiles);
+//		world.renderBackground();
 		PLAYER.render();
 		world.renderEntities();
 		world.renderObjects();

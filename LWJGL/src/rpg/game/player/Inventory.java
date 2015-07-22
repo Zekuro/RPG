@@ -2,6 +2,7 @@ package rpg.game.player;
 
 import java.util.ArrayList;
 
+import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.GL11;
 
 import rpg.game.Font;
@@ -11,6 +12,8 @@ import rpg.game.items.Item;
 public class Inventory {
 
 	private static final int space = 90;
+	private static String itemName = null;
+	private static boolean renderItemName = false;
 	private static ArrayList<Item> inventory = new ArrayList();
 	
 	public static void add(Item i){
@@ -96,9 +99,12 @@ public class Inventory {
 			int itemY = y + Game.SCREEN_HEIGHT*4/5 - 25 - j*4 - j*size - size;
 			
 			if(Inventory.get(index) != null){
-				Inventory.get(index).render(x + Game.SCREEN_WIDTH/4 + i*4 + i*size + size/2, y + Game.SCREEN_HEIGHT*4/5 - 25 - j*4 - j*size - size);
+				Item item = inventory.get(index);
+				
+				item.render(x + Game.SCREEN_WIDTH/4 + i*4 + i*size + size/2, y + Game.SCREEN_HEIGHT*4/5 - 25 - j*4 - j*size - size);
 				String stacks = Integer.toString(Inventory.get(index).getStacks());
 				Font.render(stacks, itemX + 32 - 8*stacks.length(), itemY);
+				
 			}
 			GL11.glDisable(GL11.GL_TEXTURE_2D);
 			index++;
@@ -107,6 +113,9 @@ public class Inventory {
 		
 		GL11.glEnable(GL11.GL_TEXTURE_2D);
 		
+		if(renderItemName){
+			Font.render(itemName, Mouse.getX(), Mouse.getY() + 10);
+		}
 		Font.render("Inventory", x + Game.SCREEN_WIDTH/2 - 9*4, y + Game.SCREEN_HEIGHT*4/5-16);
 	}
 	
@@ -134,11 +143,17 @@ public class Inventory {
 			k++;
 		}}
 		
+		// MouseButton: -1 = nothing, 0 = left, 1 = right
 		if(index >= 0){
 			Item item = inventory.get(index);
 			if(button == 1){
 				item.use();
+			}else if(button == -1){
+				renderItemName = true;
+				itemName = item.getName();
 			}
+		}else{
+			renderItemName = false;
 		}
 		
 	}

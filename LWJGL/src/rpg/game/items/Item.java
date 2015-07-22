@@ -94,4 +94,8 @@ public abstract class Item {
 		return stack;
 	}
 	
+	public String getName(){
+		return name;
+	}
+	
 }

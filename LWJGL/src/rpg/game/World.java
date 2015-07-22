@@ -18,8 +18,8 @@ public class World {
 
 	public static final int TILESIZE = 32;
 	
-	private int width;
-	private int height;
+	private int imageWidth;
+	private int imageHeight;
 	
 	private Tile previousTile;
 	
@@ -87,33 +87,52 @@ public class World {
 			return object;
 		}
 	
+	// TODO: update method for large worlds
 	public void update(){
 		
 		for (GameObject gameObject : objectList) {
-			gameObject.update();
+			if(	gameObject.getX() > Game.PLAYER.getCameraX()-1000
+					|| gameObject.getX() < Game.PLAYER.getCameraX()+Game.SCREEN_WIDTH+1000
+					|| gameObject.getY() > Game.PLAYER.getCameraY()-1000
+					|| gameObject.getY() < Game.PLAYER.getCameraY()+Game.SCREEN_HEIGHT+1000){
+				gameObject.update();
+				}
+			
 		}
 		
 		for (GameObject gameObject : entityList) {
+			if(	gameObject.getX() > Game.PLAYER.getCameraX()-1000
+					|| gameObject.getX() < Game.PLAYER.getCameraX()+Game.SCREEN_WIDTH+1000
+					|| gameObject.getY() > Game.PLAYER.getCameraY()-1000
+					|| gameObject.getY() < Game.PLAYER.getCameraY()+Game.SCREEN_HEIGHT+1000){
+					
+				}
 			gameObject.update();
 		}
 		
 	}
 	
+	/**
+	 * @deprecated problems with large worlds
+	 */
+	@Deprecated
 	public void renderBackground(){
 		for (GameObject gameObject : backgroundTiles) {
-			gameObject.render();
+				gameObject.render();
 		}
 	}
 	
+	// TODO: new Method for large worlds
 	public void renderEntities(){
 		for (GameObject gameObject : entityList) {
-			gameObject.render();
+				gameObject.render();
 		}
 	}
 	
+	// TODO: new Method for large worlds
 	public void renderObjects(){
 			for (GameObject gameObject : objectList) {
-				gameObject.render();
+					gameObject.render();
 			}
 	}
 
@@ -122,24 +141,23 @@ public class World {
 			BufferedImage img = ImageIO.read(new File("res/Map.png"));
 			createWorld(img);
 			loading = false;
-			System.out.println("ready");
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 	}
 	
 	  private void createWorld(BufferedImage image) {
-	    width = image.getWidth();
-	    height = image.getHeight();
+	    imageWidth = image.getWidth();
+	    imageHeight = image.getHeight();
 
-	    Game.WORLD_WIDTH = width * TILESIZE;
-	    Game.WORLD_HEIGHT = height * TILESIZE;
+	    Game.WORLD_WIDTH = imageWidth * TILESIZE;
+	    Game.WORLD_HEIGHT = imageHeight * TILESIZE;
 	    
 	    Tile previousTile = null;
 	    
 	    for(int e = 1; e <= 3; e++){
-		    for (int i = 0; i < height; i++) {
-		      for (int j = 0; j < width; j++) {
+		    for (int i = 0; i < imageHeight; i++) {
+		      for (int j = 0; j < imageWidth; j++) {
 		        int pixel = image.getRGB(j, i);
 	
 		        int alpha = (pixel >> 24) & 0xff;
@@ -159,7 +177,7 @@ public class World {
 			    }
 			    
 			    if(object != null){
-			    	object.setPosition(j*TILESIZE, height*TILESIZE-TILESIZE - i*TILESIZE);
+			    	object.setPosition(j*TILESIZE, imageHeight*TILESIZE-TILESIZE - i*TILESIZE);
 			    	if(object.isBackground() && e != 3) backgroundTiles.add(object);
 			    	if(!object.isBackground() && e != 3) objectList.add(object);
 			    	if(e == 3) entityList.add(object);
@@ -172,6 +190,56 @@ public class World {
 	  
 	  public boolean isLoading(){
 		  return loading;
+	  }
+	  
+	  public void render(ArrayList<GameObject> list){
+		  int x = (Game.PLAYER.getCameraX()/32);
+			int y = (Game.WORLD_HEIGHT-Game.PLAYER.getCameraY())/32;
+			
+			int beginX;
+			int beginY;
+			
+			beginX = x - 2*Game.SCREEN_WIDTH/32;
+			beginY = y - 3*Game.SCREEN_HEIGHT/32;
+
+			int endX = beginX + 5*Game.SCREEN_WIDTH/32;
+			int endY = beginY + 5*Game.SCREEN_HEIGHT/32;
+			
+			for (int i = beginY; i < endY; i++) {
+				for(int j = beginX; j < endX; j++){
+					if(i >= 0 && j >= 0 && i<imageHeight && j<imageWidth){
+						list.get(i*imageWidth+j).render();
+					}
+				}
+			}
+			
+			// objects which are background are added after initializing background 
+			if(list.equals(backgroundTiles)){
+			for(int i = imageWidth*imageHeight; i < list.size(); i++){
+				list.get(i).render();
+			}}
+	  }
+	  
+	  public void update(ArrayList<GameObject> list){
+		  int x = (Game.PLAYER.getCameraX()/32);
+			int y = (Game.WORLD_HEIGHT-Game.PLAYER.getCameraY())/32;
+			
+			int beginX;
+			int beginY;
+			
+			beginX = x - 2*Game.SCREEN_WIDTH/32;
+			beginY = y - 3*Game.SCREEN_HEIGHT/32;
+
+			int endX = beginX + 5*Game.SCREEN_WIDTH/32;
+			int endY = beginY + 5*Game.SCREEN_HEIGHT/32;
+			
+			for (int i = beginY; i < endY; i++) {
+				for(int j = beginX; j < endX; j++){
+					if(i >= 0 && j >= 0 && i<imageHeight && j<imageWidth){
+						list.get(i*imageWidth+j).update();
+					}
+				}
+			}
 	  }
 	  
 }

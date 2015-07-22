@@ -1,0 +1,7 @@
+.gitignore
+.project
+bin/.project
+bin/LWJGL.classpath
+bin/LWJGL/.gitignore
+bin/LWJGL/.project
+bin/LWJGL/.settings

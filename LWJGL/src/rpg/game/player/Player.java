@@ -30,7 +30,6 @@ public class Player {
 	private int delta = 0;
 	private int change = 0;
 	
-	private int wait = 0;
 	private int faceDir = 2;
 	private Texture texture;
 	
@@ -84,15 +83,10 @@ public class Player {
 			}
 		}
 		
-		if(Keyboard.isKeyDown(Keyboard.KEY_E) && wait == 0){
+		if(Keyboard.isKeyDown(Keyboard.KEY_E) && Keyboard.next()){
 		action();
-		wait = 30;
 		}
 
-		if(wait > 0){
-			wait--;
-		}
-		
 		if(delta%60 == 0){
 			change = 0;
 		}else
@@ -151,12 +145,6 @@ public class Player {
 			}
 		}
 		
-		// TEST KEY
-		if(Keyboard.isKeyDown(Keyboard.KEY_B)){
-			for (GameObject object : World.objectList) {
-			}
-		}
-		
 		GL11.glMatrixMode(GL11.GL_PROJECTION);
 		GL11.glLoadIdentity();
 		GL11.glOrtho(cameraX, cameraX + Game.SCREEN_WIDTH, cameraY, cameraY + Game.SCREEN_HEIGHT, 0, -1);
@@ -181,47 +169,14 @@ public class Player {
 			
 			for (GameObject object : World.objectList) {
 				if(	object.getClass() == Chest.class){
-					
-					boolean inFront = false;
-					
-					switch(faceDir){
-					case 2:
-						if( y - height/2 > object.getYColOffset() + object.getY()
-							&& x + width/2  > object.getXColOffset() + object.getX()
-							&& x + width/2 < object.getXColOffset() + object.getX()+ object.getWidth()){
-							inFront = true;
-						}
-						break;
-					case 4:
-						if( x - width/2 > object.getXColOffset() + object.getX()
-								&& y + height/2  > object.getYColOffset() + object.getY()
-								&& y + height/2 < object.getYColOffset() + object.getY()+ object.getHeight()){
-								inFront = true;
-							}
-						break;
-					case 6:
-						if( x + width + width/2 < object.getXColOffset() + object.getX() + object.getWidth()
-								&& y + height/2  > object.getYColOffset() + object.getY()
-								&& y + height/2 < object.getYColOffset() + object.getY()+ object.getHeight()){
-								inFront = true;
-							}
-						break;
-					case 8:
-						if(	y + height + height/2 < object.getYColOffset() + object.getY() +  object.getHeight()
-							&& x + width/2 > object.getXColOffset() + object.getX()
-							&& x + width/2 < object.getXColOffset() + object.getX() + object.getWidth()){
-							inFront = true;
-						}
-						break;
-					}
-					
-					if(inFront){
+					if(inFrontOf(object)){
 						object.use();
 					}
 					break;
 				}
-				
 			}
+			
+			// TODO loot entity if it is dead and hasLoot
 			
 	}
 	
@@ -314,6 +269,42 @@ public class Player {
 		if(cameraY > Game.WORLD_HEIGHT - Game.SCREEN_HEIGHT){
 			cameraY = Game.WORLD_HEIGHT - Game.SCREEN_HEIGHT;
 		}
+	}
+	
+	public boolean inFrontOf(GameObject object){
+		
+		switch(faceDir){
+		case 2:
+			if( y - height/2 > object.getYColOffset() + object.getY()
+				&& x + width/2  > object.getXColOffset() + object.getX()
+				&& x + width/2 < object.getXColOffset() + object.getX()+ object.getWidth()){
+				return true;
+			}
+			break;
+		case 4:
+			if( x - width/2 > object.getXColOffset() + object.getX()
+					&& y + height/2  > object.getYColOffset() + object.getY()
+					&& y + height/2 < object.getYColOffset() + object.getY()+ object.getHeight()){
+					return true;
+				}
+			break;
+		case 6:
+			if( x + width + width/2 < object.getXColOffset() + object.getX() + object.getWidth()
+					&& y + height/2  > object.getYColOffset() + object.getY()
+					&& y + height/2 < object.getYColOffset() + object.getY()+ object.getHeight()){
+					return true;
+				}
+			break;
+		case 8:
+			if(	y + height + height/2 < object.getYColOffset() + object.getY() +  object.getHeight()
+				&& x + width/2 > object.getXColOffset() + object.getX()
+				&& x + width/2 < object.getXColOffset() + object.getX() + object.getWidth()){
+				return true;
+			}
+			break;
+		}
+		
+		return false;
 	}
 	
 	public int getX(){
