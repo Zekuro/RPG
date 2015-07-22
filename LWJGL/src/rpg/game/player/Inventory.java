@@ -31,6 +31,21 @@ public class Inventory {
 		}
 	}
 	
+	public static void add(Item i, ArrayList<Item> inventory){
+		for (Item item : inventory) {
+			if(i.getClass() ==item.getClass() && item.canAdd()){
+				item.add();
+				return;
+			}
+		}
+
+		if(inventory.size() < space){
+			inventory.add(i);
+		}else{
+			System.out.println("INVENTAR IS VOLL DU SPACKN");
+		}
+	}
+	
 	public static void remove(Item i){
 		boolean foundItem = false;
 		int j = 0;
@@ -114,7 +129,7 @@ public class Inventory {
 		GL11.glEnable(GL11.GL_TEXTURE_2D);
 		
 		if(renderItemName){
-			Font.render(itemName, Mouse.getX(), Mouse.getY() + 10);
+			Font.render(itemName, Mouse.getX() + Game.PLAYER.getCameraX(), Mouse.getY() + Game.PLAYER.getCameraY() + 10);
 		}
 		Font.render("Inventory", x + Game.SCREEN_WIDTH/2 - 9*4, y + Game.SCREEN_HEIGHT*4/5-16);
 	}

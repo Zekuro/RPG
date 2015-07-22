@@ -306,6 +306,8 @@ public class Interface {
 			
 			GL11.glColor3f(1, 1, 1);
 			item.render(x + Game.SCREEN_WIDTH/2 - 16, y + Game.SCREEN_HEIGHT/2 + dialogHeight - i*4 - i*32 - 32);
+			String msg = Integer.toString(item.getStacks());
+			Font.render(msg, x + Game.SCREEN_WIDTH/2 + 16 - msg.length()* 8, y + Game.SCREEN_HEIGHT/2 + dialogHeight - i*4 - i*32 - 32);
 		}
 		
 	}
