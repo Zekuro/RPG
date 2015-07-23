@@ -88,6 +88,8 @@ public class Interface {
 			if(renderLootDialog == true){
 				if(Mouse.isButtonDown(1)){
 					LootWindow.processInput(1, Mouse.getX(), Mouse.getY());
+				}else{
+					LootWindow.processInput(-1, Mouse.getX(), Mouse.getY());
 				}
 			}
 			

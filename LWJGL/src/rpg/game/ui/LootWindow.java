@@ -123,7 +123,6 @@ public class LootWindow {
 			}else if(button == -1){
 				renderItemName = true;
 				itemName = item.getName();
-				System.out.println(itemName);
 			}
 		}else{
 			renderItemName = false;
