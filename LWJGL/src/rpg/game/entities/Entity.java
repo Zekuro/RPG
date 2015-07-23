@@ -1,8 +1,12 @@
 package rpg.game.entities;
 
+import java.util.ArrayList;
+
 import rpg.game.Game;
 import rpg.game.World;
+import rpg.game.items.Item;
 import rpg.game.objects.GameObject;
+import rpg.game.player.Inventory;
 
 public class Entity extends GameObject{
 
@@ -25,7 +29,7 @@ public class Entity extends GameObject{
 	
 	private boolean aggressive;
 	
-	// private ArrayList<Item> loot;
+	private ArrayList<Item> loot = new ArrayList<>();
 	
 	
 	public Entity(int lvl, int width, int height,boolean aggressive) {
@@ -160,6 +164,10 @@ public class Entity extends GameObject{
 			mana+=manaReg;
 			if(mana > maxMana) mana= maxMana;
 		}
+	}
+	
+	public void addLoot(Item item){
+		Inventory.add(item, loot);
 	}
 	
 	public int getHealth(){
