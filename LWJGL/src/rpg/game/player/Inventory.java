@@ -133,7 +133,8 @@ public class Inventory {
 		if(renderItemName){
 			Font.render(itemName, Mouse.getX() + Game.PLAYER.getCameraX(), Mouse.getY() + Game.PLAYER.getCameraY() + 10);
 		}
-		Font.render("Inventory", x + Game.SCREEN_WIDTH/2 - 9*4, y + Game.SCREEN_HEIGHT/2+5*36-16);
+		String msg = "- I N V E N T A R -";
+		Font.render(msg,x + Game.SCREEN_WIDTH/2 - msg.length()*4, y + Game.SCREEN_HEIGHT/2+5*36-16);
 	}
 	
 	public static void processInput(int button, int mouseX, int mouseY){
