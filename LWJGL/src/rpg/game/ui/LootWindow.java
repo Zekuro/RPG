@@ -26,7 +26,7 @@ public class LootWindow {
 		int x = Game.PLAYER.getCameraX();
 		int y = Game.PLAYER.getCameraY();
 		
-		if(Game.UI.isRenderingInventory()){
+		if(Game.UI.isRenderingInventory() || Game.UI.isRenderingPlayerStats()){
 			dialogX = x + Game.SCREEN_WIDTH/2+5*40+2 + 50;
 		}else{
 			dialogX = x + Game.SCREEN_WIDTH/2 - dialogWidth/2;

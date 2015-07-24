@@ -24,9 +24,13 @@ public class Chest extends GameObject{
 	
 	public void use(){
 		if(open){
+			if(!loot.isEmpty()){
+				loot();
+			}else{
 			open = false;
 			setTexture("res/objects/chest.png");
 			Game.UI.renderLootDialog = false;
+			}
 		}else{
 			open = true;
 			setTexture("res/objects/emptyChest.png");

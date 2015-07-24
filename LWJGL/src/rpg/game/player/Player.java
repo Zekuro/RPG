@@ -1,5 +1,6 @@
 package rpg.game.player;
 import java.io.IOException;
+import java.util.ArrayList;
 
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.GL11;
@@ -11,6 +12,7 @@ import rpg.game.Game;
 import rpg.game.Stats;
 import rpg.game.World;
 import rpg.game.items.HealthPotion;
+import rpg.game.items.Item;
 import rpg.game.items.ManaPotion;
 import rpg.game.objects.Chest;
 import rpg.game.objects.GameObject;
@@ -45,6 +47,9 @@ public class Player {
 	private int manaReg = 5;
 
 	private Stats stats = new Stats();
+	private Equip equip = new Equip();
+	
+	private ArrayList<Item> actionBar = new ArrayList<Item>();
 	
 	public Player(int x, int y){
 		this.x = x;
@@ -378,5 +383,13 @@ public class Player {
 	
 	public Stats getStats(){
 		return stats;
+	}
+	
+	public Equip getEquip(){
+		return equip;
+	}
+	
+	public ArrayList<Item> getActionBar(){
+		return actionBar;
 	}
 }

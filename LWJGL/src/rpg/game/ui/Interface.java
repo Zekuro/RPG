@@ -63,17 +63,29 @@ public class Interface {
 			if(Keyboard.isKeyDown(Keyboard.KEY_F1)){
 				renderInfos = !renderInfos;
 			}
-			if(Keyboard.isKeyDown(Keyboard.KEY_MINUS)){
+			if(Keyboard.isKeyDown(Keyboard.KEY_P)){
+				if(!renderInventory && !renderPlayerStats){
 				Game.setPaused(!Game.isPaused());
 				renderPaused = Game.isPaused();
+				}
 			}
-			if(Keyboard.isKeyDown(Keyboard.KEY_P)){
-				Game.setPaused(!Game.isPaused());
-				renderPlayerStats = !renderPlayerStats;
-			}
-			if(Keyboard.isKeyDown(Keyboard.KEY_I)){
-				Game.setPaused(!Game.isPaused());
-				renderInventory = !renderInventory;
+			if(!renderPaused){
+				if(Keyboard.isKeyDown(Keyboard.KEY_C)){
+					if(renderInventory){
+						renderInventory = false;
+					}else{
+						Game.setPaused(!Game.isPaused());
+					}
+					renderPlayerStats = !renderPlayerStats;
+				}
+				if(Keyboard.isKeyDown(Keyboard.KEY_I)){
+					if(renderPlayerStats){
+						renderPlayerStats = false;
+					}else{
+						Game.setPaused(!Game.isPaused());
+					}
+					renderInventory = !renderInventory;
+				}
 			}
 			if(Mouse.isButtonDown(0) && Game.isPaused() == false && renderLootDialog == false){
 				
@@ -273,6 +285,10 @@ public class Interface {
 	
 	public boolean isRenderingInventory(){
 		return renderInventory;
+	}
+	
+	public boolean isRenderingPlayerStats(){
+		return renderPlayerStats;
 	}
 	
 }

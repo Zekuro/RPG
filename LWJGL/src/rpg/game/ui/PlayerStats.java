@@ -73,7 +73,8 @@ public class PlayerStats {
 		String msg = "- S P I E L E R I N F O -";
 		Font.render(msg, dialogX+dialogWidth/2 - msg.length()*4, dialogY + dialogHeight - 16);
 	
-		Game.PLAYER.getStats().render(dialogX + 15, dialogY + dialogHeight - 48);
+		Font.render("LvL: " + Game.PLAYER.getLvl(), dialogX + 15, dialogY + dialogHeight - 48);
+		Game.PLAYER.getStats().render(dialogX + 15, dialogY + dialogHeight - 80);
 	
 	}
 
