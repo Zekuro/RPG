@@ -112,7 +112,6 @@ public class LootWindow {
 		if(index >= 0){
 			Item item = loot.get(index);
 			if(button == 1){
-				System.out.println("AHH");
 				for(int i = 0; i < item.getStacks(); i++) {
 					Inventory.add(item);
 				}

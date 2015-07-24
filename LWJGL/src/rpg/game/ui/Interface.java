@@ -26,6 +26,8 @@ public class Interface {
 	private boolean renderInfos = false;
 	private boolean renderPaused = false;
 	private boolean renderInventory = false;
+	private boolean renderPlayerStats = false;
+	
 	public boolean renderLootDialog = false;
 
 	private Entity selectedEntity = null;
@@ -47,6 +49,7 @@ public class Interface {
 		y = Game.PLAYER.getCameraY();
 		
 		if(renderInventory)	Inventory.render(x, y);
+		if(renderPlayerStats) PlayerStats.render();
 		renderStandardUI();
 		renderInfos();
 		
@@ -60,9 +63,13 @@ public class Interface {
 			if(Keyboard.isKeyDown(Keyboard.KEY_F1)){
 				renderInfos = !renderInfos;
 			}
-			if(Keyboard.isKeyDown(Keyboard.KEY_P)){
+			if(Keyboard.isKeyDown(Keyboard.KEY_MINUS)){
 				Game.setPaused(!Game.isPaused());
 				renderPaused = Game.isPaused();
+			}
+			if(Keyboard.isKeyDown(Keyboard.KEY_P)){
+				Game.setPaused(!Game.isPaused());
+				renderPlayerStats = !renderPlayerStats;
 			}
 			if(Keyboard.isKeyDown(Keyboard.KEY_I)){
 				Game.setPaused(!Game.isPaused());

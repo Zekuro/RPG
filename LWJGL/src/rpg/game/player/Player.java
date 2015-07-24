@@ -51,6 +51,14 @@ public class Player {
 		this.y = y;
 		centerCamera();
 		
+		stats.setIntelligence(15);
+		stats.setStrength(10);
+		stats.setWisdom(10);
+		stats.setVitality(12);
+		
+		stats.setpDef(10);
+		stats.setmDef(8);
+		
 		// TODO remove these testcases
 
 		for(int i = 0; i<50; i++){

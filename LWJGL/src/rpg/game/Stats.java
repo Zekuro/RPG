@@ -7,12 +7,27 @@ public class Stats {
 	private int wisdom;
 	private int vitality;
 	
-	private int mDef;
 	private int pDef;
+	private int mDef;
 	
 	private int fireResistance;
 	private int iceResistance;
 	private int electricResistance;
+	
+	public void render(int x, int y){
+		
+		Font.render("Int: " + intelligence, x, y);
+		Font.render("Str: " + strength, x, y - 16);
+		Font.render("Wis: " + wisdom, x, y - 32);
+		Font.render("Vit: " + vitality, x, y - 48);
+		
+		Font.render("Armor: " + pDef, x, y - 80);
+		Font.render("M-Res: " + mDef, x, y - 96);
+		
+		Font.render("eleRes: " + electricResistance, x, y - 128);
+		Font.render("iceRes: " + iceResistance, x, y - 144);
+		Font.render("fireRes: " + fireResistance, x, y - 160);
+	}
 	
 	public int getIntelligence() {
 		return intelligence;
