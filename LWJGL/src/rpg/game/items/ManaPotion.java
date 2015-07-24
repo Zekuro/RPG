@@ -7,7 +7,7 @@ public class ManaPotion extends Item{
 	public int heal;
 	
 	public ManaPotion(int heal) {
-		super("Manatrank", Tier.T1, 1, 5, 10, "res/items/manaPotion.png");
+		super("Manatrank", Tier.T1, 1, 5, 10, "res/items/P_Blue02.png");
 		this.heal = heal;
 	}
 

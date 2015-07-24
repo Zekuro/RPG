@@ -30,6 +30,7 @@ public class Interface {
 	
 	public boolean renderLootDialog = false;
 
+	private Item dragItem = null;
 	private Entity selectedEntity = null;
 	
 	private int x;
@@ -55,6 +56,8 @@ public class Interface {
 		
 		if(renderLootDialog)LootWindow.renderLootDialog();
 		if(renderPaused)renderPaused();
+		
+		if(dragItem != null) dragItem.render(x + Mouse.getX(), y + Mouse.getY() - 32);
 		
 	}
 	
@@ -104,23 +107,17 @@ public class Interface {
 				
 			}
 			
+			int button = -1;
+			
+			if(Mouse.isButtonDown(0)) button = 0;
+			if(Mouse.isButtonDown(1)) button = 1;
+			
 			if(renderLootDialog == true){
-				if(Mouse.isButtonDown(1)){
-					LootWindow.processInput(1, Mouse.getX(), Mouse.getY());
-				}else{
-					LootWindow.processInput(-1, Mouse.getX(), Mouse.getY());
-				}
+					LootWindow.processInput(button, Mouse.getX(), Mouse.getY());
 			}
 			
 			if(renderInventory){
-				if(Mouse.isButtonDown(0)){
-					Inventory.processInput(0, Mouse.getX(), Mouse.getY());
-				}else if(Mouse.isButtonDown(1)){
-					Inventory.processInput(1, Mouse.getX(), Mouse.getY());
-				}else{
-					Inventory.processInput(-1, Mouse.getX(), Mouse.getY());
-				}
-				
+					Inventory.processInput(button, Mouse.getX(), Mouse.getY());
 			}
 			
 			if(renderLootDialog && (playerX != Game.PLAYER.getX() || playerY != Game.PLAYER.getY())){
@@ -289,6 +286,14 @@ public class Interface {
 	
 	public boolean isRenderingPlayerStats(){
 		return renderPlayerStats;
+	}
+
+	public Item getDragItem(){
+		return dragItem;
+	}
+	
+	public void setDragItem(Item item){
+		dragItem = item;
 	}
 	
 }

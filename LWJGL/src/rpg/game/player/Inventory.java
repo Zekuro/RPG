@@ -164,13 +164,18 @@ public class Inventory {
 		// MouseButton: -1 = nothing, 0 = left, 1 = right
 		if(index >= 0){
 			Item item = inventory.get(index);
-			if(button == 1){
+			if(button == 0){
+				Game.UI.setDragItem(item);
+			}else if(button == 1){
 				item.use();
 			}else if(button == -1){
 				renderItemName = true;
 				itemName = item.getName();
 			}
 		}else{
+			if(button == 0){
+				Game.UI.setDragItem(null);
+			}
 			renderItemName = false;
 		}
 		
