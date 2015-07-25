@@ -13,9 +13,10 @@ import rpg.game.items.Item;
 public class Inventory {
 
 	private static final int space = 90;
-	private static int dragIndex = -1;
+	public static int dragIndex = -1;
 	private static String itemName = null;
 	private static boolean renderItemName = false;
+	
 	private static Item[] inventory = new Item[space];
 	
 	public static void add(Item i){
@@ -176,7 +177,7 @@ public class Inventory {
 			Item item = inventory[index];
 			if(button == 0){
 
-				
+				Game.UI.clickedInventorySlot = true;
 				// DRAG N DROP
 				if(dragIndex < 0){
 					Game.UI.setDragItem(item);
@@ -204,8 +205,7 @@ public class Inventory {
 					Game.UI.setDragItem(null);
 					dragIndex = -1;
 				}else{
-				Game.UI.setDragItem(null);
-				dragIndex = -1;
+					Game.UI.clickedInventorySlot= false;
 				}
 			}
 			renderItemName = false;

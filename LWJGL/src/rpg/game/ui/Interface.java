@@ -21,15 +21,16 @@ import rpg.game.player.Inventory;
 
 public class Interface {
 
-	private Texture actionBar;
-	
 	private boolean renderInfos = false;
 	private boolean renderPaused = false;
 	private boolean renderInventory = false;
 	private boolean renderPlayerStats = false;
 
 	public boolean renderLootDialog = false;
-
+	public boolean clickedInventorySlot = false;
+	public boolean clickedActioBarSlot = false;
+	
+	
 	private Item dragItem = null;
 	private Entity selectedEntity = null;
 	
@@ -39,14 +40,6 @@ public class Interface {
 	private int playerX;
 	private int playerY;
 	
-	public Interface(){
-		try {
-			actionBar = TextureLoader.getTexture("PNG", ResourceLoader.getResourceAsStream("res/actionbar.png"));
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-	}
-
 	public void render(){
 		
 		x = Game.PLAYER.getCameraX();
@@ -126,42 +119,31 @@ public class Interface {
 					Inventory.processInput(button, Mouse.getX(), Mouse.getY());
 			}
 			
+			ActionBar.update(button, Mouse.getX(), Mouse.getY());
+			
 			if(renderLootDialog && (playerX != Game.PLAYER.getX() || playerY != Game.PLAYER.getY())){
 				renderLootDialog = false;
 			}
 			
 			updateSelectedEntity();
+			
+			
+			if(clickedActioBarSlot == false && clickedInventorySlot == false){
+				dragItem = null;
+				Inventory.dragIndex = -1;
+			}
 		}
 		
 	}
 	
 	private void renderStandardUI(){
 		
-		actionBar.bind();
-		
-		for(int i = 0; i < ActionBar.ACTIONSLOTS; i++){	
-			GL11.glColor3f(0.8f, 0.8f, 0.8f);
-			GL11.glBegin(GL11.GL_QUADS);
-			GL11.glTexCoord2f(0, 0);
-			GL11.glVertex2f(x + Game.SCREEN_WIDTH / 2 - ActionBar.ACTIONSLOTS*16 + i*32, y);
-			GL11.glTexCoord2f(1f, 0);
-			GL11.glVertex2f(x + Game.SCREEN_WIDTH / 2 - ActionBar.ACTIONSLOTS*16 + i*32 + 32, y);
-			GL11.glTexCoord2f(1f, 1f);
-			GL11.glVertex2f(x + Game.SCREEN_WIDTH / 2 - ActionBar.ACTIONSLOTS*16 + i*32 + 32, y + 32);
-			GL11.glTexCoord2f(0, 1f);
-			GL11.glVertex2f(x + Game.SCREEN_WIDTH / 2 - ActionBar.ACTIONSLOTS*16 + i*32, y + 32);
-			GL11.glEnd();
-		}
-
-		
-		//ActionBar.render();
-		
 		if(selectedEntity != null){
 			renderSelectedEntity();
 		}
-		
 		renderHealthBar();
 		renderManaBar();
+		ActionBar.render();
 		
 	}
 	
@@ -186,7 +168,7 @@ public class Interface {
 	
 	private void renderHealthBar(){
 		
-		int endX  =  Game.SCREEN_WIDTH / 2 - ActionBar.ACTIONSLOTS*16;
+		int endX  =  Game.SCREEN_WIDTH / 2 - ActionBar.ACTIONSLOTS*17 - 2;
 		int healthBarWidth = endX * Game.PLAYER.getHealth() / Game.PLAYER.getMaxHealth();
 		
 		GL11.glDisable(GL11.GL_TEXTURE_2D);
@@ -194,15 +176,15 @@ public class Interface {
 			GL11.glBegin(GL11.GL_QUADS);
 			GL11.glVertex2f(x , y);
 			GL11.glVertex2f(x + healthBarWidth, y);
-			GL11.glVertex2f(x + healthBarWidth, y + 32);
-			GL11.glVertex2f(x , y + 32);
+			GL11.glVertex2f(x + healthBarWidth, y + 32 + 4);
+			GL11.glVertex2f(x , y + 32 + 4);
 			GL11.glEnd();
 			GL11.glColor3f(0.3f, 0.3f, 0.3f);
 			GL11.glBegin(GL11.GL_QUADS);
 			GL11.glVertex2f(x + healthBarWidth, y);
 			GL11.glVertex2f(x + endX, y);
-			GL11.glVertex2f(x + endX, y + 32);
-			GL11.glVertex2f(x + healthBarWidth, y + 32);
+			GL11.glVertex2f(x + endX, y + 32 + 4);
+			GL11.glVertex2f(x + healthBarWidth, y + 32 + 4);
 			GL11.glEnd();
 		GL11.glEnable(GL11.GL_TEXTURE_2D);
 		
@@ -213,7 +195,7 @@ public class Interface {
 	
 	private void renderManaBar(){
 		
-		int startX = Game.SCREEN_WIDTH / 2 - ActionBar.ACTIONSLOTS*16 + ActionBar.ACTIONSLOTS * 32;
+		int startX = Game.SCREEN_WIDTH / 2 - ActionBar.ACTIONSLOTS*17 + ActionBar.ACTIONSLOTS * 34;
 		int endX = Game.SCREEN_WIDTH;
 		int manaBarWidth = (endX-startX) * Game.PLAYER.getMana() / Game.PLAYER.getMaxMana();
 		
@@ -222,15 +204,15 @@ public class Interface {
 			GL11.glBegin(GL11.GL_QUADS);
 			GL11.glVertex2f(x + startX, y);
 			GL11.glVertex2f(x + startX + manaBarWidth, y);
-			GL11.glVertex2f(x + startX + manaBarWidth, y + 32);
-			GL11.glVertex2f(x + startX, y + 32);
+			GL11.glVertex2f(x + startX + manaBarWidth, y + 32 + 4);
+			GL11.glVertex2f(x + startX, y + 32 + 4);
 			GL11.glEnd();
 			GL11.glColor3f(0.3f, 0.3f, 0.3f);
 			GL11.glBegin(GL11.GL_QUADS);
 			GL11.glVertex2f(x + startX + manaBarWidth, y);
 			GL11.glVertex2f(x + endX, y);
-			GL11.glVertex2f(x + endX, y + 32);
-			GL11.glVertex2f(x + startX + manaBarWidth, y + 32);
+			GL11.glVertex2f(x + endX, y + 32 + 4);
+			GL11.glVertex2f(x + startX + manaBarWidth, y + 32 + 4);
 			GL11.glEnd();
 		GL11.glEnable(GL11.GL_TEXTURE_2D);
 		
