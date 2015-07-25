@@ -7,7 +7,6 @@ import org.newdawn.slick.opengl.Texture;
 import org.newdawn.slick.opengl.TextureLoader;
 import org.newdawn.slick.util.ResourceLoader;
 
-import rpg.game.Font;
 import rpg.game.player.Inventory;
 
 public abstract class Item {
@@ -60,10 +59,6 @@ public abstract class Item {
 		GL11.glTexCoord2f(0,0);
 		GL11.glVertex2f(x, y+size);
 		GL11.glEnd();
-		
-		String stacks = Integer.toString(stack);
-		Font.render(stacks, x + 32 - 8*stacks.length(), y);
-		
 	}
 	
 	public abstract void use();

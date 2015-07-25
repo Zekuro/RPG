@@ -136,6 +136,9 @@ public class Inventory {
 			if(inventory[index] != null){
 				Item item = inventory[index];
 				item.render(x + Game.SCREEN_WIDTH/2-5*40 + i*4 + i*size + size/2, y + Game.SCREEN_HEIGHT/2+5*36 - 25 - j*4 - j*size-size);
+				
+				String stacks = Integer.toString(inventory[index].getStacks());
+				Font.render(stacks,x + Game.SCREEN_WIDTH/2-5*40 + i*4 + i*size + size/2 + 32 - 8*stacks.length(), y + Game.SCREEN_HEIGHT/2+5*36 - 25 - j*4 - j*size-size);
 			}
 			GL11.glDisable(GL11.GL_TEXTURE_2D);
 			index++;
@@ -191,7 +194,9 @@ public class Inventory {
 			
 			
 			}else if(button == 1){
-				item.use();
+
+			//equip
+				
 			}else if(button == -1){
 				renderItemName = true;
 				itemName = item.getName();
@@ -211,6 +216,10 @@ public class Inventory {
 			renderItemName = false;
 		}
 		
+	}
+	
+	public static Item[] getInventory(){
+		return inventory;
 	}
 	
 }

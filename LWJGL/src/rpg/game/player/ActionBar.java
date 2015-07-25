@@ -41,9 +41,22 @@ public class ActionBar {
 			
 			GL11.glEnable(GL11.GL_TEXTURE_2D);
 			GL11.glColor3f(1, 1, 1);
+			
 			if(actionBar[i] != null){
 				actionBar[i].render(Game.PLAYER.getCameraX() + Game.SCREEN_WIDTH / 2 - ACTIONSLOTS*17 + i*2 + i*32, Game.PLAYER.getCameraY() + 2);
+			
+				int stacks = 0;
+				for (Item item : Inventory.getInventory()) {
+					if(item != null && item.getClass() == actionBar[i].getClass()){
+						stacks += item.getStacks();
+					}
+				}
+
+				String msg = Integer.toString(stacks);
+				Font.render(msg,Game.PLAYER.getCameraX() + Game.SCREEN_WIDTH / 2 - ACTIONSLOTS*17 + i*2 + i*32 + 32 - 8*msg.length(), Game.PLAYER.getCameraY() + 2);
+				
 			}
+			
 			
 			if(renderItemName){
 				Font.render(itemName, Mouse.getX() + Game.PLAYER.getCameraX(), Mouse.getY() + Game.PLAYER.getCameraY() + 10);
@@ -59,7 +72,7 @@ public class ActionBar {
 		int k = 0; 
 		int index = -1;
 		
-		respondToActionKeys();
+		if(Game.isPaused() == false) respondToActionKeys();
 		
 		for(int i = 0; i < ACTIONSLOTS; i++){	
 			
@@ -96,7 +109,9 @@ public class ActionBar {
 			
 			
 			}else if(button == 1){
-				item.use();
+				if(Game.isPaused() == false){
+					item.use();
+				}
 			}else if(button == -1){
 				renderItemName = true;
 				itemName = item.getName();
