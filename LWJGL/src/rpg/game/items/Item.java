@@ -1,14 +1,19 @@
 package rpg.game.items;
 
-import org.newdawn.slick.Image;
-import org.newdawn.slick.SlickException;
+import java.io.IOException;
 
+import org.lwjgl.opengl.GL11;
+import org.newdawn.slick.opengl.Texture;
+import org.newdawn.slick.opengl.TextureLoader;
+import org.newdawn.slick.util.ResourceLoader;
+
+import rpg.game.Font;
 import rpg.game.player.Inventory;
 
 public abstract class Item {
 
 	private String name;
-	private Image texture;
+	private Texture texture;
 	private Tier tier;
 	private int neededLvl;
 	private int sellPrice;
@@ -43,35 +48,35 @@ public abstract class Item {
 	}
 	
 	public void render(int x,int y){
-//		texture.bind(); // or GL11.glBind(texture.getTextureID());
-//		GL11.glBindTexture(GL11.GL_TEXTURE_2D, texture.getTextureID());
-//		GL11.glBegin(GL11.GL_QUADS);
-//		GL11.glTexCoord2f(0, 1);
-//		GL11.glVertex2f(x, y);
-//		GL11.glTexCoord2f(1,1);
-//		GL11.glVertex2f(x+size, y);
-//		GL11.glTexCoord2f(1,0);
-//		GL11.glVertex2f(x+size, y+size);
-//		GL11.glTexCoord2f(0,0);
-//		GL11.glVertex2f(x, y+size);
-//		GL11.glEnd();
+		texture.bind(); // or GL11.glBind(texture.getTextureID());
+		GL11.glBindTexture(GL11.GL_TEXTURE_2D, texture.getTextureID());
+		GL11.glBegin(GL11.GL_QUADS);
+		GL11.glTexCoord2f(0, 1);
+		GL11.glVertex2f(x, y);
+		GL11.glTexCoord2f(1,1);
+		GL11.glVertex2f(x+size, y);
+		GL11.glTexCoord2f(1,0);
+		GL11.glVertex2f(x+size, y+size);
+		GL11.glTexCoord2f(0,0);
+		GL11.glVertex2f(x, y+size);
+		GL11.glEnd();
 		
+		String stacks = Integer.toString(stack);
+		Font.render(stacks, x + 32 - 8*stacks.length(), y);
 		
-		// opengl can't load 34x34 textures
-		texture.getFlippedCopy(false, true).draw(x-1,y-1);
 	}
 	
 	public abstract void use();
 	
 	public void setTexture(String texturePath){
 		try {
-			 texture = new Image(texturePath);
-			} catch (SlickException e) {
+			texture = TextureLoader.getTexture("PNG", ResourceLoader.getResourceAsStream(texturePath));
+			} catch (IOException e) {
 				e.printStackTrace();
 		}  
 	}
 	
-	public Image getTexture(){
+	public Texture getTexture(){
 		return texture;
 	}
 	
@@ -98,6 +103,10 @@ public abstract class Item {
 	
 	public String getName(){
 		return name;
+	}
+	
+	public void setStacks(int i){
+		stack = i;
 	}
 	
 }

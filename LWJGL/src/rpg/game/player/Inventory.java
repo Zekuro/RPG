@@ -13,20 +13,33 @@ import rpg.game.items.Item;
 public class Inventory {
 
 	private static final int space = 90;
+	private static int dragIndex = -1;
 	private static String itemName = null;
 	private static boolean renderItemName = false;
-	private static ArrayList<Item> inventory = new ArrayList();
+	private static Item[] inventory = new Item[space];
 	
 	public static void add(Item i){
+		int firstFreeSlot = -1;
+		int j = 0;
+		
 		for (Item item : inventory) {
-			if(i.getClass() ==item.getClass() && item.canAdd()){
+			if(item != null){
+			if(i.getClass() == item.getClass() && item.canAdd()){
 				item.add();
 				return;
+			}}
+		}
+		
+		for (Item item : inventory) {
+			if( item == null){
+					firstFreeSlot = j;
+					break;
 			}
+			j++;
 		}
 
-		if(inventory.size() < space){
-			inventory.add(i);
+		if(firstFreeSlot >= 0 && firstFreeSlot < space){
+			inventory[firstFreeSlot] = i;
 		}else{
 			System.out.println("INVENTAR IS VOLL DU SPACKN");
 		}
@@ -56,24 +69,28 @@ public class Inventory {
 		
 		// get item with lowest stacks
 		for (Item item : inventory) {
-			if(i.getClass() ==item.getClass() && item.getStacks() < stacks){
+			if(item != null){
+			if(i.getClass() == item.getClass() && item.getStacks() < stacks){
 				stacks = item.getStacks();
 				index = j;
-			}
+			}}
 			j++;
 		}
 		
-		Item item = inventory.get(index);
+		
+		Item item = inventory[index];
 
-		if(item.getStacks() > 1){
-			item.remove();
-		}else if(item.getStacks() == 1){
-			inventory.remove(index);
+		if(item != null){
+			if(item.getStacks() > 1){
+				item.remove();
+			}else if(item.getStacks() == 1){
+				inventory[index] = null;
+			}
 		}
 	}
 	
 	public static Item get(int index){
-		if(inventory.size() > 0 && index < inventory.size()) return inventory.get(index);
+		if(index >= 0 && index < 90) return inventory[index];
 		return null;
 	}
 	
@@ -115,21 +132,16 @@ public class Inventory {
 			int itemX = x + Game.SCREEN_WIDTH/2-5*40 + i*4 + i*size + size/2;
 			int itemY = y + Game.SCREEN_HEIGHT/2+5*36 - 25 - j*4 - j*size - size;
 			
-			if(Inventory.get(index) != null){
-				Item item = inventory.get(index);
-				
+			if(inventory[index] != null){
+				Item item = inventory[index];
 				item.render(x + Game.SCREEN_WIDTH/2-5*40 + i*4 + i*size + size/2, y + Game.SCREEN_HEIGHT/2+5*36 - 25 - j*4 - j*size-size);
-				String stacks = Integer.toString(Inventory.get(index).getStacks());
-				Font.render(stacks, itemX + 32 - 8*stacks.length(), itemY);
-				
 			}
 			GL11.glDisable(GL11.GL_TEXTURE_2D);
 			index++;
 		}}
 		
-		
 		GL11.glEnable(GL11.GL_TEXTURE_2D);
-		
+
 		if(renderItemName){
 			Font.render(itemName, Mouse.getX() + Game.PLAYER.getCameraX(), Mouse.getY() + Game.PLAYER.getCameraY() + 10);
 		}
@@ -151,9 +163,7 @@ public class Inventory {
 			if(	Game.PLAYER.getCameraX()+mouseX > itemX
 				&&Game.PLAYER.getCameraX()+mouseX < itemX + size
 				&&Game.PLAYER.getCameraY()+mouseY > itemY
-				&&Game.PLAYER.getCameraY()+mouseY < itemY + size
-				&&inventory.size() > k
-				&&inventory.get(k) != null){
+				&&Game.PLAYER.getCameraY()+mouseY < itemY + size){
 				index = k;
 				break;
 			}
@@ -162,10 +172,23 @@ public class Inventory {
 		}}
 		
 		// MouseButton: -1 = nothing, 0 = left, 1 = right
-		if(index >= 0){
-			Item item = inventory.get(index);
+		if(index >= 0 && inventory[index] != null){
+			Item item = inventory[index];
 			if(button == 0){
-				Game.UI.setDragItem(item);
+
+				
+				// DRAG N DROP
+				if(dragIndex < 0){
+					Game.UI.setDragItem(item);
+					dragIndex = index;
+				}else{
+					inventory[dragIndex] = item;
+					inventory[index] = Game.UI.getDragItem();
+					Game.UI.setDragItem(null);
+					dragIndex = -1;
+				}
+			
+			
 			}else if(button == 1){
 				item.use();
 			}else if(button == -1){
@@ -174,7 +197,16 @@ public class Inventory {
 			}
 		}else{
 			if(button == 0){
+				// DRAG ONTO FREE SPACE
+				if(index != -1 && dragIndex != -1 && inventory[index] == null){
+					inventory[dragIndex] = null;
+					inventory[index] = Game.UI.getDragItem();
+					Game.UI.setDragItem(null);
+					dragIndex = -1;
+				}else{
 				Game.UI.setDragItem(null);
+				dragIndex = -1;
+				}
 			}
 			renderItemName = false;
 		}

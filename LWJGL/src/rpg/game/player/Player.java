@@ -66,7 +66,7 @@ public class Player {
 		
 		// TODO remove these testcases
 
-		for(int i = 0; i<50; i++){
+		for(int i = 0; i<99; i++){
 			Inventory.add(new ManaPotion(20));
 			Inventory.add(new HealthPotion(20));
 		}

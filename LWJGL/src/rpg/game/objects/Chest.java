@@ -17,9 +17,10 @@ public class Chest extends GameObject{
 	
 	public Chest() {
 		super(true,false, 32, 32, "res/objects/chest.png");
+		Inventory.add(new ManaPotion(20), loot);
+		Inventory.add(new ManaPotion(20), loot);
 		Inventory.add(new HealthPotion(20), loot);
 		Inventory.add(new HealthPotion(20), loot);
-		loot.add(new ManaPotion(20));
 	}
 	
 	public void use(){

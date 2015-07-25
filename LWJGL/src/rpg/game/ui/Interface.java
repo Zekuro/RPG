@@ -16,18 +16,18 @@ import rpg.game.World;
 import rpg.game.entities.Entity;
 import rpg.game.items.Item;
 import rpg.game.objects.GameObject;
+import rpg.game.player.ActionBar;
 import rpg.game.player.Inventory;
 
 public class Interface {
 
-	private final int actionSlots = 9;
 	private Texture actionBar;
 	
 	private boolean renderInfos = false;
 	private boolean renderPaused = false;
 	private boolean renderInventory = false;
 	private boolean renderPlayerStats = false;
-	
+
 	public boolean renderLootDialog = false;
 
 	private Item dragItem = null;
@@ -40,9 +40,12 @@ public class Interface {
 	private int playerY;
 	
 	public Interface(){
-		actionBar = loadTexture("res/actionbar.png");
+		try {
+			actionBar = TextureLoader.getTexture("PNG", ResourceLoader.getResourceAsStream("res/actionbar.png"));
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
-	
 
 	public void render(){
 		
@@ -109,7 +112,10 @@ public class Interface {
 			
 			int button = -1;
 			
-			if(Mouse.isButtonDown(0)) button = 0;
+			if(Mouse.isButtonDown(0)){
+				button = 0;
+			}
+			
 			if(Mouse.isButtonDown(1)) button = 1;
 			
 			if(renderLootDialog == true){
@@ -133,19 +139,22 @@ public class Interface {
 		
 		actionBar.bind();
 		
-		for(int i = 0; i < actionSlots; i++){	
+		for(int i = 0; i < ActionBar.ACTIONSLOTS; i++){	
 			GL11.glColor3f(0.8f, 0.8f, 0.8f);
 			GL11.glBegin(GL11.GL_QUADS);
 			GL11.glTexCoord2f(0, 0);
-			GL11.glVertex2f(x + Game.SCREEN_WIDTH / 2 - actionSlots*16 + i*32, y);
+			GL11.glVertex2f(x + Game.SCREEN_WIDTH / 2 - ActionBar.ACTIONSLOTS*16 + i*32, y);
 			GL11.glTexCoord2f(1f, 0);
-			GL11.glVertex2f(x + Game.SCREEN_WIDTH / 2 - actionSlots*16 + i*32 + 32, y);
+			GL11.glVertex2f(x + Game.SCREEN_WIDTH / 2 - ActionBar.ACTIONSLOTS*16 + i*32 + 32, y);
 			GL11.glTexCoord2f(1f, 1f);
-			GL11.glVertex2f(x + Game.SCREEN_WIDTH / 2 - actionSlots*16 + i*32 + 32, y + 32);
+			GL11.glVertex2f(x + Game.SCREEN_WIDTH / 2 - ActionBar.ACTIONSLOTS*16 + i*32 + 32, y + 32);
 			GL11.glTexCoord2f(0, 1f);
-			GL11.glVertex2f(x + Game.SCREEN_WIDTH / 2 - actionSlots*16 + i*32, y + 32);
+			GL11.glVertex2f(x + Game.SCREEN_WIDTH / 2 - ActionBar.ACTIONSLOTS*16 + i*32, y + 32);
 			GL11.glEnd();
 		}
+
+		
+		//ActionBar.render();
 		
 		if(selectedEntity != null){
 			renderSelectedEntity();
@@ -177,7 +186,7 @@ public class Interface {
 	
 	private void renderHealthBar(){
 		
-		int endX  =  Game.SCREEN_WIDTH / 2 - actionSlots*16;
+		int endX  =  Game.SCREEN_WIDTH / 2 - ActionBar.ACTIONSLOTS*16;
 		int healthBarWidth = endX * Game.PLAYER.getHealth() / Game.PLAYER.getMaxHealth();
 		
 		GL11.glDisable(GL11.GL_TEXTURE_2D);
@@ -204,7 +213,7 @@ public class Interface {
 	
 	private void renderManaBar(){
 		
-		int startX = Game.SCREEN_WIDTH / 2 - actionSlots*16 + actionSlots * 32;
+		int startX = Game.SCREEN_WIDTH / 2 - ActionBar.ACTIONSLOTS*16 + ActionBar.ACTIONSLOTS * 32;
 		int endX = Game.SCREEN_WIDTH;
 		int manaBarWidth = (endX-startX) * Game.PLAYER.getMana() / Game.PLAYER.getMaxMana();
 		
@@ -228,7 +237,7 @@ public class Interface {
 		
 		
 		String mana = Game.PLAYER.getMana() + "/" + Game.PLAYER.getMaxMana();
-		Font.render(mana, x + Game.SCREEN_WIDTH - ((Game.SCREEN_WIDTH / 2 - actionSlots*16)/2)  - mana.length()*4, y + 8);
+		Font.render(mana, x + Game.SCREEN_WIDTH - ((Game.SCREEN_WIDTH / 2 - ActionBar.ACTIONSLOTS*16)/2)  - mana.length()*4, y + 8);
 	}
 	
 	private void renderPaused(){
