@@ -11,9 +11,8 @@ import org.newdawn.slick.util.ResourceLoader;
 import rpg.game.Game;
 import rpg.game.Stats;
 import rpg.game.World;
-import rpg.game.items.HealthPotion;
 import rpg.game.items.Item;
-import rpg.game.items.ManaPotion;
+import rpg.game.items.Item.ItemObject;
 import rpg.game.objects.Chest;
 import rpg.game.objects.GameObject;
 import rpg.game.objects.Portal;
@@ -67,8 +66,8 @@ public class Player {
 		// TODO remove these testcases
 
 		for(int i = 0; i<99; i++){
-			Inventory.add(new ManaPotion(20));
-			Inventory.add(new HealthPotion(20));
+			Inventory.add(Item.get(ItemObject.smallHealthPotion));
+			Inventory.add(Item.get(ItemObject.smallManaPotion));
 		}
 		
 		
@@ -289,6 +288,7 @@ public class Player {
 		switch(faceDir){
 		case 2:
 			if( y - height/2 > object.getYColOffset() + object.getY()
+				&& y - height/2 < object.getYColOffset() + object.getY() + object.getHeight()
 				&& x + width/2  > object.getXColOffset() + object.getX()
 				&& x + width/2 < object.getXColOffset() + object.getX()+ object.getWidth()){
 				return true;
@@ -296,6 +296,7 @@ public class Player {
 			break;
 		case 4:
 			if( x - width/2 > object.getXColOffset() + object.getX()
+					&& x - width/2 < object.getXColOffset() + object.getX() + object.getWidth()
 					&& y + height/2  > object.getYColOffset() + object.getY()
 					&& y + height/2 < object.getYColOffset() + object.getY()+ object.getHeight()){
 					return true;
@@ -303,13 +304,15 @@ public class Player {
 			break;
 		case 6:
 			if( x + width + width/2 < object.getXColOffset() + object.getX() + object.getWidth()
+					&& x + width + width/2 > object.getXColOffset() + object.getX()
 					&& y + height/2  > object.getYColOffset() + object.getY()
 					&& y + height/2 < object.getYColOffset() + object.getY()+ object.getHeight()){
 					return true;
 				}
 			break;
 		case 8:
-			if(	y + height + height/2 < object.getYColOffset() + object.getY() +  object.getHeight()
+			if(	y + height + height/2 > object.getYColOffset() + object.getY()
+				&& y + height + height/2 < object.getYColOffset() + object.getY() + object.getHeight()
 				&& x + width/2 > object.getXColOffset() + object.getX()
 				&& x + width/2 < object.getXColOffset() + object.getX() + object.getWidth()){
 				return true;

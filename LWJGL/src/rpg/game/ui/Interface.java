@@ -58,68 +58,11 @@ public class Interface {
 	}
 	
 	public void update(){
+		// FIXME
 		while(Keyboard.next() || Mouse.next()){
-			if(Keyboard.isKeyDown(Keyboard.KEY_F1)){
-				renderInfos = !renderInfos;
-			}
-			if(Keyboard.isKeyDown(Keyboard.KEY_P)){
-				if(!renderInventory && !renderPlayerStats){
-				Game.setPaused(!Game.isPaused());
-				renderPaused = Game.isPaused();
-				}
-			}
-			if(!renderPaused){
-				if(Keyboard.isKeyDown(Keyboard.KEY_C)){
-					if(renderInventory){
-						renderInventory = false;
-					}else{
-						Game.setPaused(!Game.isPaused());
-					}
-					renderPlayerStats = !renderPlayerStats;
-				}
-				if(Keyboard.isKeyDown(Keyboard.KEY_I)){
-					if(renderPlayerStats){
-						renderPlayerStats = false;
-					}else{
-						Game.setPaused(!Game.isPaused());
-					}
-					renderInventory = !renderInventory;
-				}
-			}
-			if(Mouse.isButtonDown(0) && Game.isPaused() == false && renderLootDialog == false){
-				
-				for (GameObject object: World.entityList) {
-					
-					Entity entity = (Entity) object;
-					
-					if(entity.isEntityAt(Game.PLAYER.getCameraX() + Mouse.getX(), Game.PLAYER.getCameraY() + Mouse.getY())){
-						selectedEntity = entity;
-						break;
-					}
-					
-					selectedEntity = null;
-					
-				}
-				
-			}
 			
-			int button = -1;
-			
-			if(Mouse.isButtonDown(0)){
-				button = 0;
-			}
-			
-			if(Mouse.isButtonDown(1)) button = 1;
-			
-			if(renderLootDialog == true){
-					LootWindow.processInput(button, Mouse.getX(), Mouse.getY());
-			}
-			
-			if(renderInventory){
-					Inventory.processInput(button, Mouse.getX(), Mouse.getY());
-			}
-			
-			ActionBar.update(button, Mouse.getX(), Mouse.getY());
+			processKeyEvents();
+			processMouseEvents();
 			
 			if(renderLootDialog && (playerX != Game.PLAYER.getX() || playerY != Game.PLAYER.getY())){
 				renderLootDialog = false;
@@ -134,6 +77,73 @@ public class Interface {
 			}
 		}
 		
+	}
+	
+	private void processMouseEvents(){
+		if(Mouse.isButtonDown(0) && Game.isPaused() == false && renderLootDialog == false){
+			
+			for (GameObject object: World.entityList) {
+				
+				Entity entity = (Entity) object;
+				
+				if(entity.isEntityAt(Game.PLAYER.getCameraX() + Mouse.getX(), Game.PLAYER.getCameraY() + Mouse.getY())){
+					selectedEntity = entity;
+					break;
+				}
+				
+				selectedEntity = null;
+				
+			}
+			
+		}
+		
+		int button = -1;
+		
+		if(Mouse.isButtonDown(0)){
+			button = 0;
+		}
+		
+		if(Mouse.isButtonDown(1)) button = 1;
+		
+		if(renderLootDialog == true){
+				LootWindow.processInput(button, Mouse.getX(), Mouse.getY());
+		}
+		
+		if(renderInventory){
+				Inventory.processInput(button, Mouse.getX(), Mouse.getY());
+		}
+		
+		ActionBar.update(button, Mouse.getX(), Mouse.getY());
+	}
+	
+	private void processKeyEvents(){
+		if(Keyboard.isKeyDown(Keyboard.KEY_F1)){
+			renderInfos = !renderInfos;
+		}
+		if(Keyboard.isKeyDown(Keyboard.KEY_P)){
+			if(!renderInventory && !renderPlayerStats){
+			Game.setPaused(!Game.isPaused());
+			renderPaused = Game.isPaused();
+			}
+		}
+		if(!renderPaused){
+			if(Keyboard.isKeyDown(Keyboard.KEY_C)){
+				if(renderInventory){
+					renderInventory = false;
+				}else{
+					Game.setPaused(!Game.isPaused());
+				}
+				renderPlayerStats = !renderPlayerStats;
+			}
+			if(Keyboard.isKeyDown(Keyboard.KEY_I)){
+				if(renderPlayerStats){
+					renderPlayerStats = false;
+				}else{
+					Game.setPaused(!Game.isPaused());
+				}
+				renderInventory = !renderInventory;
+			}
+		}
 	}
 	
 	private void renderStandardUI(){
