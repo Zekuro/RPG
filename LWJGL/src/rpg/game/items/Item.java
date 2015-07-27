@@ -25,8 +25,8 @@ public abstract class Item {
 	protected boolean isArmor = false;
 	
 	/*
-	 * 	T1 = gewoehnlich 	(grau)
-	 * 	T2 = selten			(gelb)
+	 * 	T1 = gewoehnlich 	(weiß)
+	 * 	T2 = selten			(gruen)
 	 * 	T3 = fantastisch	(blau)
 	 *  T4 = episch			(lila)
 	 *  T5 = orange			(orange)
@@ -134,5 +134,9 @@ public abstract class Item {
 	
 	public boolean isStackable(){
 		return stackable;
+	}
+	
+	public Tier getTier(){
+		return tier;
 	}
 }

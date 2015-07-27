@@ -45,7 +45,24 @@ public class ArmorInfo {
 		
 		GL11.glEnable(GL11.GL_TEXTURE_2D);
 		
-		Font.render(armor.getName(), dialogX + 10, dialogY + dialogHeight - 16);
+		switch(armor.getTier()){
+		case T1:
+			Font.render(armor.getName(), dialogX + 10, dialogY + dialogHeight - 16);
+			break;
+		case T2:
+			Font.renderColored(armor.getName(), dialogX + 10, dialogY + dialogHeight - 16, 1, 0f, 1f, 0f);
+			break;
+		case T3:
+			Font.renderColored(armor.getName(), dialogX + 10, dialogY + dialogHeight - 16, 1, 0f, 0f, 0.7f);
+			break;
+		case T4:
+			Font.renderColored(armor.getName(), dialogX + 10, dialogY + dialogHeight - 16, 1, 0.5f, 0f, 0.7f);
+			break;
+		case T5:
+			Font.renderColored(armor.getName(), dialogX + 10, dialogY + dialogHeight - 16, 1, 1f, 0.5f, 0.3f);
+			break;
+		}
+		
 		
 		if(armor.getRequiredLvl() > Game.PLAYER.getLvl()){
 			Font.renderColored("LvL: " + armor.getRequiredLvl(), dialogX + 10, dialogY + dialogHeight - 26, 1, 0.5f, 0f, 0f);

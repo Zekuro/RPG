@@ -31,7 +31,7 @@ public class ActionBar {
 			GL11.glVertex2f(Game.PLAYER.getCameraX() + Game.SCREEN_WIDTH / 2 - 2 - ACTIONSLOTS*17 + i*2 + i*32, Game.PLAYER.getCameraY() + 32 + 4);
 			GL11.glEnd();
 			
-			GL11.glColor3f(0.65f, 0.65f, 0.65f);
+			GL11.glColor3f(0.4f, 0.4f, 0.4f);
 			GL11.glBegin(GL11.GL_QUADS);
 			GL11.glVertex2f(Game.PLAYER.getCameraX() + Game.SCREEN_WIDTH / 2 - ACTIONSLOTS*17 + i*2 + i*32, Game.PLAYER.getCameraY() + 2);
 			GL11.glVertex2f(Game.PLAYER.getCameraX() + Game.SCREEN_WIDTH / 2 - ACTIONSLOTS*17 + i*2 + i*32 + 32, Game.PLAYER.getCameraY() + 2);
@@ -71,8 +71,6 @@ public class ActionBar {
 		int size = 32;
 		int k = 0; 
 		int index = -1;
-		
-		if(Game.isPaused() == false) respondToActionKeys();
 		
 		for(int i = 0; i < ACTIONSLOTS; i++){	
 			
@@ -143,7 +141,7 @@ public class ActionBar {
 		
 	}
 	
-	private static void respondToActionKeys(){
+	public static void respondToActionKeys(){
 		
 		if(Keyboard.isKeyDown(Keyboard.KEY_1) && actionBar[0] != null){
 			actionBar[0].use();

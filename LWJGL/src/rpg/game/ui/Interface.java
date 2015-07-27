@@ -59,11 +59,14 @@ public class Interface {
 	
 	public void update(){
 		// FIXME
-		while(Keyboard.next() || Mouse.next()){
-			
-			processKeyEvents();
-			processMouseEvents();
-			
+		boolean mouseEvent = Mouse.next();
+		boolean keyEvent = Keyboard.next();
+		
+		while(mouseEvent || keyEvent){
+			if(mouseEvent) processMouseEvents();
+		
+			if(keyEvent) processKeyEvents();
+		
 			if(renderLootDialog && (playerX != Game.PLAYER.getX() || playerY != Game.PLAYER.getY())){
 				renderLootDialog = false;
 			}
@@ -75,7 +78,11 @@ public class Interface {
 				dragItem = null;
 				Inventory.dragIndex = -1;
 			}
+
+			mouseEvent = Mouse.next();
+			keyEvent = Keyboard.next();
 		}
+		
 		
 	}
 	
@@ -121,6 +128,8 @@ public class Interface {
 	}
 	
 	private void processKeyEvents(){
+		if(Game.isPaused() == false) ActionBar.respondToActionKeys();
+		
 		if(Keyboard.isKeyDown(Keyboard.KEY_F1)){
 			renderInfos = !renderInfos;
 		}
