@@ -111,8 +111,11 @@ public class LootWindow {
 		// MouseButton: -1 = nothing, 0 = left, 1 = right
 		if(index >= 0){
 			Item item = loot.get(index);
+			
 			if(button == 1){
-				for(int i = 0; i < item.getStacks(); i++) {
+				int stacks = item.getStacks();
+				item.setStacks(1);
+				for(int i = 0; i < stacks; i++){
 					Inventory.add(item);
 				}
 				loot.remove(index);

@@ -3,9 +3,8 @@ package rpg.game.objects;
 import java.util.ArrayList;
 
 import rpg.game.Game;
-import rpg.game.items.HealthPotion;
 import rpg.game.items.Item;
-import rpg.game.items.ManaPotion;
+import rpg.game.items.Item.ItemObject;
 import rpg.game.player.Inventory;
 
 
@@ -17,9 +16,10 @@ public class Chest extends GameObject{
 	
 	public Chest() {
 		super(true,false, 32, 32, "res/objects/chest.png");
-		Inventory.add(new HealthPotion(20), loot);
-		Inventory.add(new HealthPotion(20), loot);
-		loot.add(new ManaPotion(20));
+		Inventory.add(Item.get(ItemObject.smallManaPotion), loot);
+		Inventory.add(Item.get(ItemObject.smallManaPotion), loot);
+		Inventory.add(Item.get(ItemObject.smallHealthPotion), loot);
+		Inventory.add(Item.get(ItemObject.smallHealthPotion), loot);
 	}
 	
 	public void use(){

@@ -34,6 +34,13 @@ public abstract class Item {
 		T1,T2,T3,T4,T5
 	}
 	
+	public static enum ItemObject{
+		smallHealthPotion, smallManaPotion, smallHealthPotionPlus, smallManaPotionPlus,
+		mediumHeathPotion, mediumManaPotion, mediumHealthPotionPlus, mediumManaPotionPlus,
+		largeHealthPotion, largeManaPotion, largeHealthPotionPlus, largeManaPotionPlus
+	}
+	
+	
 	public Item(String name, Tier tier, int neededLvl, int sellPrice, int buyPrice,String texture){
 		this.name = name;
 		this.tier = tier;
@@ -41,6 +48,19 @@ public abstract class Item {
 		this.sellPrice = sellPrice;
 		this.buyPrice = buyPrice;
 		setTexture(texture);
+	}
+	
+	public static Item get(ItemObject object){
+		
+		Item item = null;
+		
+		switch(object){
+		case smallHealthPotion: item = new HealthPotion("kleiner Heiltrank", 100, "res/items/P_Red02.png"); 
+		break;
+		case smallManaPotion: item = new ManaPotion("kleiner Manatrank", 100, "res/items/P_Blue02.png"); 
+		break;
+		}
+		return item;
 	}
 	
 	public void render(int x,int y){
@@ -62,7 +82,7 @@ public abstract class Item {
 	
 	public void setTexture(String texturePath){
 		try {
-			 texture = TextureLoader.getTexture("PNG", ResourceLoader.getResourceAsStream(texturePath));
+			texture = TextureLoader.getTexture("PNG", ResourceLoader.getResourceAsStream(texturePath));
 			} catch (IOException e) {
 				e.printStackTrace();
 		}  
@@ -95,6 +115,10 @@ public abstract class Item {
 	
 	public String getName(){
 		return name;
+	}
+	
+	public void setStacks(int i){
+		stack = i;
 	}
 	
 }

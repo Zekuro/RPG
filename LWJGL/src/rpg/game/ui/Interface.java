@@ -16,20 +16,22 @@ import rpg.game.World;
 import rpg.game.entities.Entity;
 import rpg.game.items.Item;
 import rpg.game.objects.GameObject;
+import rpg.game.player.ActionBar;
 import rpg.game.player.Inventory;
 
 public class Interface {
 
-	private final int actionSlots = 9;
-	private Texture actionBar;
-	
 	private boolean renderInfos = false;
 	private boolean renderPaused = false;
 	private boolean renderInventory = false;
 	private boolean renderPlayerStats = false;
-	
-	public boolean renderLootDialog = false;
 
+	public boolean renderLootDialog = false;
+	public boolean clickedInventorySlot = false;
+	public boolean clickedActioBarSlot = false;
+	
+	
+	private Item dragItem = null;
 	private Entity selectedEntity = null;
 	
 	private int x;
@@ -38,11 +40,6 @@ public class Interface {
 	private int playerX;
 	private int playerY;
 	
-	public Interface(){
-		actionBar = loadTexture("res/actionbar.png");
-	}
-	
-
 	public void render(){
 		
 		x = Game.PLAYER.getCameraX();
@@ -56,106 +53,107 @@ public class Interface {
 		if(renderLootDialog)LootWindow.renderLootDialog();
 		if(renderPaused)renderPaused();
 		
+		if(dragItem != null) dragItem.render(x + Mouse.getX(), y + Mouse.getY() - 32);
+		
 	}
 	
 	public void update(){
+		// FIXME
 		while(Keyboard.next() || Mouse.next()){
-			if(Keyboard.isKeyDown(Keyboard.KEY_F1)){
-				renderInfos = !renderInfos;
-			}
-			if(Keyboard.isKeyDown(Keyboard.KEY_P)){
-				if(!renderInventory && !renderPlayerStats){
-				Game.setPaused(!Game.isPaused());
-				renderPaused = Game.isPaused();
-				}
-			}
-			if(!renderPaused){
-				if(Keyboard.isKeyDown(Keyboard.KEY_C)){
-					if(renderInventory){
-						renderInventory = false;
-					}else{
-						Game.setPaused(!Game.isPaused());
-					}
-					renderPlayerStats = !renderPlayerStats;
-				}
-				if(Keyboard.isKeyDown(Keyboard.KEY_I)){
-					if(renderPlayerStats){
-						renderPlayerStats = false;
-					}else{
-						Game.setPaused(!Game.isPaused());
-					}
-					renderInventory = !renderInventory;
-				}
-			}
-			if(Mouse.isButtonDown(0) && Game.isPaused() == false && renderLootDialog == false){
-				
-				for (GameObject object: World.entityList) {
-					
-					Entity entity = (Entity) object;
-					
-					if(entity.isEntityAt(Game.PLAYER.getCameraX() + Mouse.getX(), Game.PLAYER.getCameraY() + Mouse.getY())){
-						selectedEntity = entity;
-						break;
-					}
-					
-					selectedEntity = null;
-					
-				}
-				
-			}
 			
-			if(renderLootDialog == true){
-				if(Mouse.isButtonDown(1)){
-					LootWindow.processInput(1, Mouse.getX(), Mouse.getY());
-				}else{
-					LootWindow.processInput(-1, Mouse.getX(), Mouse.getY());
-				}
-			}
-			
-			if(renderInventory){
-				if(Mouse.isButtonDown(0)){
-					Inventory.processInput(0, Mouse.getX(), Mouse.getY());
-				}else if(Mouse.isButtonDown(1)){
-					Inventory.processInput(1, Mouse.getX(), Mouse.getY());
-				}else{
-					Inventory.processInput(-1, Mouse.getX(), Mouse.getY());
-				}
-				
-			}
+			processKeyEvents();
+			processMouseEvents();
 			
 			if(renderLootDialog && (playerX != Game.PLAYER.getX() || playerY != Game.PLAYER.getY())){
 				renderLootDialog = false;
 			}
 			
 			updateSelectedEntity();
+			
+			
+			if(clickedActioBarSlot == false && clickedInventorySlot == false){
+				dragItem = null;
+				Inventory.dragIndex = -1;
+			}
 		}
 		
 	}
 	
-	private void renderStandardUI(){
-		
-		actionBar.bind();
-		
-		for(int i = 0; i < actionSlots; i++){	
-			GL11.glColor3f(0.8f, 0.8f, 0.8f);
-			GL11.glBegin(GL11.GL_QUADS);
-			GL11.glTexCoord2f(0, 0);
-			GL11.glVertex2f(x + Game.SCREEN_WIDTH / 2 - actionSlots*16 + i*32, y);
-			GL11.glTexCoord2f(1f, 0);
-			GL11.glVertex2f(x + Game.SCREEN_WIDTH / 2 - actionSlots*16 + i*32 + 32, y);
-			GL11.glTexCoord2f(1f, 1f);
-			GL11.glVertex2f(x + Game.SCREEN_WIDTH / 2 - actionSlots*16 + i*32 + 32, y + 32);
-			GL11.glTexCoord2f(0, 1f);
-			GL11.glVertex2f(x + Game.SCREEN_WIDTH / 2 - actionSlots*16 + i*32, y + 32);
-			GL11.glEnd();
+	private void processMouseEvents(){
+		if(Mouse.isButtonDown(0) && Game.isPaused() == false && renderLootDialog == false){
+			
+			for (GameObject object: World.entityList) {
+				
+				Entity entity = (Entity) object;
+				
+				if(entity.isEntityAt(Game.PLAYER.getCameraX() + Mouse.getX(), Game.PLAYER.getCameraY() + Mouse.getY())){
+					selectedEntity = entity;
+					break;
+				}
+				
+				selectedEntity = null;
+				
+			}
+			
 		}
+		
+		int button = -1;
+		
+		if(Mouse.isButtonDown(0)){
+			button = 0;
+		}
+		
+		if(Mouse.isButtonDown(1)) button = 1;
+		
+		if(renderLootDialog == true){
+				LootWindow.processInput(button, Mouse.getX(), Mouse.getY());
+		}
+		
+		if(renderInventory){
+				Inventory.processInput(button, Mouse.getX(), Mouse.getY());
+		}
+		
+		ActionBar.update(button, Mouse.getX(), Mouse.getY());
+	}
+	
+	private void processKeyEvents(){
+		if(Keyboard.isKeyDown(Keyboard.KEY_F1)){
+			renderInfos = !renderInfos;
+		}
+		if(Keyboard.isKeyDown(Keyboard.KEY_P)){
+			if(!renderInventory && !renderPlayerStats){
+			Game.setPaused(!Game.isPaused());
+			renderPaused = Game.isPaused();
+			}
+		}
+		if(!renderPaused){
+			if(Keyboard.isKeyDown(Keyboard.KEY_C)){
+				if(renderInventory){
+					renderInventory = false;
+				}else{
+					Game.setPaused(!Game.isPaused());
+				}
+				renderPlayerStats = !renderPlayerStats;
+			}
+			if(Keyboard.isKeyDown(Keyboard.KEY_I)){
+				if(renderPlayerStats){
+					renderPlayerStats = false;
+				}else{
+					Game.setPaused(!Game.isPaused());
+				}
+				renderInventory = !renderInventory;
+			}
+		}
+	}
+	
+	private void renderStandardUI(){
 		
 		if(selectedEntity != null){
 			renderSelectedEntity();
 		}
-		
 		renderHealthBar();
 		renderManaBar();
+		ActionBar.render();
 		
 	}
 	
@@ -180,7 +178,7 @@ public class Interface {
 	
 	private void renderHealthBar(){
 		
-		int endX  =  Game.SCREEN_WIDTH / 2 - actionSlots*16;
+		int endX  =  Game.SCREEN_WIDTH / 2 - ActionBar.ACTIONSLOTS*17 - 2;
 		int healthBarWidth = endX * Game.PLAYER.getHealth() / Game.PLAYER.getMaxHealth();
 		
 		GL11.glDisable(GL11.GL_TEXTURE_2D);
@@ -188,15 +186,15 @@ public class Interface {
 			GL11.glBegin(GL11.GL_QUADS);
 			GL11.glVertex2f(x , y);
 			GL11.glVertex2f(x + healthBarWidth, y);
-			GL11.glVertex2f(x + healthBarWidth, y + 32);
-			GL11.glVertex2f(x , y + 32);
+			GL11.glVertex2f(x + healthBarWidth, y + 32 + 4);
+			GL11.glVertex2f(x , y + 32 + 4);
 			GL11.glEnd();
 			GL11.glColor3f(0.3f, 0.3f, 0.3f);
 			GL11.glBegin(GL11.GL_QUADS);
 			GL11.glVertex2f(x + healthBarWidth, y);
 			GL11.glVertex2f(x + endX, y);
-			GL11.glVertex2f(x + endX, y + 32);
-			GL11.glVertex2f(x + healthBarWidth, y + 32);
+			GL11.glVertex2f(x + endX, y + 32 + 4);
+			GL11.glVertex2f(x + healthBarWidth, y + 32 + 4);
 			GL11.glEnd();
 		GL11.glEnable(GL11.GL_TEXTURE_2D);
 		
@@ -207,7 +205,7 @@ public class Interface {
 	
 	private void renderManaBar(){
 		
-		int startX = Game.SCREEN_WIDTH / 2 - actionSlots*16 + actionSlots * 32;
+		int startX = Game.SCREEN_WIDTH / 2 - ActionBar.ACTIONSLOTS*17 + ActionBar.ACTIONSLOTS * 34;
 		int endX = Game.SCREEN_WIDTH;
 		int manaBarWidth = (endX-startX) * Game.PLAYER.getMana() / Game.PLAYER.getMaxMana();
 		
@@ -216,22 +214,22 @@ public class Interface {
 			GL11.glBegin(GL11.GL_QUADS);
 			GL11.glVertex2f(x + startX, y);
 			GL11.glVertex2f(x + startX + manaBarWidth, y);
-			GL11.glVertex2f(x + startX + manaBarWidth, y + 32);
-			GL11.glVertex2f(x + startX, y + 32);
+			GL11.glVertex2f(x + startX + manaBarWidth, y + 32 + 4);
+			GL11.glVertex2f(x + startX, y + 32 + 4);
 			GL11.glEnd();
 			GL11.glColor3f(0.3f, 0.3f, 0.3f);
 			GL11.glBegin(GL11.GL_QUADS);
 			GL11.glVertex2f(x + startX + manaBarWidth, y);
 			GL11.glVertex2f(x + endX, y);
-			GL11.glVertex2f(x + endX, y + 32);
-			GL11.glVertex2f(x + startX + manaBarWidth, y + 32);
+			GL11.glVertex2f(x + endX, y + 32 + 4);
+			GL11.glVertex2f(x + startX + manaBarWidth, y + 32 + 4);
 			GL11.glEnd();
 		GL11.glEnable(GL11.GL_TEXTURE_2D);
 		
 		
 		
 		String mana = Game.PLAYER.getMana() + "/" + Game.PLAYER.getMaxMana();
-		Font.render(mana, x + Game.SCREEN_WIDTH - ((Game.SCREEN_WIDTH / 2 - actionSlots*16)/2)  - mana.length()*4, y + 8);
+		Font.render(mana, x + Game.SCREEN_WIDTH - ((Game.SCREEN_WIDTH / 2 - ActionBar.ACTIONSLOTS*16)/2)  - mana.length()*4, y + 8);
 	}
 	
 	private void renderPaused(){
@@ -289,6 +287,14 @@ public class Interface {
 	
 	public boolean isRenderingPlayerStats(){
 		return renderPlayerStats;
+	}
+
+	public Item getDragItem(){
+		return dragItem;
+	}
+	
+	public void setDragItem(Item item){
+		dragItem = item;
 	}
 	
 }
