@@ -7,15 +7,17 @@ import org.lwjgl.opengl.GL11;
 
 import rpg.game.Font;
 import rpg.game.Game;
+import rpg.game.armor.Armor;
 import rpg.game.items.Item;
+import rpg.game.ui.ArmorInfo;
 
-// TODO this has to be a non-static class so it can be used in multiple entities
 public class Inventory {
 
 	private static final int space = 90;
 	public static int dragIndex = -1;
 	private static String itemName = null;
 	private static boolean renderItemName = false;
+	private static Armor hoveredArmor = null;
 	
 	private static Item[] inventory = new Item[space];
 	
@@ -149,8 +151,12 @@ public class Inventory {
 		if(renderItemName){
 			Font.render(itemName, Mouse.getX() + Game.PLAYER.getCameraX(), Mouse.getY() + Game.PLAYER.getCameraY() + 10);
 		}
+
+		if(hoveredArmor != null) ArmorInfo.render(hoveredArmor);
+		
 		String msg = "- I N V E N T A R -";
 		Font.render(msg,x + Game.SCREEN_WIDTH/2 - msg.length()*4, y + Game.SCREEN_HEIGHT/2+5*36-16);
+		
 	}
 	
 	public static void processInput(int button, int mouseX, int mouseY){
@@ -195,11 +201,18 @@ public class Inventory {
 			
 			}else if(button == 1){
 
-			//equip
+			if(item.isArmor()){
+				Armor armor = (Armor) item;
+				armor.equip(index);
+			}
 				
 			}else if(button == -1){
-				renderItemName = true;
-				itemName = item.getName();
+				if(item.isArmor()){
+					hoveredArmor = (Armor) item;
+				}else{
+					renderItemName = true;
+					itemName = item.getName();
+				}
 			}
 		}else{
 			if(button == 0){
@@ -213,6 +226,7 @@ public class Inventory {
 					Game.UI.clickedInventorySlot= false;
 				}
 			}
+			hoveredArmor = null;
 			renderItemName = false;
 		}
 		

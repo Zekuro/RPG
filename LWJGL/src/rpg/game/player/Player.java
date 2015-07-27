@@ -11,6 +11,7 @@ import org.newdawn.slick.util.ResourceLoader;
 import rpg.game.Game;
 import rpg.game.Stats;
 import rpg.game.World;
+import rpg.game.armor.Armor;
 import rpg.game.items.Item;
 import rpg.game.items.Item.ItemObject;
 import rpg.game.objects.Chest;
@@ -45,6 +46,7 @@ public class Player {
 	private int healthReg = 5;
 	private int manaReg = 5;
 
+	private Stats baseStats = new Stats();
 	private Stats stats = new Stats();
 	private Equip equip = new Equip();
 	
@@ -55,13 +57,15 @@ public class Player {
 		this.y = y;
 		centerCamera();
 		
-		stats.setIntelligence(15);
-		stats.setStrength(10);
-		stats.setWisdom(10);
-		stats.setVitality(12);
+		baseStats.setIntelligence(15);
+		baseStats.setStrength(10);
+		baseStats.setWisdom(10);
+		baseStats.setVitality(12);
 		
-		stats.setpDef(10);
-		stats.setmDef(8);
+		baseStats.setpDef(10);
+		baseStats.setmDef(8);
+		
+		stats = baseStats;
 		
 		// TODO remove these testcases
 
@@ -70,6 +74,7 @@ public class Player {
 			Inventory.add(Item.get(ItemObject.smallManaPotion));
 		}
 		
+		Inventory.add(Armor.get(Armor.ArmorObject.simpleBoots));
 		
 		try {
 			 texture = TextureLoader.getTexture("PNG", ResourceLoader.getResourceAsStream("res/player.png"));
@@ -394,5 +399,20 @@ public class Player {
 	
 	public ArrayList<Item> getActionBar(){
 		return actionBar;
+	}
+	
+	public void recalculateStats(){
+		stats.setIntelligence(baseStats.getIntelligence() + equip.getIntelligence());
+		stats.setStrength(baseStats.getStrength() + equip.getStrength());
+		stats.setVitality(baseStats.getVitality() + equip.getVitality());
+		stats.setWisdom(baseStats.getWisdom() + equip.getWisdom());
+		
+		stats.setpDef(baseStats.getpDef() + equip.getPDef());
+		stats.setmDef(baseStats.getmDef() + equip.getMDef());
+		
+		stats.setFireResistance(baseStats.getFireResistance() + equip.getFireResistance());
+		stats.setIceResistance(baseStats.getIceResistance() + equip.getIceResistance());
+		stats.setElectricResistance(baseStats.getElectricResistance() + equip.getElectricResistance());
+
 	}
 }

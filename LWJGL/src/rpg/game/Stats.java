@@ -83,5 +83,47 @@ public class Stats {
 	public void setElectricResistance(int electricResistance) {
 		this.electricResistance = electricResistance;
 	}
+	public int[] toArray(){
+		int[] stats = new int[9];
+		
+		stats[0] = intelligence;
+		stats[1] = strength;
+		stats[2] = wisdom;
+		stats[3] = vitality;
+		stats[4] = mDef;
+		stats[5] = pDef;
+		stats[6] = fireResistance;
+		stats[7] = iceResistance;
+		stats[8] = electricResistance;
+		
+		return stats;
+	}
+	
+	public String getStatName(int i){
+		String name = null;
+		
+		switch(i){
+		case 0: name = "int";
+		break;
+		case 1: name = "str";
+		break;
+		case 2: name = "wis";
+		break;
+		case 3: name = "vit";
+		break;
+		case 4: name = "mDef";
+		break;
+		case 5: name = "pDef";
+		break;
+		case 6: name = "fireRes";
+		break;
+		case 7: name = "iceRes";
+		break;
+		case 8: name = "eleRes";
+		break;
+		}
+		
+		return name;
+	}
 	
 }

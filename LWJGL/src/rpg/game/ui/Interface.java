@@ -106,11 +106,15 @@ public class Interface {
 		if(Mouse.isButtonDown(1)) button = 1;
 		
 		if(renderLootDialog == true){
-				LootWindow.processInput(button, Mouse.getX(), Mouse.getY());
+			LootWindow.processInput(button, Mouse.getX(), Mouse.getY());
 		}
 		
 		if(renderInventory){
-				Inventory.processInput(button, Mouse.getX(), Mouse.getY());
+			Inventory.processInput(button, Mouse.getX(), Mouse.getY());
+		}
+		
+		if(renderPlayerStats){
+			PlayerStats.processInput(button, Mouse.getX(), Mouse.getY());
 		}
 		
 		ActionBar.update(button, Mouse.getX(), Mouse.getY());

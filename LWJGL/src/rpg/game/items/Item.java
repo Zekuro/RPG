@@ -22,6 +22,7 @@ public abstract class Item {
 	private int stack = 1;
 	private int maxStacks = 99;
 	private boolean stackable;
+	protected boolean isArmor = false;
 	
 	/*
 	 * 	T1 = gewoehnlich 	(grau)
@@ -78,7 +79,9 @@ public abstract class Item {
 		GL11.glEnd();
 	}
 	
-	public abstract void use();
+	public void use(){
+		
+	};
 	
 	public void setTexture(String texturePath){
 		try {
@@ -119,6 +122,10 @@ public abstract class Item {
 	
 	public void setStacks(int i){
 		stack = i;
+	}
+	
+	public boolean isArmor(){
+		return isArmor;
 	}
 	
 }
