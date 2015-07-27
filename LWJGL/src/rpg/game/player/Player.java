@@ -74,6 +74,7 @@ public class Player {
 		}
 		
 		Inventory.add(new SimpleBoots(1, 5));
+		Inventory.add(new SimpleBoots(1, 5));
 		
 		try {
 			 texture = TextureLoader.getTexture("PNG", ResourceLoader.getResourceAsStream("res/player.png"));

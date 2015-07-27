@@ -21,7 +21,7 @@ public abstract class Item {
 
 	private int stack = 1;
 	private int maxStacks = 99;
-	private boolean stackable;
+	protected boolean stackable = true;
 	protected boolean isArmor = false;
 	
 	/*
@@ -130,5 +130,9 @@ public abstract class Item {
 	
 	public int getRequiredLvl(){
 		return requiredLvl;
+	}
+	
+	public boolean isStackable(){
+		return stackable;
 	}
 }

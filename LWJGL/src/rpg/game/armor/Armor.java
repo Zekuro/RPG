@@ -24,6 +24,7 @@ public class Armor extends Item{
 		super(name, tier, requiredLvl, sellPrice, buyPrice, texture);
 		this.type = type;
 		isArmor = true;
+		stackable = false;
 	}
 	
 	public void equip(int inventoryIndex){
