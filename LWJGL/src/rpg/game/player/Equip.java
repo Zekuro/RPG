@@ -1,5 +1,6 @@
 package rpg.game.player;
 
+import rpg.game.Game;
 import rpg.game.armor.Armor;
 
 public class Equip {
@@ -198,5 +199,26 @@ public class Equip {
 		}
 		
 		return value;
+	}
+	
+	public void remove(Armor a){
+		switch(a.getType()){
+		case HEAD:	armorList[0] = null;
+		break;
+		case SHOULDERS:	armorList[1] = null;
+		break;
+		case BREAST: armorList[2] = null;
+		break;
+		case GLOVES:armorList[3] = null;
+		break;
+		case BELT:	armorList[4] = null;
+		break;
+		case PANTS:	armorList[5] = null;
+		break;
+		case SHOES:	armorList[6] = null;
+		break;
+		}
+
+		Game.PLAYER.recalculateStats();
 	}
 }

@@ -191,7 +191,7 @@ public class PlayerStats {
 
 			}else if(button == 1){
 				Inventory.add(armor);
-				armor = null;
+				Game.PLAYER.getEquip().remove(armor);
 			}else if(button == -1){
 				renderArmorInfo = true;
 //				itemName = item.getName();

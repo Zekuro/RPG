@@ -155,6 +155,7 @@ public class Interface {
 		if(selectedEntity != null){
 			renderSelectedEntity();
 		}
+		renderExpBar();
 		renderHealthBar();
 		renderManaBar();
 		ActionBar.render();
@@ -179,6 +180,31 @@ public class Interface {
 		return tex;
 	}
 	
+private void renderExpBar(){
+		
+		int expBarWidth = Game.SCREEN_WIDTH * Game.PLAYER.getExp() / Game.PLAYER.getMaxExp();
+		
+		GL11.glDisable(GL11.GL_TEXTURE_2D);
+			GL11.glColor3f(0.4f, 0, 0.6f);
+			GL11.glBegin(GL11.GL_QUADS);
+			GL11.glVertex2f(x , y + 36);
+			GL11.glVertex2f(x + expBarWidth, y + 36);
+			GL11.glVertex2f(x + expBarWidth, y + 44);
+			GL11.glVertex2f(x , y + 44);
+			GL11.glEnd();
+			GL11.glColor3f(0.7f, 0.5f, 0.9f);
+			GL11.glBegin(GL11.GL_QUADS);
+			GL11.glVertex2f(x + expBarWidth, y + 36);
+			GL11.glVertex2f(x + Game.SCREEN_WIDTH, y + 36);
+			GL11.glVertex2f(x + Game.SCREEN_WIDTH, y + 44);
+			GL11.glVertex2f(x + expBarWidth, y + 44);
+			GL11.glEnd();
+		GL11.glEnable(GL11.GL_TEXTURE_2D);
+		
+		String exp = Game.PLAYER.getExp() + "/" + Game.PLAYER.getMaxExp();
+		Font.render(exp, x + (Game.SCREEN_WIDTH)/2 - exp.length()*4, y + 36);
+		
+	}
 	
 	private void renderHealthBar(){
 		
@@ -193,7 +219,7 @@ public class Interface {
 			GL11.glVertex2f(x + healthBarWidth, y + 32 + 4);
 			GL11.glVertex2f(x , y + 32 + 4);
 			GL11.glEnd();
-			GL11.glColor3f(0.3f, 0.3f, 0.3f);
+			GL11.glColor3f(0.3f, 0, 0);
 			GL11.glBegin(GL11.GL_QUADS);
 			GL11.glVertex2f(x + healthBarWidth, y);
 			GL11.glVertex2f(x + endX, y);
@@ -221,7 +247,7 @@ public class Interface {
 			GL11.glVertex2f(x + startX + manaBarWidth, y + 32 + 4);
 			GL11.glVertex2f(x + startX, y + 32 + 4);
 			GL11.glEnd();
-			GL11.glColor3f(0.3f, 0.3f, 0.3f);
+			GL11.glColor3f(0, 0, 0.3f);
 			GL11.glBegin(GL11.GL_QUADS);
 			GL11.glVertex2f(x + startX + manaBarWidth, y);
 			GL11.glVertex2f(x + endX, y);

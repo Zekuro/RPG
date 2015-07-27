@@ -76,6 +76,10 @@ public class Armor extends Item{
 		Game.PLAYER.recalculateStats();
 	}
 	
+	public Type getType(){
+		return type;
+	}
+	
 	public Stats getStats(){
 		return stats;
 	}

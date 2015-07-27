@@ -41,7 +41,7 @@ public class Player {
 	private int maxExp = 100;
 	private int health = 50;
 	private int mana = 50;
-	private int exp = 0;
+	private int exp = 50;
 	
 	private int healthReg = 5;
 	private int manaReg = 5;
@@ -65,8 +65,7 @@ public class Player {
 		baseStats.setpDef(10);
 		baseStats.setmDef(8);
 		
-		stats = baseStats;
-		
+		recalculateStats();
 		// TODO remove these testcases
 
 		for(int i = 0; i<99; i++){
@@ -362,6 +361,14 @@ public class Player {
 	
 	public int getMaxHealth(){
 		return maxHealth;
+	}
+	
+	public int getExp(){
+		return exp;
+	}
+	
+	public int getMaxExp(){
+		return maxExp;
 	}
 	
 	public int getMaxMana(){

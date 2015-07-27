@@ -90,8 +90,8 @@ public class Stats {
 		stats[1] = strength;
 		stats[2] = wisdom;
 		stats[3] = vitality;
-		stats[4] = mDef;
-		stats[5] = pDef;
+		stats[4] = pDef;
+		stats[5] = mDef;
 		stats[6] = fireResistance;
 		stats[7] = iceResistance;
 		stats[8] = electricResistance;
@@ -111,9 +111,9 @@ public class Stats {
 		break;
 		case 3: name = "vit";
 		break;
-		case 4: name = "mDef";
+		case 4: name = "pDef";
 		break;
-		case 5: name = "pDef";
+		case 5: name = "mDef";
 		break;
 		case 6: name = "fireRes";
 		break;
