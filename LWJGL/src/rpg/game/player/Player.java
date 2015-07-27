@@ -11,7 +11,7 @@ import org.newdawn.slick.util.ResourceLoader;
 import rpg.game.Game;
 import rpg.game.Stats;
 import rpg.game.World;
-import rpg.game.armor.Armor;
+import rpg.game.armor.boots.SimpleBoots;
 import rpg.game.items.Item;
 import rpg.game.items.Item.ItemObject;
 import rpg.game.objects.Chest;
@@ -73,7 +73,7 @@ public class Player {
 			Inventory.add(Item.get(ItemObject.smallManaPotion));
 		}
 		
-		Inventory.add(Armor.get(Armor.ArmorObject.simpleBoots));
+		Inventory.add(new SimpleBoots(1, 5));
 		
 		try {
 			 texture = TextureLoader.getTexture("PNG", ResourceLoader.getResourceAsStream("res/player.png"));

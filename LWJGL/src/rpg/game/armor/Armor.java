@@ -8,7 +8,7 @@ import rpg.game.player.Inventory;
 public class Armor extends Item{
 
 	private Type type;
-	private Stats stats = new Stats();
+	protected Stats stats = new Stats();
 	
 	public static enum Type{
 		HEAD, BREAST, SHOULDERS,BELT,PANTS, SHOES, GLOVES, NECKLACE, RING, EARRING
@@ -18,26 +18,12 @@ public class Armor extends Item{
 		simpleBoots
 	}
 	
+	// TODO ARMOR HAS TO BE UNSTACKABLE
 	public Armor(String name, Type type, Tier tier, int requiredLvl, int sellPrice,
 			int buyPrice, String texture) {
 		super(name, tier, requiredLvl, sellPrice, buyPrice, texture);
 		this.type = type;
 		isArmor = true;
-	}
-	
-	// make an extra class for each armor object to make some different scalings
-	public static Armor get(ArmorObject object){
-		Armor armor = null;
-
-		switch(object){
-		case simpleBoots: 
-			armor = new Armor("Einfache Schuhe", Type.SHOES, Tier.T1, 1, 100, 200, "res/armor/shoes/A_Shoes01.png");
-			armor.getStats().setmDef(2);
-			armor.getStats().setpDef(3);
-			break;
-		}
-		
-		return armor;
 	}
 	
 	public void equip(int inventoryIndex){

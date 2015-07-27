@@ -14,7 +14,7 @@ public abstract class Item {
 	private String name;
 	private Texture texture;
 	private Tier tier;
-	private int neededLvl;
+	protected int requiredLvl;
 	private int sellPrice;
 	private int buyPrice;
 	private final int size = 32;
@@ -45,7 +45,7 @@ public abstract class Item {
 	public Item(String name, Tier tier, int neededLvl, int sellPrice, int buyPrice,String texture){
 		this.name = name;
 		this.tier = tier;
-		this.neededLvl = neededLvl;
+		this.requiredLvl = neededLvl;
 		this.sellPrice = sellPrice;
 		this.buyPrice = buyPrice;
 		setTexture(texture);
@@ -128,4 +128,7 @@ public abstract class Item {
 		return isArmor;
 	}
 	
+	public int getRequiredLvl(){
+		return requiredLvl;
+	}
 }

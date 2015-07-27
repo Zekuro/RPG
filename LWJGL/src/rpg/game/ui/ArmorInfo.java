@@ -17,7 +17,7 @@ public class ArmorInfo {
 		}
 
 		int dialogWidth = armor.getName().length() * 8 + 20;
-		int dialogHeight = 20 + 10 * i;
+		int dialogHeight = 20 + 12 * i;
 
 		
 		int dialogX = Game.PLAYER.getCameraX() + Mouse.getX() + 15;
@@ -46,12 +46,13 @@ public class ArmorInfo {
 		GL11.glEnable(GL11.GL_TEXTURE_2D);
 		
 		Font.render(armor.getName(), dialogX + 10, dialogY + dialogHeight - 16);
+		Font.render("LvL: " + armor.getRequiredLvl(), dialogX + 10, dialogY + dialogHeight - 26);
 		
 		int k = 0;
 		for (int  stat : armor.getStats().toArray()) {
 			if(stat > 0){
-				Font.render(armor.getStats().getStatName(k), dialogX + 10, dialogY + 10 + dialogHeight - k*10);
-				Font.render(Integer.toString(stat), dialogX + 50, dialogY + 10 + dialogHeight - k*10);
+				Font.render(armor.getStats().getStatName(k), dialogX + 10, dialogY + dialogHeight - k*10);
+				Font.render(Integer.toString(stat), dialogX + 50, dialogY + dialogHeight - k*10);
 			}
 			k++;
 		}
