@@ -7,6 +7,7 @@ import org.lwjgl.opengl.GL11;
 
 import rpg.game.Font;
 import rpg.game.Game;
+import rpg.game.armor.Armor;
 import rpg.game.items.Item;
 import rpg.game.player.Inventory;
 
@@ -15,6 +16,7 @@ public class LootWindow {
 	private static String itemName = null;
 	private static boolean renderItemName = false;
 	public static ArrayList<Item> loot = null;
+	private static Armor hoveredArmor = null;
 	
 	public static void renderLootDialog(){
 		// in actual state it is centered
@@ -70,11 +72,15 @@ public class LootWindow {
 			GL11.glColor3f(1, 1, 1);
 			item.render(dialogX + dialogWidth/2 - 16, y + Game.SCREEN_HEIGHT/2 + dialogHeight - i*4 - i*32 - 32);
 			String msg = Integer.toString(item.getStacks());
-			Font.render(msg, dialogX + dialogWidth/2 + 16 - msg.length()* 8, y + Game.SCREEN_HEIGHT/2 + dialogHeight - i*4 - i*32 - 32);
+			if(item.isStackable()) Font.render(msg, dialogX + dialogWidth/2 + 16 - msg.length()* 8, y + Game.SCREEN_HEIGHT/2 + dialogHeight - i*4 - i*32 - 32);
 		}
 		
 		if(renderItemName){
 			Font.render(itemName, Mouse.getX() + Game.PLAYER.getCameraX(), Mouse.getY() + Game.PLAYER.getCameraY() + 10);
+		}
+		
+		if(hoveredArmor != null){
+			ArmorInfo.render(hoveredArmor);
 		}
 		
 	}
@@ -123,10 +129,15 @@ public class LootWindow {
 					Game.UI.renderLootDialog = false;
 				}
 			}else if(button == -1){
-				renderItemName = true;
-				itemName = item.getName();
+				if(item.isArmor()){
+					hoveredArmor = (Armor) item;
+				}else{
+					renderItemName = true;
+					itemName = item.getName();
+				}
 			}
 		}else{
+			hoveredArmor = null;
 			renderItemName = false;
 		}
 	}

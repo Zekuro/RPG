@@ -3,6 +3,7 @@ package rpg.game.objects;
 import java.util.ArrayList;
 
 import rpg.game.Game;
+import rpg.game.armor.boots.SimpleBoots;
 import rpg.game.items.Item;
 import rpg.game.items.Item.ItemObject;
 import rpg.game.player.Inventory;
@@ -20,6 +21,7 @@ public class Chest extends GameObject{
 		Inventory.add(Item.get(ItemObject.smallManaPotion), loot);
 		Inventory.add(Item.get(ItemObject.smallHealthPotion), loot);
 		Inventory.add(Item.get(ItemObject.smallHealthPotion), loot);
+		Inventory.add(new SimpleBoots(1, 1), loot);
 	}
 	
 	public void use(){
