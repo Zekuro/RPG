@@ -92,6 +92,10 @@ public class Inventory {
 		}
 	}
 	
+	public static void remove(int index){
+		inventory[index] = null;
+	}
+	
 	public static Item get(int index){
 		if(index >= 0 && index < 90) return inventory[index];
 		return null;

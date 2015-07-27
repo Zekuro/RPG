@@ -18,7 +18,6 @@ public class Armor extends Item{
 		simpleBoots
 	}
 	
-	// TODO ARMOR HAS TO BE UNSTACKABLE
 	public Armor(String name, Type type, Tier tier, int requiredLvl, int sellPrice,
 			int buyPrice, String texture) {
 		super(name, tier, requiredLvl, sellPrice, buyPrice, texture);
@@ -32,31 +31,31 @@ public class Armor extends Item{
 		switch(this.type){
 		case HEAD:
 			Game.PLAYER.getEquip().setHead(this);
-			Inventory.remove(this);
+			Inventory.remove(inventoryIndex);
 			break;
 		case SHOULDERS:
 			Game.PLAYER.getEquip().setShoulder(this);
-			Inventory.remove(this);
+			Inventory.remove(inventoryIndex);
 			break;
 		case BREAST:
 			Game.PLAYER.getEquip().setBreast(this);
-			Inventory.remove(this);
+			Inventory.remove(inventoryIndex);
 			break;
 		case GLOVES:
 			Game.PLAYER.getEquip().setGloves(this);
-			Inventory.remove(this);
+			Inventory.remove(inventoryIndex);
 			break;
 		case BELT:
 			Game.PLAYER.getEquip().setBelt(this);
-			Inventory.remove(this);
+			Inventory.remove(inventoryIndex);
 			break;
 		case PANTS:
 			Game.PLAYER.getEquip().setPants(this);
-			Inventory.remove(this);
+			Inventory.remove(inventoryIndex);
 			break;
 		case SHOES:
 			Game.PLAYER.getEquip().setShoes(this);
-			Inventory.remove(this);
+			Inventory.remove(inventoryIndex);
 			break;
 		}
 		
