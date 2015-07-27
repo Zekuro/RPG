@@ -23,7 +23,6 @@ public abstract class Item {
 	private int maxStacks = 99;
 	private boolean stackable;
 	
-	
 	/*
 	 * 	T1 = gewoehnlich 	(grau)
 	 * 	T2 = selten			(gelb)
