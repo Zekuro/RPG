@@ -58,8 +58,19 @@ public class QuestLog {
 		
 		// TODO make me look better
 		for (int i = 0; i < questLog.size(); i++) {
+			
+			GL11.glDisable(GL11.GL_TEXTURE_2D);
+			GL11.glColor3f(0.3f, 0.3f, 0.3f);
+			GL11.glBegin(GL11.GL_QUADS);
+			GL11.glVertex2f(x + Game.SCREEN_WIDTH/2-6*38 + 2, y + Game.SCREEN_HEIGHT/2+5*32 - (i+1)*16);
+			GL11.glVertex2f(x + Game.SCREEN_WIDTH/2-2*38 - 2, y + Game.SCREEN_HEIGHT/2+5*32 - (i+1)*16);
+			GL11.glVertex2f(x + Game.SCREEN_WIDTH/2-2*38 - 2, y + Game.SCREEN_HEIGHT/2+5*32 - (i+1)*16 + 14);
+			GL11.glVertex2f(x + Game.SCREEN_WIDTH/2-6*38 + 2, y + Game.SCREEN_HEIGHT/2+5*32 - (i+1)*16 + 14);
+			GL11.glEnd();
+			GL11.glEnable(GL11.GL_TEXTURE_2D);
+			
 			String title = questLog.get(i).getTitle();
-			Font.render(title, x + Game.SCREEN_WIDTH/2-6*38, y + Game.SCREEN_HEIGHT/2+5*32 - 8 - i*8);
+			Font.render(title, x + Game.SCREEN_WIDTH/2-6*38 + 2, y + Game.SCREEN_HEIGHT/2+5*32 - (i+1)*16 + 2);
 		}
 		
 	}

@@ -79,8 +79,9 @@ public class Player {
 		Inventory.add(new SimpleBoots(1, 5));
 		Inventory.add(new SimpleBoots(1, 5));
 		
-		QuestLog.add(new Quest(1, new Item[]{new SimpleBoots(1, 1)}, "Tutorial", "Beschreibung"));
-		
+		QuestLog.add(new Quest(1, new Item[]{new SimpleBoots(1, 1)}, "Tutorial1", "Beschreibung 1"));
+		QuestLog.add(new Quest(1, new Item[]{new SimpleBoots(1, 1)}, "Tutorial2", "Beschreibung 2"));
+
 		// END TESTCASE
 		
 		try {
