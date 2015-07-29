@@ -8,8 +8,10 @@ public class Quest {
 	// REQUIRED
 	private int lvl;
 	private int exp;
+	private int gold;
 	private String title;
 	private String description;
+	private Item[] reward;
 	
 	// MIGHT BE NULL
 	private Item questItem;
@@ -28,8 +30,8 @@ public class Quest {
 	 * @param title
 	 * @param description
 	 */
-	public Quest(int lvl, Entity mob, int quantity, String title, String description){
-		initRequiredParameter(lvl, title, description);
+	public Quest(int lvl, Item[] reward, Entity mob, int quantity, String title, String description){
+		initRequiredParameter(lvl, reward, title, description);
 		this.mob = mob;
 	}
 	
@@ -41,8 +43,8 @@ public class Quest {
 	 * @param title
 	 * @param description
 	 */
-	public Quest(int lvl, Item questItem, int quantity, String title, String description){
-		initRequiredParameter(lvl, title, description);
+	public Quest(int lvl, Item[] reward, Item questItem, int quantity, String title, String description){
+		initRequiredParameter(lvl, reward, title, description);
 		this.questItem = questItem;
 		collectingQuest = true;
 	}
@@ -53,14 +55,31 @@ public class Quest {
 	 * @param title
 	 * @param description
 	 */
-	public Quest(int lvl, String title, String description){
-		initRequiredParameter(lvl, title, description);
+	public Quest(int lvl, Item[] reward, String title, String description){
+		initRequiredParameter(lvl, reward, title, description);
 	}
 	
-	private void initRequiredParameter(int lvl, String title, String description){
+	private void initRequiredParameter(int lvl, Item[] reward, String title, String description){
 		this.lvl = lvl;
 		this.title = title;
 		this.description = description;
+		this.reward = reward;
 		exp = (int) (Math.pow(lvl, 2) + lvl + 25);
+	}
+	
+	public String getTitle(){
+		return title;
+	}
+	
+	public String getDescription(){
+		return description;
+	}
+	
+	public int getExp(){
+		return exp;
+	}
+	
+	public int getLvl(){
+		return lvl;
 	}
 }

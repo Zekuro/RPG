@@ -9,6 +9,7 @@ import org.newdawn.slick.opengl.TextureLoader;
 import org.newdawn.slick.util.ResourceLoader;
 
 import rpg.game.Game;
+import rpg.game.Quest;
 import rpg.game.Stats;
 import rpg.game.World;
 import rpg.game.armor.boots.SimpleBoots;
@@ -17,6 +18,7 @@ import rpg.game.items.Item.ItemObject;
 import rpg.game.objects.Chest;
 import rpg.game.objects.GameObject;
 import rpg.game.objects.Portal;
+import rpg.game.ui.QuestLog;
 
 
 public class Player {
@@ -68,6 +70,7 @@ public class Player {
 		recalculateStats();
 		// TODO remove these testcases
 
+		// START TESTCASES
 		for(int i = 0; i<99; i++){
 			Inventory.add(Item.get(ItemObject.smallHealthPotion));
 			Inventory.add(Item.get(ItemObject.smallManaPotion));
@@ -75,6 +78,10 @@ public class Player {
 		
 		Inventory.add(new SimpleBoots(1, 5));
 		Inventory.add(new SimpleBoots(1, 5));
+		
+		QuestLog.add(new Quest(1, new Item[]{new SimpleBoots(1, 1)}, "Tutorial", "Beschreibung"));
+		
+		// END TESTCASE
 		
 		try {
 			 texture = TextureLoader.getTexture("PNG", ResourceLoader.getResourceAsStream("res/player.png"));
