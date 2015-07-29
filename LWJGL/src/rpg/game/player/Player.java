@@ -214,11 +214,11 @@ public class Player {
 	    GL11.glEnd();
 	}
 	
-	public void levelUp(){
+	private void levelUp(){
+		Game.UI.update = 100;
 		exp = exp - maxExp;
 		lvl++;
-		
-		// calc max exp and other stats
+		maxExp = (int) (16*Math.pow(lvl, 2)+lvl+100);		
 	}
 	
 	public boolean hasCollision(int x, int y){
@@ -345,7 +345,7 @@ public class Player {
 	}
 	
 	public void setHealth(int value){
-		this.health = health;
+		this.health = value;
 	}
 	
 	public int getHealth(){

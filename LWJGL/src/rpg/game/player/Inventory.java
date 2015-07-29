@@ -49,8 +49,9 @@ public class Inventory {
 	}
 	
 	public static void add(Item i, ArrayList<Item> inventory){
+		
 		for (Item item : inventory) {
-			if(i.getClass() ==item.getClass() && item.canAdd()){
+			if(item.isStackable() && i.getClass() ==item.getClass() && item.canAdd()){
 				item.add();
 				return;
 			}
@@ -238,6 +239,15 @@ public class Inventory {
 	
 	public static Item[] getInventory(){
 		return inventory;
+	}
+	
+	public static boolean hasSpace(){
+		
+		for (Item item : inventory) {
+			if(item == null) return true;
+		}
+		
+		return false;
 	}
 	
 }

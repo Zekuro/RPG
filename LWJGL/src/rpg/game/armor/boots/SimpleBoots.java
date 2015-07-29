@@ -9,10 +9,8 @@ public class SimpleBoots extends Armor{
 	
 		requiredLvl = (int) (Math.random()*(maxLvl-minLvl)+minLvl);
 		
-		// TODO SCALING IS INCORRECT... this example is not scaling good, rethink pls
-		// EXAMPLE: LVL * SCALE * ( TIER * (BASE + NUMBER BETWEEN X&Y))
-		stats.setpDef((int) (2 + requiredLvl*0.5));
-		stats.setmDef((int) (2 + requiredLvl*0.3));
+		stats.setpDef(getStatValue());
+		stats.setmDef(getStatValue());
 	}
 
 }

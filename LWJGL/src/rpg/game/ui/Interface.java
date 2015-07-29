@@ -25,6 +25,7 @@ public class Interface {
 	private boolean renderPaused = false;
 	private boolean renderInventory = false;
 	private boolean renderPlayerStats = false;
+	private boolean renderQuestLog = false;
 
 	public boolean renderLootDialog = false;
 	public boolean clickedInventorySlot = false;
@@ -40,12 +41,20 @@ public class Interface {
 	private int playerX;
 	private int playerY;
 	
+	public int update = 0;
+	
 	public void render(){
 		
 		x = Game.PLAYER.getCameraX();
 		y = Game.PLAYER.getCameraY();
 		
+		if(update > 0){
+			Font.renderColored("LVL UP", Game.PLAYER.getX() - 6*4, Game.PLAYER.getY() + 32, 2, 1f, 0.8f, 0);
+			update--;
+		}
+		
 		if(renderInventory)	Inventory.render(x, y);
+		if(renderQuestLog) QuestLog.render(x, y);
 		if(renderPlayerStats) PlayerStats.render();
 		renderStandardUI();
 		renderInfos();
@@ -54,6 +63,7 @@ public class Interface {
 		if(renderPaused)renderPaused();
 		
 		if(dragItem != null) dragItem.render(x + Mouse.getX(), y + Mouse.getY() - 32);
+		
 		
 	}
 	
@@ -139,22 +149,46 @@ public class Interface {
 			renderPaused = Game.isPaused();
 			}
 		}
+		
+		
 		if(!renderPaused){
+			
+			
 			if(Keyboard.isKeyDown(Keyboard.KEY_C)){
-				if(renderInventory){
+				if(renderInventory || renderQuestLog){
 					renderInventory = false;
+					renderQuestLog = false;
 				}else{
 					Game.setPaused(!Game.isPaused());
 				}
 				renderPlayerStats = !renderPlayerStats;
 			}
+			
+			
 			if(Keyboard.isKeyDown(Keyboard.KEY_I)){
-				if(renderPlayerStats){
+				if(renderPlayerStats || renderQuestLog){
+					renderQuestLog = false;
 					renderPlayerStats = false;
 				}else{
 					Game.setPaused(!Game.isPaused());
 				}
 				renderInventory = !renderInventory;
+			}
+			
+			if(Keyboard.isKeyDown(Keyboard.KEY_L)){
+				if(renderPlayerStats || renderInventory){
+					renderPlayerStats = false;
+					renderInventory = false;
+				}else{
+					Game.setPaused(!Game.isPaused());
+				}
+				renderQuestLog = !renderQuestLog;
+			}
+			
+			if(Keyboard.isKeyDown(Keyboard.KEY_X)){
+				int exp = (int) (0.01*Math.pow(Game.PLAYER.getLvl(), 2)+Game.PLAYER.getLvl() + 10);
+				
+				Game.PLAYER.addExp(exp);
 			}
 		}
 	}

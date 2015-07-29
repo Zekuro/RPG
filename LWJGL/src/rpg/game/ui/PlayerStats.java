@@ -23,8 +23,6 @@ public class PlayerStats {
 		
 		Stats stats = Game.PLAYER.getStats();
 		
-		
-		
 		GL11.glDisable(GL11.GL_TEXTURE_2D);
 		
 		GL11.glColor3f(0.5f, 0.5f, 0.5f);
@@ -108,8 +106,6 @@ public class PlayerStats {
 	
 	}
 	
-	// TODO switch equip if sth is alread equipped
-	// TODO unequip when rightclick sth in this overview
 	public static void processInput(int button, int mouseX, int mouseY){
 		int size = 32;
 		int index = -1;
@@ -190,8 +186,10 @@ public class PlayerStats {
 			if(button == 0){
 
 			}else if(button == 1){
-				Inventory.add(armor);
-				Game.PLAYER.getEquip().remove(armor);
+				if(Inventory.hasSpace()){
+					Inventory.add(armor);
+					Game.PLAYER.getEquip().remove(armor);
+				}
 			}else if(button == -1){
 				renderArmorInfo = true;
 //				itemName = item.getName();
