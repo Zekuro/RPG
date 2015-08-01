@@ -80,7 +80,7 @@ public class Player {
 		Inventory.add(new SimpleBoots(1, 5));
 		
 		QuestLog.add(new Quest(1, new Item[]{new SimpleBoots(1, 1)}, "Tutorial1", "Beschreibung 1"));
-		QuestLog.add(new Quest(1, new Item[]{new SimpleBoots(1, 1)}, "Tutorial2", "Beschreibung 2"));
+		QuestLog.add(new Quest(1, new Item[]{new SimpleBoots(1, 1)}, "Tutorial2", "Diese Beschreibung dient als Beipsiel für eine sehr lange Beschreibung ohne Textumbrüche. Diese sollen automatisch eingefügt werden durch den QuestLog. Man soll auch Scrollen können wenn der Text unten zu viel Platz einnimmt."));
 
 		// END TESTCASE
 		

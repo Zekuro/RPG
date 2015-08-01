@@ -134,6 +134,9 @@ public class Interface {
 			PlayerStats.processInput(button, Mouse.getX(), Mouse.getY());
 		}
 		
+		if(renderQuestLog){
+			QuestLog.processInput(button, Mouse.getX(), Mouse.getY());
+		}
 		ActionBar.update(button, Mouse.getX(), Mouse.getY());
 	}
 	

@@ -58,8 +58,17 @@ public class QuestLog {
 		
 		// TODO make me look better
 		for (int i = 0; i < questLog.size(); i++) {
-			
+		
 			GL11.glDisable(GL11.GL_TEXTURE_2D);
+			if(selectedQuest != null && selectedQuest == questLog.get(i)){
+				GL11.glColor3f(1f, 1f, 1f);
+				GL11.glBegin(GL11.GL_QUADS);
+				GL11.glVertex2f(x + Game.SCREEN_WIDTH/2-6*38, y + Game.SCREEN_HEIGHT/2+5*32 - (i+1)*16-2);
+				GL11.glVertex2f(x + Game.SCREEN_WIDTH/2-2*38, y + Game.SCREEN_HEIGHT/2+5*32 - (i+1)*16-2);
+				GL11.glVertex2f(x + Game.SCREEN_WIDTH/2-2*38, y + Game.SCREEN_HEIGHT/2+5*32 - (i+1)*16 + 16);
+				GL11.glVertex2f(x + Game.SCREEN_WIDTH/2-6*38, y + Game.SCREEN_HEIGHT/2+5*32 - (i+1)*16 + 16);
+				GL11.glEnd();
+			}
 			GL11.glColor3f(0.3f, 0.3f, 0.3f);
 			GL11.glBegin(GL11.GL_QUADS);
 			GL11.glVertex2f(x + Game.SCREEN_WIDTH/2-6*38 + 2, y + Game.SCREEN_HEIGHT/2+5*32 - (i+1)*16);
@@ -67,12 +76,38 @@ public class QuestLog {
 			GL11.glVertex2f(x + Game.SCREEN_WIDTH/2-2*38 - 2, y + Game.SCREEN_HEIGHT/2+5*32 - (i+1)*16 + 14);
 			GL11.glVertex2f(x + Game.SCREEN_WIDTH/2-6*38 + 2, y + Game.SCREEN_HEIGHT/2+5*32 - (i+1)*16 + 14);
 			GL11.glEnd();
+
 			GL11.glEnable(GL11.GL_TEXTURE_2D);
 			
 			String title = questLog.get(i).getTitle();
 			Font.render(title, x + Game.SCREEN_WIDTH/2-6*38 + 2, y + Game.SCREEN_HEIGHT/2+5*32 - (i+1)*16 + 2);
 		}
 		
+		
+		// TODO adapt length of description
+		if(selectedQuest != null){
+			String description = selectedQuest.getDescription();
+			Font.render(description, x + Game.SCREEN_WIDTH/2-2*32 + 8, y + Game.SCREEN_HEIGHT/2+5*32 - 16);
+		}
+		
+	}
+	
+	public static void processInput(int button, int mouseX, int mouseY){
+		int x = Game.PLAYER.getCameraX();
+		int y = Game.PLAYER.getCameraY();
+		
+		if(button == 0){
+		for (int i = 0; i < questLog.size(); i++) {
+
+			if(	x + mouseX > x + Game.SCREEN_WIDTH/2-6*38 + 2
+				&& x + mouseX < x + Game.SCREEN_WIDTH/2-2*38 - 2
+				&& y + mouseY > y + Game.SCREEN_HEIGHT/2+5*32 - (i+1)*16
+				&& y + mouseY < y + Game.SCREEN_HEIGHT/2+5*32 - (i+1)*16 + 14){
+				selectedQuest = questLog.get(i);
+			}
+			
+		}
+		}
 	}
 	
 	public static void add(Quest q){
