@@ -80,8 +80,28 @@ public class Player {
 		Inventory.add(new SimpleBoots(1, 5));
 		
 		QuestLog.add(new Quest(1, new Item[]{new SimpleBoots(1, 1)}, "Tutorial1", "Beschreibung 1"));
-		QuestLog.add(new Quest(1, new Item[]{new SimpleBoots(1, 1)}, "Tutorial2", "Diese Beschreibung dient als Beipsiel für eine sehr lange Beschreibung ohne Textumbrüche. Diese sollen automatisch eingefügt werden durch den QuestLog. Man soll auch Scrollen können wenn der Text unten zu viel Platz einnimmt."));
+		
+		String longDescription = "Diese Beschreibung dient als Beipsiel für eine"
+				+ " sehr lange Beschreibung ohne Textumbrüche. "
+				+ "Diese sollen automatisch eingefügt werden durch den QuestLog. "
+				+ "Man soll auch Scrollen können wenn der Text unten zu viel Platz einnimmt. "
+				+ "Am Ende einer Quest sollen auch die Belohnungen zu sehen sein."
+				+ "Das aber auch erst wenn man die Quest so weit heruntergescrollt hat, dass man"
+				+ "am Textende angelangt ist. Als alternative kann man den Text auch beschränken."
+				+ "Testbeispiel Testbeispiel Testbeispiel Testbeispiel Testbeispiel Testbeispiel"
+				+ "Testbeispiel Testbeispiel Testbeispiel Testbeispiel Testbeispiel Testbeispiel"
+				+ "Testbeispiel Testbeispiel Testbeispiel Testbeispiel Testbeispiel Testbeispiel"
+				+ "Testbeispiel Testbeispiel Testbeispiel Testbeispiel Testbeispiel Testbeispiel"
+				+ "Testbeispiel Testbeispiel Testbeispiel Testbeispiel Testbeispiel Testbeispiel"
+				+ "Testbeispiel Testbeispiel Testbeispiel Testbeispiel Testbeispiel Testbeispiel";
+		QuestLog.add(new Quest(1, new Item[]{new SimpleBoots(1, 1)}, "Tutorial2", longDescription));
 
+		int i = 3;
+		while(!QuestLog.isFull()){
+			QuestLog.add(new Quest(1, new Item[]{new SimpleBoots(1,1)},"Tutorial" + i, "Beschreibung " + i));
+			i++;
+		}
+		
 		// END TESTCASE
 		
 		try {

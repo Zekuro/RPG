@@ -9,6 +9,7 @@ import org.newdawn.slick.util.ResourceLoader;
 
 public class Font {
 
+	// TODO umlaute fehlen
 	private static String chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789.,:;'\"!?$%()-=+/ ";
 	
 	private static Texture resource;
