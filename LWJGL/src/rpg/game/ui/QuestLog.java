@@ -85,15 +85,16 @@ public class QuestLog {
 		}
 		
 		
-		// TODO adapt length of description (SCROLLABLE), rewards should be displayed
-		// FIXME 2 lines of previous page are shown
-		// max 20 Zeilen = 35*20 zeichen
+		// TODO rewards should be displayed
+		// max 20 lines = 35*20 letters
 		if(selectedQuest != null){
 			String description = selectedQuest.getDescription();
 
-			for(int i = 0; i <= description.length() / 35 - descriptionOffest*18; i++){
+			int lines = 0;
+			
+			for(int i = 0; i <= description.length() / 35 - descriptionOffest*20; i++){
 				String desc;
-				int lineOffset = i + 18*descriptionOffest;
+				int lineOffset = i + 20*descriptionOffest;
 				
 				if(lineOffset*35+35 <= description.length()){
 					desc = description.substring(lineOffset*35, lineOffset*35+35);
@@ -101,7 +102,7 @@ public class QuestLog {
 					desc = description.substring(lineOffset*35, description.length());
 				}
 				
-				Font.render(desc, x + Game.SCREEN_WIDTH/2-2*32 + 8, y + Game.SCREEN_HEIGHT/2+5*32 - 16 - i* 16);
+				Font.renderColored(desc, x + Game.SCREEN_WIDTH/2-2*32 + 8, y + Game.SCREEN_HEIGHT/2+5*32 - 16 - i* 16, 1, 0.2f, 0.2f, 0.2f);
 
 				// rendering 'previous Page'
 				if(descriptionOffest > 0){
@@ -126,13 +127,19 @@ public class QuestLog {
 					GL11.glVertex2f(x + Game.SCREEN_WIDTH/2+6*38-24, y + Game.SCREEN_HEIGHT/2-5*35+12);
 					GL11.glEnd();
 					GL11.glEnable(GL11.GL_TEXTURE_2D);
-
-					
 					break;
 				}
-			
+			lines = i;
 			}
-		
+
+			
+			// render rewards
+			if(lines <= 12){
+				// render on same page
+			}else if(lines > 12 && description.length() / 35 - (descriptionOffest+1)*20 <= 0){
+				// render on next page
+			}
+			
 		}
 
 		
@@ -159,7 +166,8 @@ public class QuestLog {
 				&& x + mouseX < x + Game.SCREEN_WIDTH/2+6*38
 				&& y + mouseY > y + Game.SCREEN_HEIGHT/2-5*35
 				&& y + mouseY < y + Game.SCREEN_HEIGHT/2-5*35+18
-				&& selectedQuest != null){
+				&& selectedQuest != null
+				&& selectedQuest.getDescription().length() / 35 - descriptionOffest*20 > descriptionOffest*20){
 				descriptionOffest++;
 				break;
 			}
