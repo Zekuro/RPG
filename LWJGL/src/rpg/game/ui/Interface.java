@@ -88,7 +88,7 @@ public class Interface {
 				dragItem = null;
 				Inventory.dragIndex = -1;
 			}
-
+			
 			mouseEvent = Mouse.next();
 			keyEvent = Keyboard.next();
 		}
@@ -116,11 +116,14 @@ public class Interface {
 		
 		int button = -1;
 		
-		if(Mouse.isButtonDown(0)){
-			button = 0;
-		}
-		
+		// 0 = left 1 = right
+		if(Mouse.isButtonDown(0)) button = 0;
 		if(Mouse.isButtonDown(1)) button = 1;
+		
+		if(button == 1 && dragItem != null){
+			dragItem = null;
+			Inventory.dragIndex = -1;
+		}
 		
 		if(renderLootDialog == true){
 			LootWindow.processInput(button, Mouse.getX(), Mouse.getY());

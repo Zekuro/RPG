@@ -6,6 +6,7 @@ import rpg.game.Game;
 import rpg.game.armor.boots.SimpleBoots;
 import rpg.game.items.Item;
 import rpg.game.items.Item.ItemObject;
+import rpg.game.items.Item.Tier;
 import rpg.game.player.Inventory;
 
 
@@ -21,7 +22,7 @@ public class Chest extends GameObject{
 		Inventory.add(Item.get(ItemObject.smallManaPotion), loot);
 		Inventory.add(Item.get(ItemObject.smallHealthPotion), loot);
 		Inventory.add(Item.get(ItemObject.smallHealthPotion), loot);
-		Inventory.add(new SimpleBoots(1, 1), loot);
+		Inventory.add(new SimpleBoots(1, 1, Tier.T2), loot);
 	}
 	
 	public void use(){

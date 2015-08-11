@@ -76,14 +76,18 @@ public class Armor extends Item{
 		Game.PLAYER.recalculateStats();
 	}
 	
-	public int getStatValue(){
+	public int getStatValue(int b){
 		
 		double scale = 0.038 + 0.002 * getTier().ordinal();
 		double c = 8 + 2* getTier().ordinal();
 		
 		int boni = (int) (scale*Math.pow(requiredLvl, 2)+requiredLvl+c);
 		
+		// not quite sure
+//		boni += (getTier().ordinal()-1) * b;
 		int higherBoni = (int) ((scale+0.002)*Math.pow(requiredLvl, 2)+requiredLvl+(c+2));
+		
+//		int higherBoni = getTier().ordinal()*b;
 		
 		boni = (int) (Math.random()*(higherBoni-boni) + boni);
 		

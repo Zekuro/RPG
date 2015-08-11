@@ -12,9 +12,11 @@ import rpg.game.Game;
 import rpg.game.Quest;
 import rpg.game.Stats;
 import rpg.game.World;
+import rpg.game.armor.body.SimpleClothArmor;
 import rpg.game.armor.boots.SimpleBoots;
 import rpg.game.items.Item;
 import rpg.game.items.Item.ItemObject;
+import rpg.game.items.Item.Tier;
 import rpg.game.objects.Chest;
 import rpg.game.objects.GameObject;
 import rpg.game.objects.Portal;
@@ -76,10 +78,10 @@ public class Player {
 			Inventory.add(Item.get(ItemObject.smallManaPotion));
 		}
 		
-		Inventory.add(new SimpleBoots(1, 5));
-		Inventory.add(new SimpleBoots(1, 5));
+		Inventory.add(new SimpleBoots(1, 5, Tier.T1));
+		Inventory.add(new SimpleClothArmor(1, 5, Tier.T1));
 		
-		QuestLog.add(new Quest(1, new Item[]{new SimpleBoots(1, 1)}, "Tutorial1", "Beschreibung 1"));
+		QuestLog.add(new Quest(1, new Item[]{new SimpleBoots(1, 1, Tier.T1)}, "Tutorial1", "Beschreibung 1"));
 		
 		String longDescription = ""
 				+ "Diese Beschreibung dient als Bei-  "
@@ -109,11 +111,11 @@ public class Player {
 				+ "Testbeispiel Testbeispiel Testbeispiel Testbeispiel Testbeispiel Testbeispiel"
 				+ "Testbeispiel Testbeispiel Testbeispiel Testbeispiel Testbeispiel Testbeispiel"
 				+ "Testbeispiel Testbeispiel Testbeispiel Testbeispiel Testbeispiel Testbeispiel";
-		QuestLog.add(new Quest(1, new Item[]{new SimpleBoots(1, 1)}, "Tutorial2", longDescription));
+		QuestLog.add(new Quest(1, new Item[]{new SimpleBoots(1, 1, Tier.T1)}, "Tutorial2", longDescription));
 
 		int i = 3;
 		while(!QuestLog.isFull()){
-			QuestLog.add(new Quest(1, new Item[]{new SimpleBoots(1,1)},"Tutorial" + i, "Beschreibung " + i));
+			QuestLog.add(new Quest(1, new Item[]{new SimpleBoots(1,1, Tier.T1)},"Tutorial" + i, "Beschreibung " + i));
 			i++;
 		}
 		
