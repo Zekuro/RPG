@@ -1,6 +1,7 @@
 package rpg.game.ui;
 
 import org.lwjgl.input.Keyboard;
+import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.GL11;
 
 import rpg.game.Font;
@@ -12,10 +13,13 @@ public class Map {
 	
 	private static int scale = 4;
 	
+	private static int mouseX = 0;
+	private static int mouseY = 0;
+	
 	private static int mapOffsetX = 0;
 	private static int mapOffsetY = 0;
 	
-	private static int scrollSpeed = scale;
+	private static int scrollSpeed = 32/scale;
 	
 	// FIXME starting at 0:0 with mapOffsetX & Y = 0 fix out of map check here too when it starts at player pos
 	// FIXME only render specific sectors, else it is lagging!
@@ -69,7 +73,7 @@ public class Map {
 	// FIXME fix me when starting at player pos (fix offset out of bounds check)
 	public static void processInput(){
 		
-		if(Keyboard.isKeyDown(Keyboard.KEY_W) && mapOffsetY  - scrollSpeed > -Game.WORLD_HEIGHT/scale){
+		if(Keyboard.isKeyDown(Keyboard.KEY_W) && mapOffsetY  - scrollSpeed > -Game.WORLD_HEIGHT/scale+Game.SCREEN_HEIGHT){
 			mapOffsetY -= scrollSpeed;
 		}
 		if(Keyboard.isKeyDown(Keyboard.KEY_A) && mapOffsetX + scrollSpeed < 0){
@@ -78,8 +82,37 @@ public class Map {
 		if(Keyboard.isKeyDown(Keyboard.KEY_S) && mapOffsetY + scrollSpeed < 0){
 			mapOffsetY += scrollSpeed;
 		}
-		if(Keyboard.isKeyDown(Keyboard.KEY_D) && mapOffsetX - scrollSpeed > -Game.WORLD_WIDTH/scale){
+		if(Keyboard.isKeyDown(Keyboard.KEY_D) && mapOffsetX - scrollSpeed > -Game.WORLD_WIDTH/scale+Game.SCREEN_WIDTH){
 			mapOffsetX -= scrollSpeed;
+		}
+		
+		
+		
+		while(Mouse.next()){
+		
+			if(!Mouse.isButtonDown(0)){
+				mouseX = Mouse.getX();
+				mouseY = Mouse.getY();
+			}
+			
+			if(Mouse.isButtonDown(0)){
+				
+				if(mouseX - Mouse.getX() > 0 && mapOffsetX - scrollSpeed > -Game.WORLD_WIDTH/scale+Game.SCREEN_WIDTH){
+					mapOffsetX -= scrollSpeed * scale;
+				}else if(mouseX - Mouse.getX() < 0 && mapOffsetX + scrollSpeed < 0){
+					mapOffsetX += scrollSpeed * scale;
+				}
+				
+				if(mouseY - Mouse.getY() > 0 && mapOffsetY  - scrollSpeed > -Game.WORLD_HEIGHT/scale+Game.SCREEN_HEIGHT){
+					mapOffsetY -= scrollSpeed * scale;
+				}else if(mouseY - Mouse.getY() < 0 && mapOffsetY + scrollSpeed < 0){
+					mapOffsetY += scrollSpeed * scale;
+				}
+				
+				mouseX = Mouse.getX();
+				mouseY = Mouse.getY();
+			}
+			
 		}
 		
 		

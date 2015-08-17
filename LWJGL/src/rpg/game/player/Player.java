@@ -81,29 +81,32 @@ public class Player {
 		Inventory.add(new SimpleClothArmor(1, 5, Tier.T1));
 		
 		Item[] actionBar = ActionBar.getActionBar();
-		actionBar[0] = new Skill("TEST", Tier.T1, SkillType.PROJECTILE);
+		actionBar[0] = new Skill("Projektil", Tier.T1, SkillType.PROJECTILE);
+		actionBar[1] = new Skill("Laser", Tier.T1, SkillType.LASER);
+		actionBar[2] = new Skill("Impakt", Tier.T1, SkillType.IMPACT);
+		actionBar[3] = new Skill("Aura", Tier.T1, SkillType.AURA);
 		
 		QuestLog.add(new Quest(1, new Item[]{new SimpleBoots(1, 1, Tier.T1)}, "Tutorial1", "Beschreibung 1"));
 		
 		String longDescription = ""
 				+ "Diese Beschreibung dient als Bei-  "
-				+ "spiel für eine sehr lange Beschrei-"
+				+ "spiel f��r eine sehr lange Beschrei-"
 				+ "bung.                              "
-				+ "Ob Textumbrüche automatisch oder   "
-				+ "manuell eingefügt werden sollen,   "
+				+ "Ob Textumbr��che automatisch oder   "
+				+ "manuell eingef��gt werden sollen,   "
 				+ "muss noch getestet werden. Falls   "
-				+ "diese automatisch eingefügt werden "
-				+ "sollen, dann muss dafür noch ein   "
+				+ "diese automatisch eingef��gt werden "
+				+ "sollen, dann muss daf��r noch ein   "
 				+ "Parser gebastelt werden.           "
-				+ "Man soll auch weiterblättern können"
+				+ "Man soll auch weiterbl��ttern k��nnen"
 				+ "wenn der Text unten zu viel Platz  "
 				+ "einnimmt.                          "
 				+ "Am Ende einer Quest sollen auch die"
 				+ "Belohnungen zu sehen sein. Das aber"
 				+ "auch erst wenn man alle Seiten     "
-				+ "durchgeblättert hat. Da muss noch  "
-				+ "geklärt werden wie das genau sein  "
-				+ "soll. Wenn noch genügend Platz ist "
+				+ "durchgebl��ttert hat. Da muss noch  "
+				+ "gekl��rt werden wie das genau sein  "
+				+ "soll. Wenn noch gen��gend Platz ist "
 				+ "Dann kann es noch auf die Seite mit"
 				+ "drauf, ansonsten muss eine neue    "
 				+ "Seite her.                         "
