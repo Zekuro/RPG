@@ -8,6 +8,8 @@ import org.newdawn.slick.opengl.Texture;
 import org.newdawn.slick.opengl.TextureLoader;
 import org.newdawn.slick.util.ResourceLoader;
 
+import rpg.game.Game;
+
 public class GameObject {
 
 	private byte id;
@@ -60,6 +62,23 @@ public class GameObject {
 		GL11.glVertex2f(x+texture.getImageWidth(), y+texture.getImageHeight());
 		GL11.glTexCoord2f(0,0);
 		GL11.glVertex2f(x, y+texture.getImageHeight());
+		GL11.glEnd();
+	}
+	
+	public void mapRender(int scale, int xOff, int yOff){
+		Color.white.bind();
+		if(texture == null) texture = tile.getTexture();
+		texture.bind(); // or GL11.glBind(texture.getTextureID());
+		
+		GL11.glBegin(GL11.GL_QUADS);
+		GL11.glTexCoord2f(0, 1);
+		GL11.glVertex2f(x/scale + Game.PLAYER.getCameraX() + xOff, y/scale + Game.PLAYER.getCameraY() + yOff);
+		GL11.glTexCoord2f(1,1);
+		GL11.glVertex2f(x/scale+texture.getImageWidth()/scale + Game.PLAYER.getCameraX() + xOff, y/scale + Game.PLAYER.getCameraY() + yOff);
+		GL11.glTexCoord2f(1,0);
+		GL11.glVertex2f(x/scale+texture.getImageWidth()/scale + Game.PLAYER.getCameraX() + xOff, y/scale+texture.getImageHeight()/scale + Game.PLAYER.getCameraY() + yOff);
+		GL11.glTexCoord2f(0,0);
+		GL11.glVertex2f(x/scale + Game.PLAYER.getCameraX() + xOff, y/scale+texture.getImageHeight()/scale + Game.PLAYER.getCameraY() + yOff);
 		GL11.glEnd();
 	}
 	

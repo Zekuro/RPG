@@ -21,11 +21,13 @@ import rpg.game.player.Inventory;
 
 public class Interface {
 
+	// put these into their class?
 	private boolean renderInfos = false;
 	private boolean renderPaused = false;
 	private boolean renderInventory = false;
 	private boolean renderPlayerStats = false;
 	private boolean renderQuestLog = false;
+	private boolean renderMap = false;
 
 	public boolean renderLootDialog = false;
 	public boolean clickedInventorySlot = false;
@@ -64,7 +66,6 @@ public class Interface {
 		
 		if(dragItem != null) dragItem.render(x + Mouse.getX(), y + Mouse.getY() - 32);
 		
-		
 	}
 	
 	public void update(){
@@ -72,11 +73,14 @@ public class Interface {
 		boolean mouseEvent = Mouse.next();
 		boolean keyEvent = Keyboard.next();
 		
+		if(renderMap) Map.processInput();
+
 		while(mouseEvent || keyEvent){
 			if(mouseEvent) processMouseEvents();
 		
 			if(keyEvent) processKeyEvents();
 		
+			
 			if(renderLootDialog && (playerX != Game.PLAYER.getX() || playerY != Game.PLAYER.getY())){
 				renderLootDialog = false;
 			}
@@ -161,9 +165,10 @@ public class Interface {
 			
 			
 			if(Keyboard.isKeyDown(Keyboard.KEY_C)){
-				if(renderInventory || renderQuestLog){
+				if(renderInventory || renderQuestLog || renderMap){
 					renderInventory = false;
 					renderQuestLog = false;
+					renderMap = false;
 				}else{
 					Game.setPaused(!Game.isPaused());
 				}
@@ -172,9 +177,10 @@ public class Interface {
 			
 			
 			if(Keyboard.isKeyDown(Keyboard.KEY_I)){
-				if(renderPlayerStats || renderQuestLog){
+				if(renderPlayerStats || renderQuestLog || renderMap){
 					renderQuestLog = false;
 					renderPlayerStats = false;
+					renderMap = false;
 				}else{
 					Game.setPaused(!Game.isPaused());
 				}
@@ -182,13 +188,25 @@ public class Interface {
 			}
 			
 			if(Keyboard.isKeyDown(Keyboard.KEY_L)){
-				if(renderPlayerStats || renderInventory){
+				if(renderPlayerStats || renderInventory || renderMap){
 					renderPlayerStats = false;
 					renderInventory = false;
+					renderMap = false;
 				}else{
 					Game.setPaused(!Game.isPaused());
 				}
 				renderQuestLog = !renderQuestLog;
+			}
+			
+			if(Keyboard.isKeyDown(Keyboard.KEY_M)){
+				if(renderPlayerStats || renderInventory || renderQuestLog){
+					renderPlayerStats = false;
+					renderInventory = false;
+					renderQuestLog = false;
+				}else{
+					Game.setPaused(!Game.isPaused());
+				}
+				renderMap = !renderMap;
 			}
 			
 			if(Keyboard.isKeyDown(Keyboard.KEY_X)){
@@ -366,6 +384,10 @@ private void renderExpBar(){
 	
 	public boolean isRenderingPlayerStats(){
 		return renderPlayerStats;
+	}
+	
+	public boolean isRenderingMap(){
+		return renderMap;
 	}
 
 	public Item getDragItem(){

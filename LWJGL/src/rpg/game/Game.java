@@ -10,6 +10,7 @@ import org.lwjgl.opengl.GL11;
 
 import rpg.game.player.Player;
 import rpg.game.ui.Interface;
+import rpg.game.ui.Map;
 
 
 public class Game {
@@ -177,12 +178,17 @@ public class Game {
 			Font.render(msg, SCREEN_WIDTH/2-msg.length()*16/2, SCREEN_HEIGHT/2,2);
 		}else{
 		
-		world.render(World.backgroundTiles);
-//		world.renderBackground();
-		PLAYER.render();
-		world.renderEntities();
-		world.renderObjects();
-		UI.render();
+		if(!UI.isRenderingMap()){
+			world.render(World.backgroundTiles);
+//			world.renderBackground();
+			PLAYER.render();
+			world.renderEntities();
+			world.renderObjects();
+			UI.render();
+		}else{
+			Map.render(world);
+		}
+		
 		}
 		Display.update();
 	}

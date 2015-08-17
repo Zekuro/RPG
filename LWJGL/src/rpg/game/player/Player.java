@@ -259,6 +259,23 @@ public class Player {
 	    GL11.glEnd();
 	}
 	
+	public void mapRender(int scale, int offX, int offY){
+		GL11.glBindTexture(GL11.GL_TEXTURE_2D, 0);
+
+		texture.bind(); // or GL11.glBind(texture.getTextureID());
+		
+		GL11.glBegin(GL11.GL_QUADS);
+		GL11.glTexCoord2f((textPos%4-1)*0.25f, (textPos/4+1)*0.25f);
+		GL11.glVertex2f(x/scale + cameraX + offX, y/scale + cameraY + offY);
+		GL11.glTexCoord2f(textPos%4*0.25f,(textPos/4+1)*0.25f);
+		GL11.glVertex2f(x/scale+width/scale + cameraX + offX, y/scale + cameraY + offY);
+		GL11.glTexCoord2f(textPos%4*0.25f,textPos/4*0.25f);
+		GL11.glVertex2f(x/scale+width/scale + cameraX + offX, y/scale+height/scale + cameraY + offY);
+		GL11.glTexCoord2f((textPos%4-1)*0.25f,textPos/4*0.25f);
+		GL11.glVertex2f(x/scale + cameraX + offX, y/scale+height/scale + cameraY + offY);
+	    GL11.glEnd();
+	}
+	
 	private void levelUp(){
 		Game.UI.update = 100;
 		exp = exp - maxExp;
