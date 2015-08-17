@@ -1,7 +1,10 @@
 package rpg.game.skills;
 
+import java.awt.Point;
 import java.util.ArrayList;
 
+import rpg.game.Game;
+import rpg.game.World;
 import rpg.game.items.Item;
 
 public class Skill extends Item{
@@ -19,7 +22,14 @@ public class Skill extends Item{
 	}
 	
 	private SkillType type;
+	
+	private int requiredMana;
 
+	private int damage;
+	private int fireDamage;
+	private int iceDamage;
+	private int electricDamage;
+	
 	private ArrayList<SkillEffect> skillEffects = new ArrayList();
 	private ArrayList<Element> elements = new ArrayList();
 	
@@ -89,6 +99,43 @@ public class Skill extends Item{
 	public void use(){
 		// use skill by type
 		// add effects & element
+	
+		switch(type){
+		case PROJECTILE: projectileAttack();
+			break;
+		case LASER: laserAttack();
+			break;
+		case IMPACT: impactAttack();
+			break;
+		case AURA: auraAttack();
+			break;
+		}
+	
 	}
 	
+	private void projectileAttack(){
+		
+		Point startPoint = new Point(Game.PLAYER.getX(), Game.PLAYER.getY());
+		Point endPoint = new Point(Game.PLAYER.getX(), Game.PLAYER.getY());
+		
+		
+		if(skillEffects.isEmpty()){
+			Projectile projectile = new Projectile(32, 2, 5,startPoint, endPoint, "/res/skills/S_Fire05.png");
+			World.objectList.add(projectile);
+		}
+		
+		
+	}
+	
+	private void laserAttack(){
+		
+	}
+	
+	private void impactAttack(){
+		
+	}
+	
+	private void auraAttack(){
+		
+	}
 }

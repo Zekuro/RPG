@@ -15,11 +15,12 @@ public class GameObject {
 	private byte id;
 	protected int x;
 	protected int y;
+	protected float r;
 	protected int colOffsetX;
 	protected int colOffsetY;
 	protected int width;
 	protected int height;
-	private Tile tile;
+	protected Tile tile;
 	protected Texture texture;
 	
 	protected String name;
@@ -53,15 +54,19 @@ public class GameObject {
 		if(texture == null) texture = tile.getTexture();
 		texture.bind(); // or GL11.glBind(texture.getTextureID());
 		
+		// ROTATE ME!!!
+		float originX = (float) x + texture.getWidth();
+		float originY = (float) y + texture.getHeight();
+		
 		GL11.glBegin(GL11.GL_QUADS);
 		GL11.glTexCoord2f(0, 1);
-		GL11.glVertex2f(x, y);
+		GL11.glVertex2d(x, y);
 		GL11.glTexCoord2f(1,1);
-		GL11.glVertex2f(x+texture.getImageWidth(), y);
+		GL11.glVertex2d(x+texture.getImageWidth(), y);
 		GL11.glTexCoord2f(1,0);
-		GL11.glVertex2f(x+texture.getImageWidth(), y+texture.getImageHeight());
+		GL11.glVertex2d(x+texture.getImageWidth(), y+texture.getImageHeight());
 		GL11.glTexCoord2f(0,0);
-		GL11.glVertex2f(x, y+texture.getImageHeight());
+		GL11.glVertex2d(x, y+texture.getImageHeight());
 		GL11.glEnd();
 	}
 	
