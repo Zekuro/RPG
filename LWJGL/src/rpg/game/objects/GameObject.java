@@ -66,7 +66,6 @@ public class GameObject {
 	}
 	
 	public void mapRender(int scale, int xOff, int yOff){
-		Color.white.bind();
 		if(texture == null) texture = tile.getTexture();
 		texture.bind(); // or GL11.glBind(texture.getTextureID());
 		

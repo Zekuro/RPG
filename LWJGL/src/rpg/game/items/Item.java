@@ -13,7 +13,7 @@ public abstract class Item {
 
 	private String name;
 	private Texture texture;
-	private Tier tier;
+	protected Tier tier;
 	protected int requiredLvl;
 	private int sellPrice;
 	private int buyPrice;
@@ -23,6 +23,7 @@ public abstract class Item {
 	private int maxStacks = 99;
 	protected boolean stackable = true;
 	protected boolean isArmor = false;
+	protected boolean isSkill = false;
 	
 	/*
 	 * 	T1 = gewoehnlich 	(weiß)

@@ -52,9 +52,10 @@ public class ActionBar {
 					}
 				}
 
+				if(actionBar[i].isStackable()){
 				String msg = Integer.toString(stacks);
 				Font.render(msg,Game.PLAYER.getCameraX() + Game.SCREEN_WIDTH / 2 - ACTIONSLOTS*17 + i*2 + i*32 + 32 - 8*msg.length(), Game.PLAYER.getCameraY() + 2);
-				
+				}
 			}
 			
 			
@@ -181,4 +182,8 @@ public class ActionBar {
 		
 	}
 	
+	
+	public static Item[] getActionBar(){
+		return actionBar;
+	}
 }

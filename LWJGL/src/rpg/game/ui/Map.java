@@ -34,10 +34,9 @@ public class Map {
 		GL11.glEnable(GL11.GL_TEXTURE_2D);
 		
 		// stretch to screen
-//		while(Game.WORLD_WIDTH/scale < Game.SCREEN_WIDTH && Game.WORLD_HEIGHT/scale < Game.SCREEN_HEIGHT){
-//			scale -= 2;
-//		}
-		
+		while(Game.WORLD_WIDTH/scale < Game.SCREEN_WIDTH && Game.WORLD_HEIGHT/scale < Game.SCREEN_HEIGHT){
+			scale -= 2;
+		}
 		if(Game.WORLD_WIDTH/scale < Game.SCREEN_WIDTH){
 			mapOffsetX = (Game.SCREEN_WIDTH - Game.WORLD_WIDTH/scale)/2;
 		}
@@ -45,7 +44,9 @@ public class Map {
 		if(Game.WORLD_HEIGHT/scale < Game.SCREEN_HEIGHT){
 			mapOffsetY = (Game.SCREEN_HEIGHT - Game.WORLD_HEIGHT/scale)/2;
 		}
+
 		
+		GL11.glColor3f(1f, 0.9f, 0.7f);
 		for (GameObject object : world.backgroundTiles) {
 			object.mapRender(scale, mapOffsetX, mapOffsetY);
 		}

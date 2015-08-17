@@ -1,6 +1,5 @@
 package rpg.game.player;
 import java.io.IOException;
-import java.util.ArrayList;
 
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.GL11;
@@ -20,6 +19,8 @@ import rpg.game.items.Item.Tier;
 import rpg.game.objects.Chest;
 import rpg.game.objects.GameObject;
 import rpg.game.objects.Portal;
+import rpg.game.skills.Skill;
+import rpg.game.skills.Skill.SkillType;
 import rpg.game.ui.QuestLog;
 
 
@@ -54,8 +55,6 @@ public class Player {
 	private Stats stats = new Stats();
 	private Equip equip = new Equip();
 	
-	private ArrayList<Item> actionBar = new ArrayList<Item>();
-	
 	public Player(int x, int y){
 		this.x = x;
 		this.y = y;
@@ -80,6 +79,9 @@ public class Player {
 		
 		Inventory.add(new SimpleBoots(1, 5, Tier.T1));
 		Inventory.add(new SimpleClothArmor(1, 5, Tier.T1));
+		
+		Item[] actionBar = ActionBar.getActionBar();
+		actionBar[0] = new Skill("TEST", Tier.T1, SkillType.PROJECTILE);
 		
 		QuestLog.add(new Quest(1, new Item[]{new SimpleBoots(1, 1, Tier.T1)}, "Tutorial1", "Beschreibung 1"));
 		
@@ -465,10 +467,6 @@ public class Player {
 	
 	public Equip getEquip(){
 		return equip;
-	}
-	
-	public ArrayList<Item> getActionBar(){
-		return actionBar;
 	}
 	
 	public void recalculateStats(){
