@@ -3,6 +3,8 @@ package rpg.game.skills;
 import java.awt.Point;
 import java.util.ArrayList;
 
+import org.lwjgl.input.Mouse;
+
 import rpg.game.Game;
 import rpg.game.World;
 import rpg.game.items.Item;
@@ -23,7 +25,8 @@ public class Skill extends Item{
 	
 	private SkillType type;
 	
-	private int requiredMana;
+	// FIXME CHANGE ME!!!
+	private int requiredMana = 20;
 
 	private int damage;
 	private int fireDamage;
@@ -100,6 +103,8 @@ public class Skill extends Item{
 		// use skill by type
 		// add effects & element
 	
+		if(Game.PLAYER.reduceMana(requiredMana)){
+		
 		switch(type){
 		case PROJECTILE: projectileAttack();
 			break;
@@ -110,17 +115,19 @@ public class Skill extends Item{
 		case AURA: auraAttack();
 			break;
 		}
-	
+		
+		}
+		
 	}
 	
 	private void projectileAttack(){
 		
 		Point startPoint = new Point(Game.PLAYER.getX(), Game.PLAYER.getY());
-		Point endPoint = new Point(Game.PLAYER.getX(), Game.PLAYER.getY());
+		Point endPoint = new Point(Mouse.getX() + Game.PLAYER.getCameraX(), Mouse.getY()+ Game.PLAYER.getCameraY());
 		
 		
 		if(skillEffects.isEmpty()){
-			Projectile projectile = new Projectile(32, 2, 5,startPoint, endPoint, "/res/skills/S_Fire05.png");
+			Projectile projectile = new Projectile(32, 8, 5,startPoint, endPoint, "/res/skills/S_Fire05.png");
 			World.objectList.add(projectile);
 		}
 		

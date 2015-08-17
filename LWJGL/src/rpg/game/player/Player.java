@@ -459,6 +459,17 @@ public class Player {
 		mana += value;
 		if(mana> maxMana) mana= maxMana;
 	}
+	
+	public boolean reduceMana(int value){
+		boolean v = false;
+		
+		if(mana - value >= 0){
+			mana-= value;
+			v = true;
+		}
+		
+		return v;
+	}
 
 	public int getLvl(){
 		return lvl;

@@ -22,12 +22,20 @@ public class Projectile extends GameObject{
 			this.startPoint = startPoint;
 			this.endPoint = endPoint;
 			this.setPosition((int) startPoint.getX(), (int)startPoint.getY());
-			r = 0;
+			degree = 0;
 	}
 	
 	
 	public void update(){
-		r++;
+
+//		x+=speed;
+//		y= f(x);
+		
+		if(startPoint.getX() < endPoint.getX()) x+= speed;
+		if(startPoint.getX() > endPoint.getX()) x-= speed;
+		if(startPoint.getY() < endPoint.getY()) y+= speed;
+		if(startPoint.getY() > endPoint.getY()) y-= speed;
+	
 	}
 	
 	public int getSize() {
