@@ -37,11 +37,11 @@ public class Projectile extends GameObject{
 	
 	public void update(){
 		
-		// FIXME bugged!!
 		if(endPoint.getX() > startPoint.getX()){
 			x += speed*Math.cos(Math.atan(m));
 			y += speed*Math.sin(Math.atan(m));
-		}else if(endPoint.getX() < startPoint.getY()){
+		}else if(endPoint.getX() < startPoint.getX()){
+			// FIXME bugged!!
 			x -= speed*Math.cos(Math.atan(m));
 			y -= speed*Math.sin(Math.atan(m));
 		}else if(endPoint.getX() == startPoint.getX()){
