@@ -10,6 +10,8 @@ public class Projectile extends GameObject{
 	private int size;
 	private int speed;
 	private int damage;
+	private int delta;
+	
 	
 	private Point startPoint;
 	private Point endPoint;
@@ -27,15 +29,24 @@ public class Projectile extends GameObject{
 	
 	
 	public void update(){
-
-//		x+=speed;
-//		y= f(x);
+		double m = (endPoint.getY() - startPoint.getY())/(endPoint.getX() - startPoint.getX());
 		
-		if(startPoint.getX() < endPoint.getX()) x+= speed;
-		if(startPoint.getX() > endPoint.getX()) x-= speed;
-		if(startPoint.getY() < endPoint.getY()) y+= speed;
-		if(startPoint.getY() > endPoint.getY()) y-= speed;
-	
+		if(endPoint.getX() > startPoint.getX()){
+			x += speed*Math.cos(Math.atan(m));
+			y += speed*Math.sin(Math.atan(m));
+		}else if(endPoint.getX() < startPoint.getY()){
+			x -= speed*Math.cos(Math.atan(m));
+			y -= speed*Math.sin(Math.atan(m));
+		}else if(endPoint.getX() == startPoint.getX()){
+			
+			if(endPoint.getY() > startPoint.getY()){
+				y += speed;
+			}else{
+				y -= speed;
+			}
+			
+		}
+		
 	}
 	
 	public int getSize() {

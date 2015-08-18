@@ -26,7 +26,7 @@ public class Skill extends Item{
 	private SkillType type;
 	
 	// FIXME CHANGE ME!!!
-	private int requiredMana = 20;
+	private int requiredMana = 0;
 
 	private int damage;
 	private int fireDamage;
