@@ -39,7 +39,7 @@ public class Skill extends Item{
 	
 	
 	public Skill(String name, Tier tier, SkillType type) {
-		super(name, tier, 0, 0, 0, "");
+		super(name, tier, 0, 0, 0, "/res/skills/S_Fire05.png");
 		this.type = type;
 		
 		String texturePath = "/res/skills/";
