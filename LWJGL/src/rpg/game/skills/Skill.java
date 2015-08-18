@@ -127,7 +127,7 @@ public class Skill extends Item{
 		
 		
 		if(skillEffects.isEmpty()){
-			World.effects.add(new Projectile(32,100, 8, 5,startPoint, endPoint, "/res/skills/S_Fire05.png"));
+			World.effects.add(new Projectile(32,300, 8, 5,startPoint, endPoint, "/res/skills/S_Fire05.png"));
 		}
 		
 		

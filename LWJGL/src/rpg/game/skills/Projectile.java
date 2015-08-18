@@ -2,14 +2,13 @@ package rpg.game.skills;
 
 import java.awt.Point;
 
-import rpg.game.World;
 import rpg.game.objects.GameObject;
 
 public class Projectile extends GameObject{
 
 
 	private int range;
-	private int size;
+	private int shootRange;
 	private int speed;
 	private int damage;
 	private double m;
@@ -19,7 +18,7 @@ public class Projectile extends GameObject{
 	
 	public Projectile(int size, int range, int speed, int damage, Point startPoint, Point endPoint, String texture) {
 		super(false, false, size, size, texture);
-			this.size = size;
+			this.shootRange = range;
 			this.speed = speed;
 			this.damage = damage;
 			this.startPoint = startPoint;
@@ -38,9 +37,7 @@ public class Projectile extends GameObject{
 	
 	public void update(){
 		
-		int xs = x;
-		int ys = y;
-		
+		// FIXME bugged!!
 		if(endPoint.getX() > startPoint.getX()){
 			x += speed*Math.cos(Math.atan(m));
 			y += speed*Math.sin(Math.atan(m));
@@ -57,23 +54,15 @@ public class Projectile extends GameObject{
 			
 		}
 		
-//		range -= Math.sqrt((x-startPoint.getX())^2+(y-startPoint.getY())^2);
-		//TODO REMOVE ME! concurrency probs
-		if(range <= 0) World.effects.remove(this);
+		range = (int) Math.sqrt(Math.pow((x-startPoint.getX()),2)+Math.pow((y-startPoint.getY()),2));
+		if(range > shootRange) destroy();
+		
 	}
 	
 	public int getRange(){
-		return range;
+		return shootRange;
 	}
 	
-	public int getSize() {
-		return size;
-	}
-
-	public void setSize(int size) {
-		this.size = size;
-	}
-
 	public int getSpeed() {
 		return speed;
 	}

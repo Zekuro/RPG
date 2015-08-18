@@ -3,6 +3,7 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Iterator;
 
 import javax.imageio.ImageIO;
 
@@ -111,16 +112,30 @@ public class World {
 			gameObject.update();
 		}
 		
-		
-		for (GameObject gameObject : effects) {
+		Iterator<GameObject> iterator = effects.iterator();
+
+		while(iterator.hasNext()){
+			GameObject gameObject = iterator.next();
+			
 			if(	gameObject.getX() > Game.PLAYER.getCameraX()-1000
 					|| gameObject.getX() < Game.PLAYER.getCameraX()+Game.SCREEN_WIDTH+1000
 					|| gameObject.getY() > Game.PLAYER.getCameraY()-1000
 					|| gameObject.getY() < Game.PLAYER.getCameraY()+Game.SCREEN_HEIGHT+1000){
 				}
 			gameObject.update();
+			if(gameObject.shallDestroy() == true) iterator.remove();
+			
 		}
 		
+//		for (GameObject gameObject : effects) {
+//			if(	gameObject.getX() > Game.PLAYER.getCameraX()-1000
+//					|| gameObject.getX() < Game.PLAYER.getCameraX()+Game.SCREEN_WIDTH+1000
+//					|| gameObject.getY() > Game.PLAYER.getCameraY()-1000
+//					|| gameObject.getY() < Game.PLAYER.getCameraY()+Game.SCREEN_HEIGHT+1000){
+//				}
+//			gameObject.update();
+//		}
+//		
 	}
 	
 	/**

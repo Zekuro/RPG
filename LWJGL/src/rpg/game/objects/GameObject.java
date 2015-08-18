@@ -27,6 +27,7 @@ public class GameObject {
 	
 	protected String name;
 	
+	private boolean destroy = false;
 	private boolean isBackground;
 	private boolean solid;
 	
@@ -209,6 +210,14 @@ public class GameObject {
 	
 	public String getName(){
 		return name;
+	}
+	
+	public void destroy(){
+		destroy = true;
+	}
+	
+	public boolean shallDestroy(){
+		return destroy;
 	}
 }
 	
