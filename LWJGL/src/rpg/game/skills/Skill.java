@@ -27,7 +27,8 @@ public class Skill extends Item{
 	
 	// FIXME CHANGE ME!!!
 	private int requiredMana = 0;
-
+	private int cooldown;
+	
 	private int damage;
 	private int fireDamage;
 	private int iceDamage;
@@ -62,7 +63,7 @@ public class Skill extends Item{
 		isSkill = true;
 		stackable = false;
 	}
-
+	
 	// change icon to same element
 	public void addElement(Element e){
 		for (Element element: elements) {
@@ -125,9 +126,11 @@ public class Skill extends Item{
 		Point startPoint = new Point(Game.PLAYER.getX(), Game.PLAYER.getY());
 		Point endPoint = new Point(Mouse.getX() + Game.PLAYER.getCameraX(), Mouse.getY()+ Game.PLAYER.getCameraY());
 		
+		// Ice03 rotate = 45
+		// Fire5 rotate = 135
 		
 		if(skillEffects.isEmpty()){
-			World.effects.add(new Projectile(32,300, 8, 5,startPoint, endPoint, "/res/skills/S_Fire05.png"));
+			World.effects.add(new Projectile(32,300, 8, 5,startPoint, endPoint, texturePath, 135));
 		}
 		
 		

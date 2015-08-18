@@ -12,6 +12,7 @@ import rpg.game.player.Inventory;
 public abstract class Item {
 
 	private String name;
+	protected String texturePath;
 	private Texture texture;
 	protected Tier tier;
 	protected int requiredLvl;
@@ -26,7 +27,7 @@ public abstract class Item {
 	protected boolean isSkill = false;
 	
 	/*
-	 * 	T1 = gewoehnlich 	(weiß)
+	 * 	T1 = gewoehnlich 	(weiss)
 	 * 	T2 = selten			(gruen)
 	 * 	T3 = fantastisch	(blau)
 	 *  T4 = episch			(lila)
@@ -85,6 +86,7 @@ public abstract class Item {
 	};
 	
 	public void setTexture(String texturePath){
+		this.texturePath = texturePath;
 		try {
 			texture = TextureLoader.getTexture("PNG", ResourceLoader.getResourceAsStream(texturePath));
 			} catch (IOException e) {

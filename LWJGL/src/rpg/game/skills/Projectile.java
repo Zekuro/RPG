@@ -16,7 +16,7 @@ public class Projectile extends GameObject{
 	private Point startPoint;
 	private Point endPoint;
 	
-	public Projectile(int size, int range, int speed, int damage, Point startPoint, Point endPoint, String texture) {
+	public Projectile(int size, int range, int speed, int damage, Point startPoint, Point endPoint, String texture, int rotateDegree) {
 		super(false, false, size, size, texture);
 			this.shootRange = range;
 			this.speed = speed;
@@ -25,12 +25,12 @@ public class Projectile extends GameObject{
 			this.endPoint = endPoint;
 			this.setPosition((int) startPoint.getX(), (int)startPoint.getY());
 			m = (endPoint.getY() - startPoint.getY())/(endPoint.getX() - startPoint.getX());
-			degree = 135;
+			degree = rotateDegree;
 			
 			if(endPoint.getX() > startPoint.getX()){
 				degree += Math.toDegrees(Math.atan(m));
 			}else{
-				degree += Math.toDegrees(degree+Math.atan(m));
+				degree += Math.toDegrees(Math.atan(m)) + 180;
 			}
 	}
 	
