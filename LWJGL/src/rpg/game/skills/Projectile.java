@@ -24,7 +24,7 @@ public class Projectile extends GameObject{
 			this.startPoint = startPoint;
 			this.endPoint = endPoint;
 			this.setPosition((int) startPoint.getX(), (int)startPoint.getY());
-			degree = 0;
+			degree = 135;
 	}
 	
 	

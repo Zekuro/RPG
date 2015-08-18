@@ -1,5 +1,6 @@
 package rpg.game.objects;
 
+import java.awt.Point;
 import java.io.IOException;
 
 import org.lwjgl.opengl.GL11;
@@ -16,6 +17,7 @@ public class GameObject {
 	protected int x;
 	protected int y;
 	protected int degree;
+	protected int startDegree;
 	protected int colOffsetX;
 	protected int colOffsetY;
 	protected int width;
@@ -60,19 +62,48 @@ public class GameObject {
 		
 		// ROTATE ME!!!
 		
+		double angle = Math.toRadians(degree);
+		Point center = new Point(x + texture.getImageWidth()/2, y + texture.getImageHeight()/2);
+		Point pUL = new Point(x,y);
+		Point pUR = new Point(x+texture.getImageWidth(), y);
+		Point pOR = new Point(x+texture.getImageWidth(), y+texture.getImageHeight());
+		Point pOL = new Point(x, y+texture.getImageHeight());
+		
+		pUL = rotate(pUL, center, angle);
+		pUR = rotate(pUR, center, angle);
+		pOL = rotate(pOL, center, angle);
+		pOR = rotate(pOR, center, angle);
+		
 		GL11.glBegin(GL11.GL_QUADS);
 		GL11.glTexCoord2f(0, 1);
-		GL11.glVertex2d(x, y);
+		GL11.glVertex2d(pUL.getX(), pUL.getY());
 		
 		GL11.glTexCoord2f(1,1);
-		GL11.glVertex2d(x+texture.getImageWidth(), y);
+		GL11.glVertex2d(pUR.getX(), pUR.getY());
 
 		GL11.glTexCoord2f(1,0);
-		GL11.glVertex2d(x+texture.getImageWidth(), y+texture.getImageHeight());
+		GL11.glVertex2d(pOR.getX(), pOR.getY());
 		
 		GL11.glTexCoord2f(0,0);
-		GL11.glVertex2d(x, y+texture.getImageHeight());
+		GL11.glVertex2d(pOL.getX(), pOL.getY());
 		GL11.glEnd();
+	}
+	
+	public Point rotate(Point p, Point center, double angle){
+		
+		//TRANSLATE TO ORIGIN
+				double x1 = p.getX() - center.getX();
+				double y1 = p.getY() - center.getY();
+				
+				
+				//APPLY ROTATION
+				double temp_x1 = x1 * Math.cos(angle) - y1 * Math.sin(angle);
+				double temp_y1 = x1 * Math.sin(angle) + y1 * Math.cos(angle);
+
+				//TRANSLATE BACK
+				p.setLocation((int) (temp_x1 + center.getX()),(int) (temp_y1 + center.getY()));
+		
+		return p;
 	}
 	
 	public void mapRender(int scale, int xOff, int yOff){
