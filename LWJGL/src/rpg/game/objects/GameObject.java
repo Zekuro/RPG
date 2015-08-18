@@ -89,7 +89,7 @@ public class GameObject {
 		GL11.glEnd();
 	}
 	
-	public Point rotate(Point p, Point center, double angle){
+	private Point rotate(Point p, Point center, double angle){
 		
 		//TRANSLATE TO ORIGIN
 				double x1 = p.getX() - center.getX();
@@ -211,3 +211,4 @@ public class GameObject {
 		return name;
 	}
 }
+	

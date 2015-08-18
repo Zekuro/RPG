@@ -2,21 +2,22 @@ package rpg.game.skills;
 
 import java.awt.Point;
 
+import rpg.game.World;
 import rpg.game.objects.GameObject;
 
 public class Projectile extends GameObject{
 
 
+	private int range;
 	private int size;
 	private int speed;
 	private int damage;
-	private int delta;
-	
+	private double m;
 	
 	private Point startPoint;
 	private Point endPoint;
 	
-	public Projectile(int size, int speed, int damage, Point startPoint, Point endPoint, String texture) {
+	public Projectile(int size, int range, int speed, int damage, Point startPoint, Point endPoint, String texture) {
 		super(false, false, size, size, texture);
 			this.size = size;
 			this.speed = speed;
@@ -24,12 +25,21 @@ public class Projectile extends GameObject{
 			this.startPoint = startPoint;
 			this.endPoint = endPoint;
 			this.setPosition((int) startPoint.getX(), (int)startPoint.getY());
+			m = (endPoint.getY() - startPoint.getY())/(endPoint.getX() - startPoint.getX());
 			degree = 135;
+			
+			if(endPoint.getX() > startPoint.getX()){
+				degree += Math.toDegrees(Math.atan(m));
+			}else{
+				degree += Math.toDegrees(degree+Math.atan(m));
+			}
 	}
 	
 	
 	public void update(){
-		double m = (endPoint.getY() - startPoint.getY())/(endPoint.getX() - startPoint.getX());
+		
+		int xs = x;
+		int ys = y;
 		
 		if(endPoint.getX() > startPoint.getX()){
 			x += speed*Math.cos(Math.atan(m));
@@ -47,6 +57,13 @@ public class Projectile extends GameObject{
 			
 		}
 		
+//		range -= Math.sqrt((x-startPoint.getX())^2+(y-startPoint.getY())^2);
+		//TODO REMOVE ME! concurrency probs
+		if(range <= 0) World.effects.remove(this);
+	}
+	
+	public int getRange(){
+		return range;
 	}
 	
 	public int getSize() {

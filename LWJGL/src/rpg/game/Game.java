@@ -184,6 +184,7 @@ public class Game {
 			PLAYER.render();
 			world.renderEntities();
 			world.renderObjects();
+			world.renderEffects();
 			UI.render();
 		}else{
 			Map.render(world);

@@ -25,6 +25,7 @@ public class World {
 	
 	private boolean loading = true;
 	
+	public static final ArrayList<GameObject> effects = new ArrayList<GameObject>();
 	public static final ArrayList<GameObject> objectList = new ArrayList<GameObject>();
 	public static final ArrayList<GameObject> entityList = new ArrayList<GameObject>();
 	public static final ArrayList<GameObject> backgroundTiles = new ArrayList<GameObject>();
@@ -110,6 +111,16 @@ public class World {
 			gameObject.update();
 		}
 		
+		
+		for (GameObject gameObject : effects) {
+			if(	gameObject.getX() > Game.PLAYER.getCameraX()-1000
+					|| gameObject.getX() < Game.PLAYER.getCameraX()+Game.SCREEN_WIDTH+1000
+					|| gameObject.getY() > Game.PLAYER.getCameraY()-1000
+					|| gameObject.getY() < Game.PLAYER.getCameraY()+Game.SCREEN_HEIGHT+1000){
+				}
+			gameObject.update();
+		}
+		
 	}
 	
 	/**
@@ -118,6 +129,12 @@ public class World {
 	@Deprecated
 	public void renderBackground(){
 		for (GameObject gameObject : backgroundTiles) {
+				gameObject.render();
+		}
+	}
+
+	public void renderEffects(){
+		for (GameObject gameObject : effects) {
 				gameObject.render();
 		}
 	}
