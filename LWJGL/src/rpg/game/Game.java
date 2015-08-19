@@ -26,6 +26,8 @@ public class Game {
 	public static Interface UI;
 	private World world;
 	public static int FPS;
+	public static int UPS;
+	public static int SECONDS = 0;
 	
 	private static boolean paused = false;
 
@@ -132,6 +134,8 @@ public class Game {
 			if (System.currentTimeMillis() - lastTimer > 100) {
 				lastTimer += 1000;
 				FPS = frames;
+				UPS = updates;
+				SECONDS++;
 				frames = 0;
 				updates = 0;
 			}

@@ -29,26 +29,24 @@ public class Skill extends Item{
 	private int requiredMana = 0;
 	private int cooldown;
 	
-	private int range;
+	private int range = 160;
 	private int speed;
 	private int damage;
 	private int fireDamage;
 	private int iceDamage;
 	private int electricDamage;
-	
+	private int delta = 0;
 	
 	private boolean inUse = false;
 	private ArrayList<SkillEffect> skillEffects = new ArrayList();
 	private ArrayList<Element> elements = new ArrayList();
 	
-	
+	//TODO UPDATE effectList -> renderOrder: first Impact -> Laser -> Projectile -> Aura
 	public Skill(String name, Tier tier, SkillType type) {
 		super(name, tier, 0, 0, 0, "/res/skills/S_Fire05.png");
 		this.type = type;
 		
 		String texturePath = "/res/skills/";
-		
-		range = 320;
 		
 		switch (type) {
 		case PROJECTILE:
@@ -127,7 +125,8 @@ public class Skill extends Item{
 		}
 		
 		}
-		
+		delta++;
+		if(delta >= Game.UPS) delta = 0;
 	}
 	
 	private void projectileAttack(){
@@ -150,6 +149,16 @@ public class Skill extends Item{
 		Point startPoint = new Point(Game.PLAYER.getX(), Game.PLAYER.getY());
 		Point endPoint = new Point(Mouse.getX() + Game.PLAYER.getCameraX(), Mouse.getY()+ Game.PLAYER.getCameraY());
 		double m = (endPoint.getY() - startPoint.getY())/(endPoint.getX() - startPoint.getX());
+		
+		// Manacost per second
+//		if(delta == 0){
+//			requiredMana = 2;
+//			if(Game.PLAYER.getMana() >= requiredMana){
+//				Game.PLAYER.reduceMana(requiredMana);
+//			}else{
+//				do not attack
+//			}
+//		}
 		
 		if(inUse == false){
 		if(skillEffects.isEmpty()){
@@ -198,7 +207,7 @@ public class Skill extends Item{
 		
 		if(skillEffects.isEmpty()){
 
-			for(double i = 0; i < 2*Math.PI; i+= 0.1){
+			for(double i = 0; i < 2*Math.PI-0.01; i+= 0.1){
 				endPoint = new Point(Game.PLAYER.getX() + (int) (Math.cos(i)*range),Game.PLAYER.getY() + (int) (Math.sin(i)*range));
 
 				Projectile p = new Projectile(32,range, speed, damage,startPoint, endPoint, texturePath, 120);
