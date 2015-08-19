@@ -61,6 +61,7 @@ public class Skill extends Item{
 			break;
 		case IMPACT:
 			texturePath += "S_Earth04.png";
+			speed = 8;
 			break;
 		case AURA:
 			texturePath += "S_Buff05.png";
@@ -193,40 +194,16 @@ public class Skill extends Item{
 	private void impactAttack(){
 		// make a circle out of projectiles
 		Point startPoint = new Point(Game.PLAYER.getX(), Game.PLAYER.getY());
-		Point endPoint = new Point(Mouse.getX() + Game.PLAYER.getCameraX(), Mouse.getY()+ Game.PLAYER.getCameraY());
-		double m = (endPoint.getY() - startPoint.getY())/(endPoint.getX() - startPoint.getX());
+		Point endPoint = new Point(0, 0);
 		
 		if(skillEffects.isEmpty()){
-			
-			
-			for(int i = 0; i < range/speed; i++){
-				startPoint = new Point(Game.PLAYER.getX(), Game.PLAYER.getY());
-				endPoint = new Point(Mouse.getX() + Game.PLAYER.getCameraX(), Mouse.getY()+ Game.PLAYER.getCameraY());
 
-				int xAdd = 0;
-				int yAdd = 0;
-				
-				xAdd = (int) (i*speed*Math.cos(Math.atan(m)));
-				yAdd = (int) (i*speed*Math.sin(Math.atan(m)));
-				if(endPoint.getX() > startPoint.getX()){
-					startPoint.setLocation(startPoint.getX()+xAdd, startPoint.getY()+yAdd);
-					endPoint.setLocation(endPoint.getX()+xAdd, endPoint.getY()+yAdd);
-				}else if(endPoint.getX() < startPoint.getX()){
-					startPoint.setLocation(startPoint.getX()-xAdd, startPoint.getY()-yAdd);
-					endPoint.setLocation(endPoint.getX()-xAdd, endPoint.getY()-yAdd);
-				}
-				if(endPoint.getX() == startPoint.getX()){
-					
-					if(endPoint.getY() > startPoint.getY()){
-						yAdd = i*speed;
-					}else{
-						yAdd = i*speed;
-					}
-					
-				}
-				Projectile p = new Projectile(32,range-i*speed, speed, damage/(range*speed),startPoint, endPoint, texturePath, 120);
+			for(double i = 0; i < 2*Math.PI; i+= 0.1){
+				endPoint = new Point(Game.PLAYER.getX() + (int) (Math.cos(i)*range),Game.PLAYER.getY() + (int) (Math.sin(i)*range));
+
+				Projectile p = new Projectile(32,range, speed, damage,startPoint, endPoint, texturePath, 120);
 				World.effects.add(p);
-				if(p.hasCollision()) break;
+				//if(p.hasCollision()) break;
 			}
 			
 		}
