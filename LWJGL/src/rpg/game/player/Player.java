@@ -138,6 +138,14 @@ public class Player {
 		delta++;
 		move();
 		
+		// TODO update skills -> own list in Game or Player
+		for (Item item : ActionBar.actionBar) {
+			if(item != null && item.getClass() == Skill.class){
+				Skill skill = (Skill) item;
+				if(skill.isInUse()) skill.use();
+			}
+		}
+		
 		if(delta%120 == 0){
 			if(mana < maxMana){
 				mana += manaReg;

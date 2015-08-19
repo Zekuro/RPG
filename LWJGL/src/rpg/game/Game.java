@@ -181,10 +181,10 @@ public class Game {
 		if(!UI.isRenderingMap()){
 			world.render(World.backgroundTiles);
 //			world.renderBackground();
+			world.renderEffects();
 			PLAYER.render();
 			world.renderEntities();
 			world.renderObjects();
-			world.renderEffects();
 			UI.render();
 		}else{
 			Map.render(world);

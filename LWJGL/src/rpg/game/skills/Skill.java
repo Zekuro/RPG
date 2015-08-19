@@ -29,11 +29,15 @@ public class Skill extends Item{
 	private int requiredMana = 0;
 	private int cooldown;
 	
+	private int range;
+	private int speed;
 	private int damage;
 	private int fireDamage;
 	private int iceDamage;
 	private int electricDamage;
 	
+	
+	private boolean inUse = false;
 	private ArrayList<SkillEffect> skillEffects = new ArrayList();
 	private ArrayList<Element> elements = new ArrayList();
 	
@@ -44,12 +48,16 @@ public class Skill extends Item{
 		
 		String texturePath = "/res/skills/";
 		
+		range = 320;
+		
 		switch (type) {
 		case PROJECTILE:
 			texturePath += "S_Fire05.png";
+			speed = 8;
 			break;
 		case LASER:
 			texturePath += "S_Fire01.png";
+			speed = 10;
 			break;
 		case IMPACT:
 			texturePath += "S_Earth04.png";
@@ -103,11 +111,11 @@ public class Skill extends Item{
 	public void use(){
 		// use skill by type
 		// add effects & element
-	
 		if(Game.PLAYER.reduceMana(requiredMana)){
 		
 		switch(type){
-		case PROJECTILE: projectileAttack();
+		case PROJECTILE: 
+			projectileAttack();
 			break;
 		case LASER: laserAttack();
 			break;
@@ -127,24 +135,116 @@ public class Skill extends Item{
 		Point endPoint = new Point(Mouse.getX() + Game.PLAYER.getCameraX(), Mouse.getY()+ Game.PLAYER.getCameraY());
 		
 		// Ice03 rotate = 45
-		// Fire5 rotate = 135
+		// Fire05 rotate = 135
+		// Fire01 rotate = 120
 		
 		if(skillEffects.isEmpty()){
-			World.effects.add(new Projectile(32,300, 8, 5,startPoint, endPoint, texturePath, 135));
+			World.effects.add(new Projectile(32,range, speed, damage,startPoint, endPoint, texturePath, 135));
 		}
 		
 		
 	}
 	
 	private void laserAttack(){
+		Point startPoint = new Point(Game.PLAYER.getX(), Game.PLAYER.getY());
+		Point endPoint = new Point(Mouse.getX() + Game.PLAYER.getCameraX(), Mouse.getY()+ Game.PLAYER.getCameraY());
+		double m = (endPoint.getY() - startPoint.getY())/(endPoint.getX() - startPoint.getX());
+		
+		if(inUse == false){
+		if(skillEffects.isEmpty()){
+			
+			
+			for(int i = 0; i < range/speed; i++){
+				startPoint = new Point(Game.PLAYER.getX(), Game.PLAYER.getY());
+				endPoint = new Point(Mouse.getX() + Game.PLAYER.getCameraX(), Mouse.getY()+ Game.PLAYER.getCameraY());
+
+				int xAdd = 0;
+				int yAdd = 0;
+				
+				xAdd = (int) (i*speed*Math.cos(Math.atan(m)));
+				yAdd = (int) (i*speed*Math.sin(Math.atan(m)));
+				if(endPoint.getX() > startPoint.getX()){
+					startPoint.setLocation(startPoint.getX()+xAdd, startPoint.getY()+yAdd);
+					endPoint.setLocation(endPoint.getX()+xAdd, endPoint.getY()+yAdd);
+				}else if(endPoint.getX() < startPoint.getX()){
+					startPoint.setLocation(startPoint.getX()-xAdd, startPoint.getY()-yAdd);
+					endPoint.setLocation(endPoint.getX()-xAdd, endPoint.getY()-yAdd);
+				}
+				if(endPoint.getX() == startPoint.getX()){
+					
+					if(endPoint.getY() > startPoint.getY()){
+						yAdd = i*speed;
+					}else{
+						yAdd = i*speed;
+					}
+					
+				}
+				Projectile p = new Projectile(32,range-i*speed, speed, damage/(range*speed),startPoint, endPoint, texturePath, 120);
+				World.effects.add(p);
+				if(p.hasCollision()) break;
+			}
+			
+		}}else if(inUse = true){
+			World.effects.add(new Projectile(32,range, speed, damage/(range*speed),startPoint, endPoint, texturePath, 120));
+		}
 		
 	}
 	
 	private void impactAttack(){
+		// make a circle out of projectiles
+		Point startPoint = new Point(Game.PLAYER.getX(), Game.PLAYER.getY());
+		Point endPoint = new Point(Mouse.getX() + Game.PLAYER.getCameraX(), Mouse.getY()+ Game.PLAYER.getCameraY());
+		double m = (endPoint.getY() - startPoint.getY())/(endPoint.getX() - startPoint.getX());
 		
+		if(skillEffects.isEmpty()){
+			
+			
+			for(int i = 0; i < range/speed; i++){
+				startPoint = new Point(Game.PLAYER.getX(), Game.PLAYER.getY());
+				endPoint = new Point(Mouse.getX() + Game.PLAYER.getCameraX(), Mouse.getY()+ Game.PLAYER.getCameraY());
+
+				int xAdd = 0;
+				int yAdd = 0;
+				
+				xAdd = (int) (i*speed*Math.cos(Math.atan(m)));
+				yAdd = (int) (i*speed*Math.sin(Math.atan(m)));
+				if(endPoint.getX() > startPoint.getX()){
+					startPoint.setLocation(startPoint.getX()+xAdd, startPoint.getY()+yAdd);
+					endPoint.setLocation(endPoint.getX()+xAdd, endPoint.getY()+yAdd);
+				}else if(endPoint.getX() < startPoint.getX()){
+					startPoint.setLocation(startPoint.getX()-xAdd, startPoint.getY()-yAdd);
+					endPoint.setLocation(endPoint.getX()-xAdd, endPoint.getY()-yAdd);
+				}
+				if(endPoint.getX() == startPoint.getX()){
+					
+					if(endPoint.getY() > startPoint.getY()){
+						yAdd = i*speed;
+					}else{
+						yAdd = i*speed;
+					}
+					
+				}
+				Projectile p = new Projectile(32,range-i*speed, speed, damage/(range*speed),startPoint, endPoint, texturePath, 120);
+				World.effects.add(p);
+				if(p.hasCollision()) break;
+			}
+			
+		}
 	}
 	
 	private void auraAttack(){
 		
+	}
+	
+	public boolean isInUse(){
+		return inUse;
+	}
+	
+	public void setInUse(boolean use){
+		inUse = use;
+	}
+	
+	public SkillType getType(){
+		return type;
 	}
 }

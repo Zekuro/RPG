@@ -7,6 +7,8 @@ import org.lwjgl.opengl.GL11;
 import rpg.game.Font;
 import rpg.game.Game;
 import rpg.game.items.Item;
+import rpg.game.skills.Skill;
+import rpg.game.skills.Skill.SkillType;
 
 public class ActionBar {
 
@@ -16,7 +18,7 @@ public class ActionBar {
 	private static boolean renderItemName = false;
 	
 	private static int dragIndex = -1;
-	private static Item[] actionBar = new Item[9];
+	public static Item[] actionBar = new Item[9];
 	
 	public static void render(){
 		
@@ -146,38 +148,74 @@ public class ActionBar {
 		
 		if(Keyboard.isKeyDown(Keyboard.KEY_1) && actionBar[0] != null){
 			actionBar[0].use();
+			if(actionBar[0].getClass() == Skill.class ){
+				Skill skill = (Skill) actionBar[0];
+				if(skill.getType() != SkillType.PROJECTILE && skill.getType() != SkillType.IMPACT) skill.setInUse(!skill.isInUse());
+			}
 		}
 		
 		if(Keyboard.isKeyDown(Keyboard.KEY_2) && actionBar[1] != null){
 			actionBar[1].use();
+			if(actionBar[1].getClass() == Skill.class){
+				Skill skill = (Skill) actionBar[1];
+				if(skill.getType() != SkillType.PROJECTILE && skill.getType() != SkillType.IMPACT) skill.setInUse(!skill.isInUse());
+			}
 		}
 		
 		if(Keyboard.isKeyDown(Keyboard.KEY_3) && actionBar[2] != null){
 			actionBar[2].use();
+			if(actionBar[2].getClass() == Skill.class){
+				Skill skill = (Skill) actionBar[2];
+				if(skill.getType() != SkillType.PROJECTILE && skill.getType() != SkillType.IMPACT) skill.setInUse(!skill.isInUse());
+			}
 		}
 		
 		if(Keyboard.isKeyDown(Keyboard.KEY_4) && actionBar[3] != null){
 			actionBar[3].use();
+			if(actionBar[3].getClass() == Skill.class){
+				Skill skill = (Skill) actionBar[3];
+				if(skill.getType() != SkillType.PROJECTILE && skill.getType() != SkillType.IMPACT) skill.setInUse(!skill.isInUse());
+			}
 		}
 		
 		if(Keyboard.isKeyDown(Keyboard.KEY_5) && actionBar[4] != null){
 			actionBar[4].use();
+			if(actionBar[4].getClass() == Skill.class){
+				Skill skill = (Skill) actionBar[4];
+				if(skill.getType() != SkillType.PROJECTILE && skill.getType() != SkillType.IMPACT) skill.setInUse(!skill.isInUse());
+			}
 		}
 		
 		if(Keyboard.isKeyDown(Keyboard.KEY_6) && actionBar[5] != null){
 			actionBar[5].use();
+			if(actionBar[5].getClass() == Skill.class){
+				Skill skill = (Skill) actionBar[5];
+				if(skill.getType() != SkillType.PROJECTILE && skill.getType() != SkillType.IMPACT) skill.setInUse(!skill.isInUse());
+			}
 		}
 		
 		if(Keyboard.isKeyDown(Keyboard.KEY_7) && actionBar[6] != null){
 			actionBar[6].use();
+			if(actionBar[6].getClass() == Skill.class){
+				Skill skill = (Skill) actionBar[6];
+				if(skill.getType() != SkillType.PROJECTILE && skill.getType() != SkillType.IMPACT) skill.setInUse(!skill.isInUse());
+			}
 		}
 		
 		if(Keyboard.isKeyDown(Keyboard.KEY_8) && actionBar[7] != null){
 			actionBar[7].use();
+			if(actionBar[7].getClass() == Skill.class){
+				Skill skill = (Skill) actionBar[7];
+				if(skill.getType() != SkillType.PROJECTILE && skill.getType() != SkillType.IMPACT) skill.setInUse(!skill.isInUse());
+			}
 		}
 		
 		if(Keyboard.isKeyDown(Keyboard.KEY_9) && actionBar[8] != null){
 			actionBar[8].use();
+			if(actionBar[8].getClass() == Skill.class){
+				Skill skill = (Skill) actionBar[8];
+				if(skill.getType() != SkillType.PROJECTILE && skill.getType() != SkillType.AURA) skill.setInUse(!skill.isInUse());
+			}
 		}
 		
 	}

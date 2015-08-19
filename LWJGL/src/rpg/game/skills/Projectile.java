@@ -2,6 +2,7 @@ package rpg.game.skills;
 
 import java.awt.Point;
 
+import rpg.game.World;
 import rpg.game.objects.GameObject;
 
 public class Projectile extends GameObject{
@@ -41,7 +42,6 @@ public class Projectile extends GameObject{
 			x += speed*Math.cos(Math.atan(m));
 			y += speed*Math.sin(Math.atan(m));
 		}else if(endPoint.getX() < startPoint.getX()){
-			// FIXME bugged!!
 			x -= speed*Math.cos(Math.atan(m));
 			y -= speed*Math.sin(Math.atan(m));
 		}else if(endPoint.getX() == startPoint.getX()){
@@ -55,10 +55,41 @@ public class Projectile extends GameObject{
 		}
 		
 		range = (int) Math.sqrt(Math.pow((x-startPoint.getX()),2)+Math.pow((y-startPoint.getY()),2));
-		if(range > shootRange) destroy();
-		
+		if(range > shootRange || hasCollision()) destroy();
 	}
 	
+	// TODO update me for large Worlds (only check displayed sectors)
+	public boolean hasCollision(){
+
+		for (GameObject object : World.objectList) {
+			
+			if(	object.isSolid()
+				&& !object.equals(this)
+				&& x + colOffsetX + width > object.getX() + object.getXColOffset()
+				&& x + colOffsetX < object.getX() + object.getXColOffset() + object.getWidth()
+				&& y + colOffsetY + height > object.getY() + object.getYColOffset()
+				&& y + colOffsetY < object.getY() + object.getYColOffset() + object.getHeight()){
+				return true;
+			}
+			
+		}
+		
+		for (GameObject object : World.entityList) {
+			
+			if(	object.isSolid()
+				&& !object.equals(this)
+				&& x + colOffsetX + width > object.getX() + object.getXColOffset()
+				&& x + colOffsetX < object.getX() + object.getXColOffset() + object.getWidth()
+				&& y + colOffsetY + height > object.getY() + object.getYColOffset()
+				&& y + colOffsetY < object.getY() + object.getYColOffset() + object.getHeight()){
+				return true;
+			}
+			
+		}
+		
+		return false;
+	}
+
 	public int getRange(){
 		return shootRange;
 	}

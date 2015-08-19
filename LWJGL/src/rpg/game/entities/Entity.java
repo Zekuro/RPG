@@ -51,6 +51,8 @@ public class Entity extends GameObject{
 		
 		return mob;
 	}
+	
+	// TODO update for large Worlds
 	public boolean hasCollision(int x, int y){
 		if(	x + colOffsetX + width > Game.PLAYER.getX()
 			&& x + colOffsetX < Game.PLAYER.getX() + Game.PLAYER.getWidth()
