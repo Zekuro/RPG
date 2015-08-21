@@ -26,7 +26,7 @@ public class World {
 	
 	private boolean loading = true;
 	
-	public static final ArrayList<GameObject> effects = new ArrayList<GameObject>();
+	public static final ArrayList<ArrayList<GameObject>> effects = new ArrayList<ArrayList<GameObject>>();
 	public static final ArrayList<GameObject> objectList = new ArrayList<GameObject>();
 	public static final ArrayList<GameObject> entityList = new ArrayList<GameObject>();
 	public static final ArrayList<GameObject> backgroundTiles = new ArrayList<GameObject>();
@@ -112,7 +112,9 @@ public class World {
 			gameObject.update();
 		}
 		
-		Iterator<GameObject> iterator = effects.iterator();
+		for (ArrayList<GameObject> effect: effects) {
+			
+		Iterator<GameObject> iterator = effect.iterator();
 
 		while(iterator.hasNext()){
 			GameObject gameObject = iterator.next();
@@ -126,16 +128,8 @@ public class World {
 			if(gameObject.shallDestroy() == true) iterator.remove();
 			
 		}
+		}
 		
-//		for (GameObject gameObject : effects) {
-//			if(	gameObject.getX() > Game.PLAYER.getCameraX()-1000
-//					|| gameObject.getX() < Game.PLAYER.getCameraX()+Game.SCREEN_WIDTH+1000
-//					|| gameObject.getY() > Game.PLAYER.getCameraY()-1000
-//					|| gameObject.getY() < Game.PLAYER.getCameraY()+Game.SCREEN_HEIGHT+1000){
-//				}
-//			gameObject.update();
-//		}
-//		
 	}
 	
 	/**
@@ -149,8 +143,10 @@ public class World {
 	}
 
 	public void renderEffects(){
-		for (GameObject gameObject : effects) {
+		for (ArrayList<GameObject> effect: effects) {
+		for (GameObject gameObject : effect) {
 				gameObject.render();
+		}
 		}
 	}
 	
@@ -187,6 +183,9 @@ public class World {
 	    
 	    Tile previousTile = null;
 	    
+	    for(int l = 0; l <= 3; l++){
+	    	effects.add(new ArrayList<GameObject>());
+	    }
 	    for(int e = 1; e <= 3; e++){
 		    for (int i = 0; i < imageHeight; i++) {
 		      for (int j = 0; j < imageWidth; j++) {
@@ -272,6 +271,18 @@ public class World {
 					}
 				}
 			}
+	  }
+	  
+	  /**
+	   * Layer 0: impact
+	   * Layer 1: aura
+	   * Layer 2: laser
+	   * Layer 3: projectile
+	   * @param effect
+	   * @param layer
+	   */
+	  public static void addEffect(GameObject effect, int layer){
+		  if(layer >= 0 && layer <= 3) effects.get(layer).add(effect);
 	  }
 	  
 }
