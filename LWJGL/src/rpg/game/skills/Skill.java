@@ -238,12 +238,22 @@ public class Skill extends Item{
 			startAngle = Math.atan(m) + Math.PI;
 		}
 		
+		if(endPoint.getX() == startPoint.getX()){
+			if(endPoint.getY() > startPoint.getY()){
+				startAngle = Math.PI/2;
+			}else if(endPoint.getY() < startPoint.getY()){
+				startAngle = -Math.PI/2;
+			}
+		}
+		
+		
 		if(skillEffects.isEmpty()){
 
-			for(double i = startAngle - Math.PI/4; i < startAngle + Math.PI/2; i+= iAdd){
+			for(double i = startAngle - Math.PI/4; i < startAngle + Math.PI/4; i+= iAdd){
 				startPoint = new Point(Game.PLAYER.getX() + (int) (Math.cos(i)*range),Game.PLAYER.getY() + (int) (Math.sin(i)*range));
-				endPoint = new Point(Game.PLAYER.getX() + (int) (Math.cos(i+iAdd)*range),Game.PLAYER.getY() + (int) (Math.sin(i+iAdd)*range));
-				Projectile p = new Projectile(32,1/range, speed, damage,startPoint, endPoint, effectTexture, 0);
+				endPoint = new Point(Game.PLAYER.getX(),Game.PLAYER.getY());
+				System.out.println(startPoint.toString() + " " + endPoint.toString());
+				Projectile p = new Projectile(32,1/range, speed, damage,startPoint, endPoint, effectTexture, -90);
 				World.addEffect(p,layer);
 			}
 			

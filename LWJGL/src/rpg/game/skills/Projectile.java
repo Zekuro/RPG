@@ -34,6 +34,9 @@ public class Projectile extends GameObject{
 				degree += Math.toDegrees(Math.atan(m)) + 180;
 			}
 
+			// bugfix
+			if((rotateDegree - degree)% 90 == 0 && startPoint.getX() == endPoint.getX()) degree += 180;
+			
 	}
 	
 	
