@@ -189,7 +189,9 @@ public class Skill extends Item{
 	private void laserAttack(){
 		Point startPoint = new Point(Game.PLAYER.getX(), Game.PLAYER.getY());
 		Point endPoint = new Point(Mouse.getX() + Game.PLAYER.getCameraX(), Mouse.getY()+ Game.PLAYER.getCameraY());
-				
+		double m = (endPoint.getY() - startPoint.getY())/(endPoint.getX() - startPoint.getX());
+		
+		
 		// Manacost per second
 //		if(delta == 0){
 //			requiredMana = 2;
@@ -203,6 +205,7 @@ public class Skill extends Item{
 		if(inUse == false){
 			if(skillEffects.isEmpty())	laserAttack(startPoint, endPoint);
 			if(hasEffect(SkillEffect.DOUBLE)){
+				
 				laserAttack(startPoint, endPoint);
 				// TODO Parallel line
 				//laserAttack(startPoint, new Point((int) endPoint.getX(), (int) endPoint.getY() + 100));
