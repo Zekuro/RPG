@@ -150,7 +150,7 @@ public class ActionBar {
 			actionBar[0].use();
 			if(actionBar[0].getClass() == Skill.class ){
 				Skill skill = (Skill) actionBar[0];
-				if(skill.getType() != SkillType.PROJECTILE && skill.getType() != SkillType.IMPACT) skill.setInUse(!skill.isInUse());
+				useSkill(skill);
 			}
 		}
 		
@@ -158,7 +158,7 @@ public class ActionBar {
 			actionBar[1].use();
 			if(actionBar[1].getClass() == Skill.class){
 				Skill skill = (Skill) actionBar[1];
-				if(skill.getType() != SkillType.PROJECTILE && skill.getType() != SkillType.IMPACT) skill.setInUse(!skill.isInUse());
+				useSkill(skill);
 			}
 		}
 		
@@ -166,7 +166,7 @@ public class ActionBar {
 			actionBar[2].use();
 			if(actionBar[2].getClass() == Skill.class){
 				Skill skill = (Skill) actionBar[2];
-				if(skill.getType() != SkillType.PROJECTILE && skill.getType() != SkillType.IMPACT) skill.setInUse(!skill.isInUse());
+				useSkill(skill);
 			}
 		}
 		
@@ -174,7 +174,7 @@ public class ActionBar {
 			actionBar[3].use();
 			if(actionBar[3].getClass() == Skill.class){
 				Skill skill = (Skill) actionBar[3];
-				if(skill.getType() != SkillType.PROJECTILE && skill.getType() != SkillType.IMPACT) skill.setInUse(!skill.isInUse());
+				useSkill(skill);
 			}
 		}
 		
@@ -182,7 +182,7 @@ public class ActionBar {
 			actionBar[4].use();
 			if(actionBar[4].getClass() == Skill.class){
 				Skill skill = (Skill) actionBar[4];
-				if(skill.getType() != SkillType.PROJECTILE && skill.getType() != SkillType.IMPACT) skill.setInUse(!skill.isInUse());
+				useSkill(skill);
 			}
 		}
 		
@@ -190,7 +190,7 @@ public class ActionBar {
 			actionBar[5].use();
 			if(actionBar[5].getClass() == Skill.class){
 				Skill skill = (Skill) actionBar[5];
-				if(skill.getType() != SkillType.PROJECTILE && skill.getType() != SkillType.IMPACT) skill.setInUse(!skill.isInUse());
+				useSkill(skill);
 			}
 		}
 		
@@ -198,7 +198,7 @@ public class ActionBar {
 			actionBar[6].use();
 			if(actionBar[6].getClass() == Skill.class){
 				Skill skill = (Skill) actionBar[6];
-				if(skill.getType() != SkillType.PROJECTILE && skill.getType() != SkillType.IMPACT) skill.setInUse(!skill.isInUse());
+				useSkill(skill);
 			}
 		}
 		
@@ -206,7 +206,7 @@ public class ActionBar {
 			actionBar[7].use();
 			if(actionBar[7].getClass() == Skill.class){
 				Skill skill = (Skill) actionBar[7];
-				if(skill.getType() != SkillType.PROJECTILE && skill.getType() != SkillType.IMPACT) skill.setInUse(!skill.isInUse());
+				useSkill(skill);
 			}
 		}
 		
@@ -214,12 +214,19 @@ public class ActionBar {
 			actionBar[8].use();
 			if(actionBar[8].getClass() == Skill.class){
 				Skill skill = (Skill) actionBar[8];
-				if(skill.getType() != SkillType.PROJECTILE && skill.getType() != SkillType.AURA) skill.setInUse(!skill.isInUse());
+				useSkill(skill);
 			}
 		}
 		
 	}
 	
+	
+	private static void useSkill(Skill skill){
+		boolean canUse = true;
+		
+		if(skill.getType() == SkillType.LASER || skill.getType() == SkillType.AURA) skill.setInUse(!skill.isInUse());
+		
+	}
 	
 	public static Item[] getActionBar(){
 		return actionBar;

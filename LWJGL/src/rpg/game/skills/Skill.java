@@ -62,7 +62,8 @@ public class Skill extends Item{
 			speed = 8;
 			break;
 		case AURA:
-			texturePath += "S_Buff05.png";
+			texturePath += "S_Earth04.png";
+			speed = 8;
 			break;
 		}
 		
@@ -212,14 +213,35 @@ public class Skill extends Item{
 
 				Projectile p = new Projectile(32,range, speed, damage,startPoint, endPoint, texturePath, 120);
 				World.effects.add(p);
-				//if(p.hasCollision()) break;
 			}
 			
 		}
 	}
 	
 	private void auraAttack(){
+		Point startPoint = new Point(Game.PLAYER.getX(), Game.PLAYER.getY());
+		Point endPoint = new Point(Mouse.getX() + Game.PLAYER.getCameraX(), Mouse.getY() + Game.PLAYER.getCameraY());
+		double m = (endPoint.getY() - startPoint.getY())/(endPoint.getX() - startPoint.getX());
+		double startAngle;
+		double iAdd = 0.2;
+		range = 50;
 		
+		if(endPoint.getX() > startPoint.getX()){
+			startAngle = Math.atan(m);
+		}else{
+			startAngle = Math.atan(m) + Math.PI;
+		}
+		
+		if(skillEffects.isEmpty()){
+
+			for(double i = startAngle - Math.PI/4; i < startAngle + Math.PI/2; i+= iAdd){
+				startPoint = new Point(Game.PLAYER.getX() + (int) (Math.cos(i)*range),Game.PLAYER.getY() + (int) (Math.sin(i)*range));
+				endPoint = new Point(Game.PLAYER.getX() + (int) (Math.cos(i+iAdd)*range),Game.PLAYER.getY() + (int) (Math.sin(i+iAdd)*range));
+				Projectile p = new Projectile(32,1/range, speed, damage,startPoint, endPoint, texturePath, 0);
+				World.effects.add(p);
+			}
+			
+		}
 	}
 	
 	public boolean isInUse(){

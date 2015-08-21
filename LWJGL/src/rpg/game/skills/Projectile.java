@@ -27,12 +27,13 @@ public class Projectile extends GameObject{
 			this.setPosition((int) startPoint.getX(), (int)startPoint.getY());
 			m = (endPoint.getY() - startPoint.getY())/(endPoint.getX() - startPoint.getX());
 			degree = rotateDegree;
-			
+
 			if(endPoint.getX() > startPoint.getX()){
 				degree += Math.toDegrees(Math.atan(m));
 			}else{
 				degree += Math.toDegrees(Math.atan(m)) + 180;
 			}
+
 	}
 	
 	
