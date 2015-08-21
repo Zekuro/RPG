@@ -199,4 +199,16 @@ public class Entity extends GameObject{
 	public void setManaRed(int i){
 		manaReg = i;
 	}
-}
+	
+	public void loseHealth(int i){
+		health -= i;
+		if(health <= 0){
+			health = 0;
+			die();
+		}
+	}
+	
+	public void die(){
+	
+	}
+	}

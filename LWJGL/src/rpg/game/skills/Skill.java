@@ -62,17 +62,20 @@ public class Skill extends Item{
 		case PROJECTILE:
 			effectTexture = texturePath + "S_Fire05.png";
 			texturePath += "S_Fire05.png";
+			damage = 10;
 			speed = 8;
 			break;
 		case LASER:
 			effectTexture = texturePath + "S_Fire01.png";
 			texturePath += "S_Fire01.png";
 			speed = 10;
+			damage = 1;
 			break;
 		case IMPACT:
 			effectTexture = texturePath + "S_Earth04.png";
 			texturePath += "S_Earth04.png";
 			speed = 8;
+			damage = 1;
 			break;
 		case AURA:
 			effectTexture = texturePath + "S_Earth04.png";
@@ -211,7 +214,7 @@ public class Skill extends Item{
 				//laserAttack(startPoint, new Point((int) endPoint.getX(), (int) endPoint.getY() + 100));
 			}
 		}else if(inUse = true){
-			World.addEffect(new Projectile(32,range, speed, damage/(range*speed),startPoint, endPoint, effectTexture, effectTextureRotation),layer);
+			World.addEffect(new Projectile(32,range, speed, damage,startPoint, endPoint, effectTexture, effectTextureRotation),layer);
 		
 			// TODO Parallel line
 			//if(hasEffect(SkillEffect.DOUBLE)) World.addEffect(new Projectile(32,range, speed, damage/(range*speed),startPoint, new Point((int) endPoint.getX(), (int) endPoint.getY() + 100), effectTexture, effectTextureRotation),layer);;
@@ -247,7 +250,7 @@ public class Skill extends Item{
 				}
 				
 			}
-			Projectile p = new Projectile(32,range-i*speed, speed, damage/(range*speed),startPoint, endPoint, effectTexture, effectTextureRotation);
+			Projectile p = new Projectile(32,range-i*speed, speed, damage,startPoint, endPoint, effectTexture, effectTextureRotation);
 			World.addEffect(p, layer);
 			if(p.hasCollision()) break;
 		}

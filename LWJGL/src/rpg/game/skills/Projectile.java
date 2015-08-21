@@ -3,6 +3,7 @@ package rpg.game.skills;
 import java.awt.Point;
 
 import rpg.game.World;
+import rpg.game.entities.Entity;
 import rpg.game.objects.GameObject;
 
 public class Projectile extends GameObject{
@@ -86,6 +87,10 @@ public class Projectile extends GameObject{
 				&& x + colOffsetX < object.getX() + object.getXColOffset() + object.getWidth()
 				&& y + colOffsetY + height > object.getY() + object.getYColOffset()
 				&& y + colOffsetY < object.getY() + object.getYColOffset() + object.getHeight()){
+				
+					Entity entity = (Entity) object;
+					entity.loseHealth(damage);
+				
 				return true;
 			}
 			
