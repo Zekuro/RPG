@@ -92,8 +92,10 @@ public class Skill extends Item{
 			addEffect(SkillEffect.DOUBLE);
 			break;
 		case LASER:
+			addEffect(SkillEffect.DOUBLE);
 			break;
 		case IMPACT:
+			addEffect(SkillEffect.DOUBLE);
 			break;
 		case AURA:
 			break;
@@ -187,8 +189,7 @@ public class Skill extends Item{
 	private void laserAttack(){
 		Point startPoint = new Point(Game.PLAYER.getX(), Game.PLAYER.getY());
 		Point endPoint = new Point(Mouse.getX() + Game.PLAYER.getCameraX(), Mouse.getY()+ Game.PLAYER.getCameraY());
-		double m = (endPoint.getY() - startPoint.getY())/(endPoint.getX() - startPoint.getX());
-		
+				
 		// Manacost per second
 //		if(delta == 0){
 //			requiredMana = 2;
@@ -200,67 +201,84 @@ public class Skill extends Item{
 //		}
 		
 		if(inUse == false){
-		if(skillEffects.isEmpty()){
-			
-			
-			for(int i = 0; i < range/speed; i++){
-				startPoint = new Point(Game.PLAYER.getX(), Game.PLAYER.getY());
-				endPoint = new Point(Mouse.getX() + Game.PLAYER.getCameraX(), Mouse.getY()+ Game.PLAYER.getCameraY());
-
-				int xAdd = 0;
-				int yAdd = 0;
-				
-				xAdd = (int) (i*speed*Math.cos(Math.atan(m)));
-				yAdd = (int) (i*speed*Math.sin(Math.atan(m)));
-				if(endPoint.getX() > startPoint.getX()){
-					startPoint.setLocation(startPoint.getX()+xAdd, startPoint.getY()+yAdd);
-					endPoint.setLocation(endPoint.getX()+xAdd, endPoint.getY()+yAdd);
-				}else if(endPoint.getX() < startPoint.getX()){
-					startPoint.setLocation(startPoint.getX()-xAdd, startPoint.getY()-yAdd);
-					endPoint.setLocation(endPoint.getX()-xAdd, endPoint.getY()-yAdd);
-				}
-				if(endPoint.getX() == startPoint.getX()){
-					
-					if(endPoint.getY() > startPoint.getY()){
-						yAdd = i*speed;
-					}else{
-						yAdd = i*speed;
-					}
-					
-				}
-				Projectile p = new Projectile(32,range-i*speed, speed, damage/(range*speed),startPoint, endPoint, effectTexture, effectTextureRotation);
-				World.addEffect(p, layer);
-				if(p.hasCollision()) break;
+			if(skillEffects.isEmpty())	laserAttack(startPoint, endPoint);
+			if(hasEffect(SkillEffect.DOUBLE)){
+				laserAttack(startPoint, endPoint);
+				// TODO Parallel line
+				//laserAttack(startPoint, new Point((int) endPoint.getX(), (int) endPoint.getY() + 100));
 			}
-			
-		}}else if(inUse = true){
+		}else if(inUse = true){
 			World.addEffect(new Projectile(32,range, speed, damage/(range*speed),startPoint, endPoint, effectTexture, effectTextureRotation),layer);
+		
+			// TODO Parallel line
+			//if(hasEffect(SkillEffect.DOUBLE)) World.addEffect(new Projectile(32,range, speed, damage/(range*speed),startPoint, new Point((int) endPoint.getX(), (int) endPoint.getY() + 100), effectTexture, effectTextureRotation),layer);;
 		}
 		
 	}
 	
-	// TODO make some extramethods e.g.: imactAttack(speed, range)
-	// easier to add some effects
+	private void laserAttack(Point startPoint, Point endPoint) {
+		double m = (endPoint.getY() - startPoint.getY())/(endPoint.getX() - startPoint.getX());
+		
+		for(int i = 0; i < range/speed; i++){
+			startPoint = new Point(Game.PLAYER.getX(), Game.PLAYER.getY());
+			endPoint = new Point(Mouse.getX() + Game.PLAYER.getCameraX(), Mouse.getY()+ Game.PLAYER.getCameraY());
+
+			int xAdd = 0;
+			int yAdd = 0;
+			
+			xAdd = (int) (i*speed*Math.cos(Math.atan(m)));
+			yAdd = (int) (i*speed*Math.sin(Math.atan(m)));
+			if(endPoint.getX() > startPoint.getX()){
+				startPoint.setLocation(startPoint.getX()+xAdd, startPoint.getY()+yAdd);
+				endPoint.setLocation(endPoint.getX()+xAdd, endPoint.getY()+yAdd);
+			}else if(endPoint.getX() < startPoint.getX()){
+				startPoint.setLocation(startPoint.getX()-xAdd, startPoint.getY()-yAdd);
+				endPoint.setLocation(endPoint.getX()-xAdd, endPoint.getY()-yAdd);
+			}
+			if(endPoint.getX() == startPoint.getX()){
+				
+				if(endPoint.getY() > startPoint.getY()){
+					yAdd = i*speed;
+				}else{
+					yAdd = i*speed;
+				}
+				
+			}
+			Projectile p = new Projectile(32,range-i*speed, speed, damage/(range*speed),startPoint, endPoint, effectTexture, effectTextureRotation);
+			World.addEffect(p, layer);
+			if(p.hasCollision()) break;
+		}
+	}
+
 	private void impactAttack(){
 		// make a circle out of projectiles
-		Point startPoint = new Point(Game.PLAYER.getX(), Game.PLAYER.getY());
-		Point endPoint = new Point(0, 0);
-		
+				
 		if(inUse == false){
-		if(skillEffects.isEmpty()){
-
-			for(double i = 0; i < 2*Math.PI-0.01; i+= 0.1){
-				endPoint = new Point(Game.PLAYER.getX() + (int) (Math.cos(i)*range),Game.PLAYER.getY() + (int) (Math.sin(i)*range));
-
-				Projectile p = new Projectile(32,range, speed, damage,startPoint, endPoint, effectTexture, effectTextureRotation);
-				World.addEffect(p,layer);
+			impact(range, speed);
+			if(skillEffects.isEmpty()) inUse = !inUse;
+			if(hasEffect(SkillEffect.DOUBLE)) timer = time + 5;
+		} else if(inUse == true){
+			if(hasEffect(SkillEffect.DOUBLE) && time == timer){
+				impact(range, speed);
+				inUse = !inUse;
 			}
-			inUse = !inUse;
-		}} else if(inUse == true){
 			
 		}
 	}
 	
+	private void impact(int range2, int speed2) {
+		Point startPoint = new Point(Game.PLAYER.getX(), Game.PLAYER.getY());
+		Point endPoint = new Point(0, 0);
+
+		
+		for(double i = 0; i < 2*Math.PI-0.01; i+= 0.1){
+			endPoint = new Point(Game.PLAYER.getX() + (int) (Math.cos(i)*range),Game.PLAYER.getY() + (int) (Math.sin(i)*range));
+
+			Projectile p = new Projectile(32,range, speed, damage,startPoint, endPoint, effectTexture, effectTextureRotation);
+			World.addEffect(p,layer);
+		}
+	}
+
 	private void auraAttack(){
 		Point startPoint = new Point(Game.PLAYER.getX(), Game.PLAYER.getY());
 		Point endPoint = new Point(Mouse.getX() + Game.PLAYER.getCameraX(), Mouse.getY() + Game.PLAYER.getCameraY());
