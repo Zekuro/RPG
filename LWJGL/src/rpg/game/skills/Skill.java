@@ -37,16 +37,20 @@ public class Skill extends Item{
 	private int electricDamage;
 	private int delta = 0;
 	private int layer = 0;
+	private int effectTextureRotation = 0;
+	private int time = 0;
+	private int timer = 0;
+	
+	
 	
 	private boolean inUse = false;
+	
 	private String effectTexture;
+	private Point previousEndPoint;
 	private ArrayList<SkillEffect> skillEffects = new ArrayList();
 	private ArrayList<Element> elements = new ArrayList();
 	
 	//TODO UPDATE effectList -> renderOrder: first Impact -> Laser -> Projectile -> Aura
-	// Ice03 rotate = 45
-	// Fire05 rotate = 135
-	// Fire01 rotate = 120
 	// define rotation to the effectTexture!
 	public Skill(String name, Tier tier, SkillType type) {
 		super(name, tier, 0, 0, 0, "/res/skills/S_Fire05.png");
@@ -78,8 +82,23 @@ public class Skill extends Item{
 		}
 		layer = type.ordinal();
 		setTexture(texturePath);
+		setEffectTextureRotation();
 		isSkill = true;
 		stackable = false;
+		
+		// TODO THESE ARE TESTCASES PLEASE REMOVE AFTER TEST!
+		switch (type) {
+		case PROJECTILE:
+			addEffect(SkillEffect.DOUBLE);
+			break;
+		case LASER:
+			break;
+		case IMPACT:
+			break;
+		case AURA:
+			break;
+		}
+		
 	}
 	
 	// change icon to same element
@@ -124,8 +143,7 @@ public class Skill extends Item{
 		if(Game.PLAYER.reduceMana(requiredMana)){
 		
 		switch(type){
-		case PROJECTILE: 
-			projectileAttack();
+		case PROJECTILE: projectileAttack();
 			break;
 		case LASER: laserAttack();
 			break;
@@ -137,6 +155,7 @@ public class Skill extends Item{
 		
 		}
 		delta++;
+		time++;
 		if(delta >= Game.UPS) delta = 0;
 	}
 	
@@ -145,13 +164,26 @@ public class Skill extends Item{
 		Point startPoint = new Point(Game.PLAYER.getX(), Game.PLAYER.getY());
 		Point endPoint = new Point(Mouse.getX() + Game.PLAYER.getCameraX(), Mouse.getY()+ Game.PLAYER.getCameraY());
 		
-		if(skillEffects.isEmpty()){
-			World.addEffect(new Projectile(32,range, speed, damage,startPoint, endPoint, effectTexture, 135), layer);
+		if(inUse == false){
+			if(skillEffects.isEmpty() || hasEffect(SkillEffect.DOUBLE)){
+				World.addEffect(new Projectile(32,range, speed, damage,startPoint, endPoint, effectTexture, effectTextureRotation), layer);
+				if(!hasEffect(SkillEffect.DOUBLE)) inUse = !inUse;
+				if(hasEffect(SkillEffect.DOUBLE)) timer = time + 5;
+				previousEndPoint = endPoint;
+			}
+		}else if(inUse == true){
+			if(hasEffect(SkillEffect.DOUBLE) && time == timer){
+				World.addEffect(new Projectile(32,range, speed, damage,startPoint, previousEndPoint, effectTexture, effectTextureRotation), layer);
+				inUse = !inUse;
+				timer = 0;
+			}
 		}
 		
 		
 	}
 	
+	// TODO: please make some extra methods e.g.: laser(startPoint, endPoint)
+	// this will make it easier to add effects
 	private void laserAttack(){
 		Point startPoint = new Point(Game.PLAYER.getX(), Game.PLAYER.getY());
 		Point endPoint = new Point(Mouse.getX() + Game.PLAYER.getCameraX(), Mouse.getY()+ Game.PLAYER.getCameraY());
@@ -196,30 +228,35 @@ public class Skill extends Item{
 					}
 					
 				}
-				Projectile p = new Projectile(32,range-i*speed, speed, damage/(range*speed),startPoint, endPoint, effectTexture, 120);
+				Projectile p = new Projectile(32,range-i*speed, speed, damage/(range*speed),startPoint, endPoint, effectTexture, effectTextureRotation);
 				World.addEffect(p, layer);
 				if(p.hasCollision()) break;
 			}
 			
 		}}else if(inUse = true){
-			World.addEffect(new Projectile(32,range, speed, damage/(range*speed),startPoint, endPoint, effectTexture, 120),layer);
+			World.addEffect(new Projectile(32,range, speed, damage/(range*speed),startPoint, endPoint, effectTexture, effectTextureRotation),layer);
 		}
 		
 	}
 	
+	// TODO make some extramethods e.g.: imactAttack(speed, range)
+	// easier to add some effects
 	private void impactAttack(){
 		// make a circle out of projectiles
 		Point startPoint = new Point(Game.PLAYER.getX(), Game.PLAYER.getY());
 		Point endPoint = new Point(0, 0);
 		
+		if(inUse == false){
 		if(skillEffects.isEmpty()){
 
 			for(double i = 0; i < 2*Math.PI-0.01; i+= 0.1){
 				endPoint = new Point(Game.PLAYER.getX() + (int) (Math.cos(i)*range),Game.PLAYER.getY() + (int) (Math.sin(i)*range));
 
-				Projectile p = new Projectile(32,range, speed, damage,startPoint, endPoint, effectTexture, 120);
+				Projectile p = new Projectile(32,range, speed, damage,startPoint, endPoint, effectTexture, effectTextureRotation);
 				World.addEffect(p,layer);
 			}
+			inUse = !inUse;
+		}} else if(inUse == true){
 			
 		}
 	}
@@ -252,8 +289,7 @@ public class Skill extends Item{
 			for(double i = startAngle - Math.PI/4; i < startAngle + Math.PI/4; i+= iAdd){
 				startPoint = new Point(Game.PLAYER.getX() + (int) (Math.cos(i)*range),Game.PLAYER.getY() + (int) (Math.sin(i)*range));
 				endPoint = new Point(Game.PLAYER.getX(),Game.PLAYER.getY());
-				System.out.println(startPoint.toString() + " " + endPoint.toString());
-				Projectile p = new Projectile(32,1/range, speed, damage,startPoint, endPoint, effectTexture, -90);
+				Projectile p = new Projectile(32,1/range, speed, damage,startPoint, endPoint, effectTexture, effectTextureRotation + 180);
 				World.addEffect(p,layer);
 			}
 			
@@ -270,5 +306,21 @@ public class Skill extends Item{
 	
 	public SkillType getType(){
 		return type;
+	}
+	
+	private void setEffectTextureRotation(){
+		if(effectTexture.contains("Ice03")) effectTextureRotation = 45;
+		if(effectTexture.contains("Fire05")) effectTextureRotation = 135;
+		if(effectTexture.contains("Fire01")) effectTextureRotation = 120;
+		if(effectTexture.contains("Earth04")) effectTextureRotation = 90;
+	}
+	
+	private boolean hasEffect(SkillEffect effect){
+		
+		for (SkillEffect e: skillEffects) {
+			if(e == effect) return true;
+		}
+		
+		return false;
 	}
 }

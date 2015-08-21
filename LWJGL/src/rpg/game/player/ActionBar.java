@@ -8,7 +8,6 @@ import rpg.game.Font;
 import rpg.game.Game;
 import rpg.game.items.Item;
 import rpg.game.skills.Skill;
-import rpg.game.skills.Skill.SkillType;
 
 public class ActionBar {
 
@@ -220,12 +219,9 @@ public class ActionBar {
 		
 	}
 	
-	
+	// TODO maybe clean me up
 	private static void useSkill(Skill skill){
-		boolean canUse = true;
-		
-		if(skill.getType() == SkillType.LASER || skill.getType() == SkillType.AURA) skill.setInUse(!skill.isInUse());
-		
+		skill.setInUse(!skill.isInUse());
 	}
 	
 	public static Item[] getActionBar(){
