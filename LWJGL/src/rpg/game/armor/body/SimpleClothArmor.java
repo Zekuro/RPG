@@ -5,7 +5,7 @@ import rpg.game.armor.Armor;
 public class SimpleClothArmor extends Armor{
 
 	public SimpleClothArmor(int minLvl, int maxLvl, Tier tier) {
-		super("Einfache Stoffrüstung",Armor.Type.SHOES, tier, 1, 100, 200, "res/armor/body/A_Clothing01.png");
+		super("Einfache Stoffrüstung",Armor.Type.BREAST, tier, 1, 100, 200, "res/armor/body/A_Clothing01.png");
 	
 		requiredLvl = (int) (Math.random()*(maxLvl-minLvl)+minLvl);
 		
