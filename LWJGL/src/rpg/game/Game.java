@@ -4,12 +4,14 @@ import java.util.Properties;
 
 import org.lwjgl.LWJGLException;
 import org.lwjgl.input.Keyboard;
+import org.lwjgl.openal.AL;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.DisplayMode;
 import org.lwjgl.opengl.GL11;
 
 import rpg.game.player.Player;
 import rpg.game.ui.Interface;
+import rpg.game.ui.MainMenu;
 import rpg.game.ui.Map;
 
 
@@ -24,13 +26,21 @@ public class Game {
 	
 	public static Player PLAYER;
 	public static Interface UI;
+	public static MainMenu MAINMENU;
 	private World world;
 	public static int FPS;
 	public static int UPS;
 	public static int SECONDS = 0;
 	
+	public static GameState state;
+	
 	private static boolean paused = false;
-
+	
+	
+	public static enum GameState{
+		MENU, GAME
+	}
+	
 	public static void main(String[] args) {
 		Game launcher = new Game();
 	}
@@ -87,12 +97,19 @@ public class Game {
     	GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
     	Font.loadFonts();
     	
-    	world = new World();
+    	state = GameState.MENU;
+    	MAINMENU = new MainMenu(this);
+    	
     	render();
+	}
+	
+	public void start(){
+		state = GameState.GAME;
+		world = new World();
+		render();
     	world.loadFromImage();
 		PLAYER = new Player(100,100);
 		UI = new Interface();
-		
 	}
 
 	public void run(){
@@ -141,60 +158,84 @@ public class Game {
 			}
 
 		}
+		AL.destroy();
 		Display.destroy();
 	}
 	
 	public void update(){
 		
-		if(Keyboard.isKeyDown(Keyboard.KEY_F11)){
-			try {
-				Display.setVSyncEnabled(!Display.isFullscreen());
-				Display.setFullscreen(!Display.isFullscreen());
-			} catch (LWJGLException e) {
-				e.printStackTrace();
+		switch (state) {
+		case MENU:
+			MAINMENU.update();
+			break;
+
+		case GAME:
+			if(Keyboard.isKeyDown(Keyboard.KEY_F11)){
+				try {
+					Display.setVSyncEnabled(!Display.isFullscreen());
+					Display.setFullscreen(!Display.isFullscreen());
+				} catch (LWJGLException e) {
+					e.printStackTrace();
+				}
 			}
+			
+			if(!paused){
+				world.update();
+				PLAYER.update();
+			}
+			
+			UI.update();
+			break;
+			
+		default:
+			break;
 		}
 		
-		if(!paused){
-			world.update();
-			PLAYER.update();
-		}
-
-		UI.update();
 	}
 	
 	// FIXME not showing correct on different resolution
 	public void render(){
 		GL11.glClear(GL11.GL_COLOR_BUFFER_BIT | GL11.GL_DEPTH_BUFFER_BIT);
 		
-		if(world.isLoading()){
-			GL11.glDisable(GL11.GL_TEXTURE_2D);
-			GL11.glColor3f(0, 0, 0);
-			GL11.glBegin(GL11.GL_QUADS);
-			GL11.glVertex2i(0, 0);
-			GL11.glVertex2i(SCREEN_WIDTH, 0);
-			GL11.glVertex2i(SCREEN_WIDTH, SCREEN_HEIGHT);
-			GL11.glVertex2i(0, SCREEN_HEIGHT);
-			GL11.glEnd();
-			GL11.glEnable(GL11.GL_TEXTURE_2D);
+		switch (state) {
+		case MENU:
+			MAINMENU.render();
+			break;
+		case GAME:
+			if(world.isLoading()){
+				GL11.glDisable(GL11.GL_TEXTURE_2D);
+				GL11.glColor3f(0, 0, 0);
+				GL11.glBegin(GL11.GL_QUADS);
+				GL11.glVertex2i(0, 0);
+				GL11.glVertex2i(SCREEN_WIDTH, 0);
+				GL11.glVertex2i(SCREEN_WIDTH, SCREEN_HEIGHT);
+				GL11.glVertex2i(0, SCREEN_HEIGHT);
+				GL11.glEnd();
+				GL11.glEnable(GL11.GL_TEXTURE_2D);
+				
+				String msg = "L O A D I N G . . .";
+				Font.render(msg, SCREEN_WIDTH/2-msg.length()*16/2, SCREEN_HEIGHT/2,2);
+			}else{
 			
-			String msg = "L O A D I N G . . .";
-			Font.render(msg, SCREEN_WIDTH/2-msg.length()*16/2, SCREEN_HEIGHT/2,2);
-		}else{
-		
-		if(!UI.isRenderingMap()){
-			world.render(World.backgroundTiles);
-//			world.renderBackground();
-			world.renderEffects();
-			PLAYER.render();
-			world.renderEntities();
-			world.renderObjects();
-			UI.render();
-		}else{
-			Map.render(world);
+			if(!UI.isRenderingMap()){
+				world.render(World.backgroundTiles);
+//				world.renderBackground();
+				world.renderEffects();
+				PLAYER.render();
+				world.renderEntities();
+				world.renderObjects();
+				UI.render();
+			}else{
+				Map.render(world);
+			}
+			
+			}
+			break;
+		default:
+			break;
 		}
 		
-		}
+		
 		Display.update();
 	}
 	
