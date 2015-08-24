@@ -164,20 +164,21 @@ public class Game {
 	
 	public void update(){
 		
+		if(Keyboard.isKeyDown(Keyboard.KEY_F11)){
+			try {
+				Display.setVSyncEnabled(!Display.isFullscreen());
+				Display.setFullscreen(!Display.isFullscreen());
+			} catch (LWJGLException e) {
+				e.printStackTrace();
+			}
+		}
+
 		switch (state) {
 		case MENU:
 			MAINMENU.update();
 			break;
 
 		case GAME:
-			if(Keyboard.isKeyDown(Keyboard.KEY_F11)){
-				try {
-					Display.setVSyncEnabled(!Display.isFullscreen());
-					Display.setFullscreen(!Display.isFullscreen());
-				} catch (LWJGLException e) {
-					e.printStackTrace();
-				}
-			}
 			
 			if(!paused){
 				world.update();

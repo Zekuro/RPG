@@ -214,7 +214,34 @@ public class Skill extends Item{
 				//laserAttack(startPoint, new Point((int) endPoint.getX(), (int) endPoint.getY() + 100));
 			}
 		}else if(inUse = true){
-			World.addEffect(new Projectile(32,range, speed, damage,startPoint, endPoint, effectTexture, effectTextureRotation),layer);
+			
+				startPoint = new Point(Game.PLAYER.getX(), Game.PLAYER.getY());
+				endPoint = new Point(Mouse.getX() + Game.PLAYER.getCameraX(), Mouse.getY()+ Game.PLAYER.getCameraY());
+
+				int offset = 3;
+				
+				int xAdd = xAdd = (int) (offset*speed*Math.cos(Math.atan(m)));
+				int yAdd = yAdd = (int) (offset*speed*Math.sin(Math.atan(m)));
+				if(endPoint.getX() > startPoint.getX()){
+					startPoint.setLocation(startPoint.getX()+xAdd, startPoint.getY()+yAdd);
+					endPoint.setLocation(endPoint.getX()+xAdd, endPoint.getY()+yAdd);
+				}else if(endPoint.getX() < startPoint.getX()){
+					startPoint.setLocation(startPoint.getX()-xAdd, startPoint.getY()-yAdd);
+					endPoint.setLocation(endPoint.getX()-xAdd, endPoint.getY()-yAdd);
+				}
+				if(endPoint.getX() == startPoint.getX()){
+					
+					if(endPoint.getY() > startPoint.getY()){
+						yAdd = offset*speed;
+					}else{
+						yAdd = offset*speed;
+					}
+					
+				}
+				Projectile p = new Projectile(32,range-speed*offset, speed, damage,startPoint, endPoint, effectTexture, effectTextureRotation);
+				World.addEffect(p, layer);
+			
+			//World.addEffect(new Projectile(32,range, speed, damage,startPoint, endPoint, effectTexture, effectTextureRotation),layer);
 		
 			// TODO Parallel line
 			//if(hasEffect(SkillEffect.DOUBLE)) World.addEffect(new Projectile(32,range, speed, damage/(range*speed),startPoint, new Point((int) endPoint.getX(), (int) endPoint.getY() + 100), effectTexture, effectTextureRotation),layer);;
@@ -225,7 +252,7 @@ public class Skill extends Item{
 	private void laserAttack(Point startPoint, Point endPoint) {
 		double m = (endPoint.getY() - startPoint.getY())/(endPoint.getX() - startPoint.getX());
 		
-		for(int i = 0; i < range/speed; i++){
+		for(int i = 3; i < range/speed; i++){
 			startPoint = new Point(Game.PLAYER.getX(), Game.PLAYER.getY());
 			endPoint = new Point(Mouse.getX() + Game.PLAYER.getCameraX(), Mouse.getY()+ Game.PLAYER.getCameraY());
 
