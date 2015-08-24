@@ -31,13 +31,7 @@ public class AnimatedEntity extends Entity{
 
 	/**
 	 * Add following Vars:
-	 * - maxHealth
-	 * - maxMana
-	 * - exp
-	 * - animationSpeed
 	 * - movingChangeSpeed
-	 * - walkTime
-	 * - standTime
 	 * 
 	 * - horAnimationHitbox
 	 * - vertAnimationHitbox
@@ -54,6 +48,14 @@ public class AnimatedEntity extends Entity{
 	public void update(){
 		delta++;
 		
+		if(!isDead()){
+			move();
+		}
+		
+		super.update();
+	}
+	
+	public void move(){
 		int update = delta%animationSpeed;
 		
 		if(stopAnimation == false){
@@ -150,26 +152,27 @@ public class AnimatedEntity extends Entity{
 					setImageBounds(0, 0, width+5, height+10);
 				}
 		}
-		
-		
 	}
 	
 	public void render(){
 		texture.bind();
 		
-		int xChange = (change-1) % 3;
-		
-		GL11.glBegin(GL11.GL_QUADS);
-		GL11.glTexCoord2f(xChange * 0.25f,yChange * 0.25f + 0.25f);
-		GL11.glVertex2f(x, y);
-		GL11.glTexCoord2f(xChange * 0.25f + 0.25f,yChange * 0.25f + 0.25f);
-		GL11.glVertex2f(x+64, y);
-		GL11.glTexCoord2f(xChange * 0.25f + 0.25f,yChange * 0.25f);
-		GL11.glVertex2f(x+64, y+64);
-		GL11.glTexCoord2f(xChange * 0.25f,yChange * 0.25f);
-		GL11.glVertex2f(x, y+64);
-	    GL11.glEnd();
-	    
+		if(!isDead()){
+			int xChange = (change-1) % 3;
+			
+			GL11.glBegin(GL11.GL_QUADS);
+			GL11.glTexCoord2f(xChange * 0.25f,yChange * 0.25f + 0.25f);
+			GL11.glVertex2f(x, y);
+			GL11.glTexCoord2f(xChange * 0.25f + 0.25f,yChange * 0.25f + 0.25f);
+			GL11.glVertex2f(x+64, y);
+			GL11.glTexCoord2f(xChange * 0.25f + 0.25f,yChange * 0.25f);
+			GL11.glVertex2f(x+64, y+64);
+			GL11.glTexCoord2f(xChange * 0.25f,yChange * 0.25f);
+			GL11.glVertex2f(x, y+64);
+		    GL11.glEnd();
+		}else{
+			renderItemBag();
+		}
 	}
 	
 	public void setHorAnimationBounds(int xOffset, int yOffset, int width, int height){

@@ -14,11 +14,16 @@ public class Slime extends Entity{
 		super(lvl, 15, 16, false);
 		colOffsetX = 10;
 		setTexture("res/entities/slime.png");
+		setRespawnTime(10);
 	}
 	
 	public void update(){
 		delta++;
 		
+		if(!isDead()) move();
+	}
+	
+	public void move(){
 		int animationSpeed = 120;
 		int update = delta%animationSpeed;
 		
@@ -73,18 +78,20 @@ public class Slime extends Entity{
 		
 		int xChange = (change-1) % 2;
 		int yChange = (change-1) / 2;
-		
-		GL11.glBegin(GL11.GL_QUADS);
-		GL11.glTexCoord2f(xChange * 0.5f,yChange * 0.5f + 0.5f);
-		GL11.glVertex2f(x, y);
-		GL11.glTexCoord2f(xChange * 0.5f + 0.5f,yChange * 0.5f + 0.5f);
-		GL11.glVertex2f(x+32, y);
-		GL11.glTexCoord2f(xChange * 0.5f + 0.5f,yChange * 0.5f);
-		GL11.glVertex2f(x+32, y+32);
-		GL11.glTexCoord2f(xChange * 0.5f,yChange * 0.5f);
-		GL11.glVertex2f(x, y+32);
-	    GL11.glEnd();
-		
+		if(!isDead()){
+			GL11.glBegin(GL11.GL_QUADS);
+			GL11.glTexCoord2f(xChange * 0.5f,yChange * 0.5f + 0.5f);
+			GL11.glVertex2f(x, y);
+			GL11.glTexCoord2f(xChange * 0.5f + 0.5f,yChange * 0.5f + 0.5f);
+			GL11.glVertex2f(x+32, y);
+			GL11.glTexCoord2f(xChange * 0.5f + 0.5f,yChange * 0.5f);
+			GL11.glVertex2f(x+32, y+32);
+			GL11.glTexCoord2f(xChange * 0.5f,yChange * 0.5f);
+			GL11.glVertex2f(x, y+32);
+		    GL11.glEnd();
+		}else{
+			renderItemBag();
+		}
 	}
 	
 }
