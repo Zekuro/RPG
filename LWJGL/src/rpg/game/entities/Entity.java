@@ -42,14 +42,16 @@ public class Entity extends GameObject{
 	
 	private boolean aggressive;
 	private boolean alive = true;
+	private boolean visible = true;
 	
-	private ArrayList<Item> loot = new ArrayList<>();
+	protected ArrayList<Item> loot = new ArrayList<>();
 	
 	
 	public Entity(int lvl, int width, int height,boolean aggressive) {
 		super(true, false, width, height, "res/background/water.png");
 		this.lvl = lvl;
 		this.aggressive = aggressive;
+		createLoot();
 	}
 	
 	public static Entity create(int id, int lvl){
@@ -69,6 +71,11 @@ public class Entity extends GameObject{
 	public void update(){
 		if(isDead() && Game.SECONDS >= respawnTimer){
 				if(canRespawn()) respawn();
+		}
+
+		if(isDead() && loot.size() == 0 && visible){
+			visible = false;
+			solid = false;
 		}
 	}
 	
@@ -113,16 +120,18 @@ public class Entity extends GameObject{
 	
 	// when entity is dead
 	public void renderItemBag(){
-		GL11.glBegin(GL11.GL_QUADS);
-		GL11.glTexCoord2f(0,1);
-		GL11.glVertex2f(x, y);
-		GL11.glTexCoord2f(1,1);
-		GL11.glVertex2f(x+texture.getImageWidth(), y);
-		GL11.glTexCoord2f(1,0);
-		GL11.glVertex2f(x+texture.getImageWidth(), y+texture.getImageHeight());
-		GL11.glTexCoord2f(0,0);
-		GL11.glVertex2f(x, y+texture.getImageHeight());
-	    GL11.glEnd();
+		if(visible){
+			GL11.glBegin(GL11.GL_QUADS);
+			GL11.glTexCoord2f(0,1);
+			GL11.glVertex2f(x, y);
+			GL11.glTexCoord2f(1,1);
+			GL11.glVertex2f(x+texture.getImageWidth(), y);
+			GL11.glTexCoord2f(1,0);
+			GL11.glVertex2f(x+texture.getImageWidth(), y+texture.getImageHeight());
+			GL11.glTexCoord2f(0,0);
+			GL11.glVertex2f(x, y+texture.getImageHeight());
+		    GL11.glEnd();
+		}
 	}
 	
 	public boolean hasCollisionAt(int x, int y){
@@ -224,6 +233,9 @@ public class Entity extends GameObject{
 		colOffsetY = respawnColY;
 		texture = respawnTexture;
 		health = maxHealth;
+		createLoot();
+		solid = true;
+		visible = true;
 		alive = true;
 	}
 	
@@ -323,5 +335,9 @@ public class Entity extends GameObject{
 		respawnTime = seconds;
 	}
 	
+	// create new loot, defined in other entities because they have different loot
+	public void createLoot(){
+		
+	}
 	
 	}

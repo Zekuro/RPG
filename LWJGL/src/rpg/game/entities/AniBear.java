@@ -1,5 +1,9 @@
 package rpg.game.entities;
 
+import rpg.game.items.Item;
+import rpg.game.items.Item.ItemObject;
+import rpg.game.player.Inventory;
+
 public class AniBear extends AnimatedEntity{
 
 	// = animated bear, test for animated entities
@@ -22,5 +26,9 @@ public class AniBear extends AnimatedEntity{
 		maxHealth = 100;
 		health = 50;
 	}
-
+	
+	public void createLoot(){
+		Inventory.add(Item.get(ItemObject.smallManaPotion), loot);
+	}
+	
 }

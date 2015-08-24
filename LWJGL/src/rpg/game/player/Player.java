@@ -13,6 +13,7 @@ import rpg.game.Stats;
 import rpg.game.World;
 import rpg.game.armor.body.SimpleClothArmor;
 import rpg.game.armor.boots.SimpleBoots;
+import rpg.game.entities.Entity;
 import rpg.game.items.Item;
 import rpg.game.items.Item.ItemObject;
 import rpg.game.items.Item.Tier;
@@ -252,7 +253,13 @@ public class Player {
 			}
 			
 			// TODO loot entity if it is dead and hasLoot
-			
+			for (GameObject object : World.entityList) {
+					Entity entity = (Entity) object;
+					if(entity.isDead() && inFrontOf(entity) && entity.getLoot().size() > 0){
+						Game.UI.showLootDialog(entity.getLoot());
+						break;
+					}
+			}
 	}
 	
 	public void render(){

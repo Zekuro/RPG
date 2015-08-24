@@ -29,7 +29,7 @@ public class GameObject {
 	
 	private boolean destroy = false;
 	private boolean isBackground;
-	private boolean solid;
+	protected boolean solid;
 	
 	public GameObject(boolean solid, boolean background,int width, int height, Tile tile){
 		this.width = width;
