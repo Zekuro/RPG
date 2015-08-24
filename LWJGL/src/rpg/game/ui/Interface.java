@@ -338,6 +338,8 @@ private void renderExpBar(){
 		int endX = Game.SCREEN_WIDTH / 2 + 200;
 		int healthBarWidth = (endX-startX) * selectedEntity.getHealth() / selectedEntity.getMaxHealth();
 		
+		Font.render(Integer.toString(selectedEntity.getLvl()), x + startX - (32*Integer.toString(selectedEntity.getLvl()).length()), y + Game.SCREEN_HEIGHT - 32,3);
+		
 		GL11.glDisable(GL11.GL_TEXTURE_2D);
 			GL11.glColor3f(1, 0, 0);
 			GL11.glBegin(GL11.GL_QUADS);
@@ -366,7 +368,8 @@ private void renderExpBar(){
 		if(	selectedEntity.getX() > x + Game.SCREEN_WIDTH 
 			|| selectedEntity.getX() + selectedEntity.getWidth() < x
 			|| selectedEntity.getY() > y + Game.SCREEN_HEIGHT
-			|| selectedEntity.getY() + selectedEntity.getHeight() < y){
+			|| selectedEntity.getY() + selectedEntity.getHeight() < y
+			|| selectedEntity.isDead()){
 			selectedEntity = null;
 		}}
 	}
@@ -398,4 +401,7 @@ private void renderExpBar(){
 		dragItem = item;
 	}
 	
+	public Entity getSelectedEntity(){
+		return selectedEntity;
+	}
 }

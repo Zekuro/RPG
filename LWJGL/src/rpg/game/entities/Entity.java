@@ -85,6 +85,14 @@ public abstract class Entity extends GameObject{
 		}
 	}
 	
+	public void render(){
+		if(Game.UI.getSelectedEntity() != null && Game.UI.getSelectedEntity() == this){
+			GL11.glColor3d(1,0,0);
+		}else{
+			GL11.glColor3d(1,1,1);
+		}
+	}
+	
 	// TODO update for large Worlds
 	public boolean hasCollision(int x, int y){
 		if(	x + colOffsetX + width > Game.PLAYER.getX()

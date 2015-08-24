@@ -156,10 +156,10 @@ public abstract class AnimatedEntity extends Entity{
 	
 	public void render(){
 		texture.bind();
-		
 		if(!isDead()){
 			int xChange = (change-1) % 3;
 			
+			super.render();
 			GL11.glBegin(GL11.GL_QUADS);
 			GL11.glTexCoord2f(xChange * 0.25f,yChange * 0.25f + 0.25f);
 			GL11.glVertex2f(x, y);

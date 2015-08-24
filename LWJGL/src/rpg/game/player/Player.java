@@ -47,7 +47,7 @@ public class Player {
 	private int maxExp = 100;
 	private int health = 50;
 	private int mana = 50;
-	private int exp = 50;
+	private int exp = 0;
 	
 	private int healthReg = 5;
 	private int manaReg = 5;
