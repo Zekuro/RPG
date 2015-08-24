@@ -2,6 +2,11 @@ package rpg.game.entities;
 
 import org.lwjgl.opengl.GL11;
 
+/**
+ * remove me later, this is replaced by AniBear (testclass for animated entities)
+ * @author basti
+ */
+@Deprecated
 public class Bear extends Entity{
 
 	private int speed = 1;
@@ -144,6 +149,12 @@ public class Bear extends Entity{
 		GL11.glVertex2f(x, y+64);
 	    GL11.glEnd();
 	    
+	}
+
+	@Override
+	public void createLoot() {
+		// TODO Auto-generated method stub
+		
 	}
 	
 }

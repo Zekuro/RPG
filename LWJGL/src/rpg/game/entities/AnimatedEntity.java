@@ -2,7 +2,7 @@ package rpg.game.entities;
 
 import org.lwjgl.opengl.GL11;
 
-public class AnimatedEntity extends Entity{
+public abstract class AnimatedEntity extends Entity{
 	
 	private int speed;
 	private int yChange;
@@ -46,13 +46,13 @@ public class AnimatedEntity extends Entity{
 	}
 	
 	public void update(){
+		super.update();
 		delta++;
 		
 		if(!isDead()){
 			move();
 		}
 		
-		super.update();
 	}
 	
 	public void move(){

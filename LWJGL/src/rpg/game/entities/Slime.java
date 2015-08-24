@@ -18,6 +18,7 @@ public class Slime extends Entity{
 	}
 	
 	public void update(){
+		super.update();
 		delta++;
 		
 		if(!isDead()) move();
@@ -92,6 +93,12 @@ public class Slime extends Entity{
 		}else{
 			renderItemBag();
 		}
+	}
+
+	@Override
+	public void createLoot() {
+		// TODO Auto-generated method stub
+		
 	}
 	
 }

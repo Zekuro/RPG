@@ -10,7 +10,7 @@ import rpg.game.World;
 import rpg.game.items.Item;
 import rpg.game.objects.GameObject;
 
-public class Entity extends GameObject{
+public abstract class Entity extends GameObject{
 
 	protected int lvl;
 	protected int maxHealth;
@@ -52,6 +52,8 @@ public class Entity extends GameObject{
 		this.lvl = lvl;
 		this.aggressive = aggressive;
 		createLoot();
+		// more xp for boss-monster etc
+		exp = (int) (0.01*Math.pow(lvl, 2)+lvl+ 10);
 	}
 	
 	public static Entity create(int id, int lvl){
@@ -70,7 +72,11 @@ public class Entity extends GameObject{
 	
 	public void update(){
 		if(isDead() && Game.SECONDS >= respawnTimer){
-				if(canRespawn()) respawn();
+				if(canRespawn()){
+					respawn();
+				}else{
+					respawnTimer += 3;
+				}
 		}
 
 		if(isDead() && loot.size() == 0 && visible){
@@ -323,12 +329,18 @@ public class Entity extends GameObject{
 		respawnWidth = width;
 		respawnHeight = height;
 		respawnTexture = texture;
+		if(loot.size() > 0){
+			setBounds(x + colOffsetX + width/2 - 16, y + colOffsetY + height/2 - 16,32,32);
+			setCollisionBox(6, 0, 20, 32);
+			setTexture("res/items/bag.png");
+		}else{
+			visible = false;
+			solid = false;
+		}
 		
-		setBounds(x + colOffsetX + width/2 - 16, y + colOffsetY + height/2 - 16,32,32);
-		setCollisionBox(6, 0, 20, 32);
-		setTexture("res/items/bag.png");
 		respawnTimer = Game.SECONDS + respawnTime;
 		
+		Game.PLAYER.addExp(exp);
 	}
 	
 	public void setRespawnTime(int seconds){
@@ -336,8 +348,6 @@ public class Entity extends GameObject{
 	}
 	
 	// create new loot, defined in other entities because they have different loot
-	public void createLoot(){
-		
-	}
+	public  abstract void createLoot();
 	
 	}
