@@ -19,7 +19,7 @@ public class MainMenu {
 	private Audio menuEffect;
 	private int size = 3;
 	
-	private String[] options = { "Start Game","Options", "Exit"};
+	private String[] options = { "Start Game","Resume","Options", "Exit"};
 	private int selectedIndex = 0;
 	
 	private Game game;
@@ -53,10 +53,9 @@ public class MainMenu {
 				if(Keyboard.getEventKey() == Keyboard.KEY_RETURN){
 					
 					/*	0 -> Start Game
-					 *  1 -> Options
-					 *  2 -> Exit
-					 *  
-					 *  TODO: load Game
+					 *  1 -> Resume (or load)
+					 *  2 -> Options
+					 *  3 -> Exit
 					 */
 					switch (selectedIndex) {
 					case 0:
@@ -66,8 +65,9 @@ public class MainMenu {
 						break;
 					case 1:
 						break;
-						
 					case 2:
+						break;
+					case 3:
 						AL.destroy();
 						System.exit(0);
 						break;
