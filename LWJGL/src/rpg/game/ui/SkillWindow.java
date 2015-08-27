@@ -4,6 +4,7 @@ import org.lwjgl.opengl.GL11;
 
 import rpg.game.Font;
 import rpg.game.Game;
+import rpg.game.items.Item;
 
 public class SkillWindow {
 
@@ -105,6 +106,31 @@ public class SkillWindow {
 	}
 	
 	private static void processOverviewInput(int button, int mouseX, int mouseY){
+		int windowX = Game.PLAYER.getCameraX() + Game.SCREEN_WIDTH/2-width/2;
+		int windowY = Game.PLAYER.getCameraY() + Game.SCREEN_HEIGHT/2-height/2;
+		
+		if(button == 0){
+			for(int i = 0; i < 12; i++){
+				
+				int itemX = windowX + 16;
+				int itemY = windowY + height - 48 - i*32 - i*4;
+				
+				if(	Game.PLAYER.getCameraX()+mouseX > itemX
+					&&Game.PLAYER.getCameraX()+mouseX < itemX + 32
+					&&Game.PLAYER.getCameraY()+mouseY > itemY
+					&&Game.PLAYER.getCameraY()+mouseY < itemY + 32
+					&& i+1 <= Game.PLAYER.getSkillList().size()){
+					
+//					Game.UI.setDragSkill(Game.PLAYER.getSkillList().get(i));
+					Item item = Game.PLAYER.getSkillList().get(i);
+					Game.UI.clickedInventorySlot = true;
+					Game.UI.setDragItem(item);
+					
+					break;
+				}
+				
+			}
+		}
 		
 	}
 }

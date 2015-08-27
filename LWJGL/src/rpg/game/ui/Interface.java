@@ -67,7 +67,6 @@ public class Interface {
 		if(renderPaused)renderPaused();
 		
 		if(dragItem != null) dragItem.render(x + Mouse.getX(), y + Mouse.getY() - 32);
-		
 	}
 	
 	public void update(){
@@ -146,6 +145,11 @@ public class Interface {
 		if(renderQuestLog){
 			QuestLog.processInput(button, Mouse.getX(), Mouse.getY());
 		}
+		
+		if(renderSKillWindow){
+			SkillWindow.processInput(button, Mouse.getX(), Mouse.getY());
+		}
+		
 		ActionBar.update(button, Mouse.getX(), Mouse.getY());
 	}
 	
