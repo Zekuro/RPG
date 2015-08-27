@@ -6,6 +6,7 @@ import org.lwjgl.opengl.GL11;
 
 import rpg.game.Font;
 import rpg.game.Game;
+import rpg.game.Sound;
 import rpg.game.items.Item;
 import rpg.game.skills.Skill;
 
@@ -175,6 +176,7 @@ public class ActionBar {
 					actionBar[index] = Game.UI.getDragItem();
 					Game.UI.setDragItem(null);
 					dragIndex = -1;
+					Sound.item.playAsSoundEffect(1, 0.1f, false);
 				}
 			
 			
@@ -192,10 +194,12 @@ public class ActionBar {
 					actionBar[index] = Game.UI.getDragItem();
 					Game.UI.setDragItem(null);
 					dragIndex = -1;
+					Sound.item.playAsSoundEffect(1, 0.1f, false);
 				}else{
 					if(dragIndex >= 0){
 						actionBar[dragIndex] = null;
 						dragIndex = -1;
+						Sound.item.playAsSoundEffect(1, 0.1f, false);
 					}
 					Game.UI.clickedActioBarSlot= false;
 				}

@@ -1,22 +1,16 @@
 package rpg.game.ui;
 
-import java.io.IOException;
-
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.openal.AL;
 import org.lwjgl.opengl.GL11;
-import org.newdawn.slick.openal.Audio;
-import org.newdawn.slick.openal.AudioLoader;
 import org.newdawn.slick.openal.SoundStore;
-import org.newdawn.slick.util.ResourceLoader;
 
 import rpg.game.Font;
 import rpg.game.Game;
+import rpg.game.Sound;
 
 public class MainMenu {
 
-	private Audio menuBackground;
-	private Audio menuEffect;
 	private int size = 3;
 	
 	private String[] options = { "Start Game","Resume","Options", "Exit"};
@@ -27,13 +21,7 @@ public class MainMenu {
 	public MainMenu(Game game){
 		this.game = game;
 		
-		 try {
-			menuBackground = AudioLoader.getAudio("WAV", ResourceLoader.getResourceAsStream("res/sound/MenuBackground.wav"));
-			menuEffect = AudioLoader.getAudio("WAV", ResourceLoader.getResourceAsStream("res/sound/MenuClick.wav"));
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		 menuBackground.playAsMusic(1.0f, 1.0f, true);
+		 Sound.menuBackground.playAsMusic(1.0f, 1.0f, true);
 	}
 	
 	public void update(){
@@ -41,12 +29,12 @@ public class MainMenu {
 		while (Keyboard.next()) {
 			if (Keyboard.getEventKeyState()) {
 				if (Keyboard.getEventKey() == Keyboard.KEY_W || Keyboard.getEventKey() == Keyboard.KEY_UP) {
-					menuEffect.playAsSoundEffect(1.0f, 1.0f, false);
+					Sound.menuClick.playAsSoundEffect(1.0f, 1.0f, false);
 					if(selectedIndex - 1 >= 0) selectedIndex--;
 				}
 				
 				if(Keyboard.getEventKey() == Keyboard.KEY_S || Keyboard.getEventKey() == Keyboard.KEY_DOWN){
-					menuEffect.playAsSoundEffect(1.0f, 1.0f, false);
+					Sound.menuClick.playAsSoundEffect(1.0f, 1.0f, false);
 					if(selectedIndex + 1 <= options.length-1) selectedIndex++;
 				}
 				
@@ -59,8 +47,8 @@ public class MainMenu {
 					 */
 					switch (selectedIndex) {
 					case 0:
-						menuEffect.playAsSoundEffect(1.0f, 1.0f, false);
-						menuBackground.stop();
+						Sound.menuClick.playAsSoundEffect(1.0f, 1.0f, false);
+						Sound.menuBackground.stop();
 						game.start();
 						break;
 					case 1:

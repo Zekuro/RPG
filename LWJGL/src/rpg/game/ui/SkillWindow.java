@@ -5,6 +5,7 @@ import org.lwjgl.opengl.GL11;
 
 import rpg.game.Font;
 import rpg.game.Game;
+import rpg.game.Sound;
 import rpg.game.player.ActionBar;
 
 public class SkillWindow {
@@ -123,43 +124,18 @@ public class SkillWindow {
 					&& i+1 <= Game.PLAYER.getSkillList().size()){
 					
 					if(Keyboard.getEventKeyState()){
+					
+						int[] keys = {Keyboard.KEY_1,Keyboard.KEY_2,Keyboard.KEY_3,Keyboard.KEY_4,Keyboard.KEY_5,Keyboard.KEY_6,Keyboard.KEY_7,Keyboard.KEY_8,Keyboard.KEY_9};
 						
-						if(Keyboard.getEventKey() == Keyboard.KEY_1){
-							ActionBar.actionBar[0] = Game.PLAYER.getSkillList().get(i);
+						for(int j=0; j < keys.length; j++){
+							
+							if(Keyboard.getEventKey() == keys[j]){
+								ActionBar.actionBar[j] = Game.PLAYER.getSkillList().get(i);
+								Sound.item.playAsSoundEffect(1, 0.1f, false);
+								break;
+							}
+							
 						}
-						
-						if(Keyboard.getEventKey() == Keyboard.KEY_2){
-							ActionBar.actionBar[1] = Game.PLAYER.getSkillList().get(i);
-						}
-						
-						if(Keyboard.getEventKey() == Keyboard.KEY_3){
-							ActionBar.actionBar[2] = Game.PLAYER.getSkillList().get(i);
-						}
-						
-						if(Keyboard.getEventKey() == Keyboard.KEY_4){
-							ActionBar.actionBar[3] = Game.PLAYER.getSkillList().get(i);
-						}
-						
-						if(Keyboard.getEventKey() == Keyboard.KEY_5){
-							ActionBar.actionBar[4] = Game.PLAYER.getSkillList().get(i);
-						}
-						
-						if(Keyboard.getEventKey() == Keyboard.KEY_6){
-							ActionBar.actionBar[5] = Game.PLAYER.getSkillList().get(i);
-						}
-						
-						if(Keyboard.getEventKey() == Keyboard.KEY_7){
-							ActionBar.actionBar[6] = Game.PLAYER.getSkillList().get(i);
-						}
-						
-						if(Keyboard.getEventKey() == Keyboard.KEY_8){
-							ActionBar.actionBar[7] = Game.PLAYER.getSkillList().get(i);
-						}
-						
-						if(Keyboard.getEventKey() == Keyboard.KEY_9){
-							ActionBar.actionBar[8] = Game.PLAYER.getSkillList().get(i);
-						}
-						
 						
 					}
 					
