@@ -16,6 +16,8 @@ public class ActionBar {
 	private static String itemName = null;
 	private static boolean renderItemName = false;
 	
+	private static Item hoveredItem = null;
+	
 	private static int dragIndex = -1;
 	public static Item[] actionBar = new Item[9];
 	
@@ -60,8 +62,8 @@ public class ActionBar {
 			}
 			
 			
-			if(renderItemName){
-				Font.render(itemName, Mouse.getX() + Game.PLAYER.getCameraX(), Mouse.getY() + Game.PLAYER.getCameraY() + 10);
+			if(hoveredItem != null){
+				Font.render(hoveredItem.getName(), Mouse.getX() + Game.PLAYER.getCameraX(), Mouse.getY() + Game.PLAYER.getCameraY() + 10);
 			}
 			
 		}
@@ -90,14 +92,14 @@ public class ActionBar {
 			k++;
 		}
 		
-		// MouseButton: -1 = nothing, 0 = left, 1 = right
+		
 		// DRAG ONTO FILLED SPACE
 		if(index >= 0 && actionBar[index] != null){
 			Item item = actionBar[index];
 			if(button == 0){
 				Game.UI.clickedActioBarSlot = true;
-
-				// DRAG N DROP
+				Game.UI.clickedActioBarSlot = true;
+//				// DRAG N DROP
 				// nothing dragging and clicking on an item
 				if(dragIndex < 0){
 					Game.UI.setDragItem(item);
@@ -114,8 +116,7 @@ public class ActionBar {
 					item.use();
 				}
 			}else if(button == -1){
-				renderItemName = true;
-				itemName = item.getName();
+				hoveredItem = item;
 			}
 		}else{
 			// DRAG ONTO FREE SPACE
@@ -127,18 +128,8 @@ public class ActionBar {
 						actionBar[index] = Game.UI.getDragItem();
 						Game.UI.setDragItem(null);
 						Inventory.dragIndex = -1;
-					}else if(Game.UI.getDragItem() != null && Game.UI.getDragItem() != null){
-						actionBar[index] = Game.UI.getDragItem();
-						Game.UI.setDragItem(null);
-						Inventory.dragIndex = -1;
 					}
-					// drop skill on free slot
-//					if(Game.UI.getDragSkill() != null){
-//						actionBar[index] = Game.UI.getDragSkill();
-//						Game.UI.setDragSkill(null);
-//					}
 					
-					//TODO double code???
 				}else if(index != -1 && dragIndex != -1 && actionBar[index] == null){
 					actionBar[dragIndex] = null;
 					actionBar[index] = Game.UI.getDragItem();
@@ -154,8 +145,59 @@ public class ActionBar {
 					Game.UI.clickedActioBarSlot= false;
 				}
 			}
-			renderItemName = false;
+			hoveredItem = null;
 		}
+		
+		
+		
+		// MouseButton: -1 = nothing, 0 = left, 1 = right
+//		if(index >= 0 && actionBar[index] != null){
+//			Item item = actionBar[index];
+//			if(button == 0){
+//
+//				Game.UI.clickedActioBarSlot = true;
+//				// DRAG N DROP
+//				if(dragIndex < 0){
+//					Game.UI.setDragItem(item);
+//					dragIndex = index;
+//				}else{
+//					actionBar[dragIndex] = item;
+//					actionBar[index] = Game.UI.getDragItem();
+//					Game.UI.setDragItem(null);
+//					dragIndex = -1;
+//				}
+//			
+//			
+//			}else if(button == 1){
+//
+//			}else if(button == -1){
+//					hoveredItem = item;
+//			}
+//		}else{
+//			if(button == 0){
+//				// DRAG ONTO FREE SPACE
+//			
+//				// IF = NEW
+//				if(index != -1 && dragIndex != -1 && Game.UI.getDragItem() != null &&Inventory.dragIndex != -1){
+//					actionBar[index] = Game.UI.getDragItem();
+//					Game.UI.setDragItem(null);
+//					Inventory.dragIndex = -1;
+//				}else if(index != -1 && dragIndex != -1 && actionBar[index] == null){
+//					actionBar[dragIndex] = null;
+//					actionBar[index] = Game.UI.getDragItem();
+//					Game.UI.setDragItem(null);
+//					dragIndex = -1;
+//				}else{
+//					if(dragIndex >= 0){
+//						actionBar[dragIndex] = null;
+//						dragIndex = -1;
+//					}
+//					Game.UI.clickedActioBarSlot= false;
+//				}
+//			}
+//			hoveredItem = null;
+//		}
+		
 		
 	}
 	

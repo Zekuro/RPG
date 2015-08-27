@@ -4,7 +4,6 @@ import org.lwjgl.opengl.GL11;
 
 import rpg.game.Font;
 import rpg.game.Game;
-import rpg.game.items.Item;
 
 public class SkillWindow {
 
@@ -122,9 +121,9 @@ public class SkillWindow {
 					&& i+1 <= Game.PLAYER.getSkillList().size()){
 					
 //					Game.UI.setDragSkill(Game.PLAYER.getSkillList().get(i));
-					Item item = Game.PLAYER.getSkillList().get(i);
-					Game.UI.clickedInventorySlot = true;
-					Game.UI.setDragItem(item);
+//					Item item = Game.PLAYER.getSkillList().get(i);
+//					Game.UI.clickedInventorySlot = true;
+//					Game.UI.setDragItem(item);
 					
 					break;
 				}
