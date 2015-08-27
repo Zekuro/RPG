@@ -121,7 +121,7 @@ public class Player {
 
 		int i = 3;
 		while(!QuestLog.isFull()){
-			QuestLog.add(new Quest(1, new Item[]{new SimpleBoots(1,1, Tier.T1)},"Tutorial" + i, "Beschreibung " + i));
+			QuestLog.add(new Quest(1, new Item[]{new SimpleBoots(1,1, Tier.T1), new SimpleClothArmor(1, 1, Tier.T1)},"Tutorial" + i, "Beschreibung " + i));
 			i++;
 		}
 		

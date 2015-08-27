@@ -78,7 +78,7 @@ public class Interface {
 		while(mouseEvent || keyEvent){
 			if(mouseEvent) processMouseEvents();
 		
-			if(keyEvent) processKeyEvents();
+			if(keyEvent && Keyboard.getEventKeyState()) processKeyEvents();
 		
 			
 			if(renderLootDialog && (playerX != Game.PLAYER.getX() || playerY != Game.PLAYER.getY())){
@@ -148,12 +148,13 @@ public class Interface {
 	}
 	
 	private void processKeyEvents(){
+		
 		if(Game.isPaused() == false) ActionBar.respondToActionKeys();
 		
-		if(Keyboard.isKeyDown(Keyboard.KEY_F1)){
+		if(Keyboard.getEventKey() == Keyboard.KEY_F1){
 			renderInfos = !renderInfos;
 		}
-		if(Keyboard.isKeyDown(Keyboard.KEY_P)){
+		if(Keyboard.getEventKey() == Keyboard.KEY_P){
 			if(!renderInventory && !renderPlayerStats){
 			Game.setPaused(!Game.isPaused());
 			renderPaused = Game.isPaused();
@@ -164,7 +165,7 @@ public class Interface {
 		if(!renderPaused){
 			
 			
-			if(Keyboard.isKeyDown(Keyboard.KEY_C)){
+			if(Keyboard.getEventKey() == Keyboard.KEY_C){
 				if(renderInventory || renderQuestLog || renderMap){
 					renderInventory = false;
 					renderQuestLog = false;
@@ -176,7 +177,7 @@ public class Interface {
 			}
 			
 			
-			if(Keyboard.isKeyDown(Keyboard.KEY_I)){
+			if(Keyboard.getEventKey() == Keyboard.KEY_I){
 				if(renderPlayerStats || renderQuestLog || renderMap){
 					renderQuestLog = false;
 					renderPlayerStats = false;
@@ -187,7 +188,7 @@ public class Interface {
 				renderInventory = !renderInventory;
 			}
 			
-			if(Keyboard.isKeyDown(Keyboard.KEY_L)){
+			if(Keyboard.getEventKey() == Keyboard.KEY_L){
 				if(renderPlayerStats || renderInventory || renderMap){
 					renderPlayerStats = false;
 					renderInventory = false;
@@ -198,7 +199,7 @@ public class Interface {
 				renderQuestLog = !renderQuestLog;
 			}
 			
-			if(Keyboard.isKeyDown(Keyboard.KEY_M)){
+			if(Keyboard.getEventKey() == Keyboard.KEY_M){
 				if(renderPlayerStats || renderInventory || renderQuestLog){
 					renderPlayerStats = false;
 					renderInventory = false;
@@ -209,7 +210,7 @@ public class Interface {
 				renderMap = !renderMap;
 			}
 			
-			if(Keyboard.isKeyDown(Keyboard.KEY_X)){
+			if(Keyboard.getEventKey() == Keyboard.KEY_X){
 				int exp = (int) (0.01*Math.pow(Game.PLAYER.getLvl(), 2)+Game.PLAYER.getLvl() + 10);
 				
 				Game.PLAYER.addExp(exp);

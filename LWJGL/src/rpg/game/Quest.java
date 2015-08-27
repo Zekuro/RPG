@@ -82,4 +82,8 @@ public class Quest {
 	public int getLvl(){
 		return lvl;
 	}
+	
+	public Item[] getReward(){
+		return reward;
+	}
 }

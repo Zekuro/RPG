@@ -7,6 +7,7 @@ import org.lwjgl.opengl.GL11;
 import rpg.game.Font;
 import rpg.game.Game;
 import rpg.game.Quest;
+import rpg.game.items.Item;
 
 public class QuestLog {
 
@@ -84,8 +85,6 @@ public class QuestLog {
 			Font.render(title, x + Game.SCREEN_WIDTH/2-6*38 + 2, y + Game.SCREEN_HEIGHT/2+5*32 - (i+1)*16 + 2);
 		}
 		
-		
-		// TODO rewards should be displayed
 		// max 20 lines = 35*20 letters
 		if(selectedQuest != null){
 			String description = selectedQuest.getDescription();
@@ -134,10 +133,24 @@ public class QuestLog {
 
 			
 			// render rewards
-			if(lines <= 12){
+			if(lines <= 12 && selectedQuest.getReward() != null){
 				// render on same page
+				renderRewards(lines);
+				
 			}else if(lines > 12 && description.length() / 35 - (descriptionOffest+1)*20 <= 0){
 				// render on next page
+				
+				// TODO: render rewards on next page!
+				// rendering 'next page'
+					GL11.glDisable(GL11.GL_TEXTURE_2D);
+					GL11.glColor3f(0.3f, 0.3f, 0.3f);
+					GL11.glBegin(GL11.GL_TRIANGLES);
+					GL11.glVertex2f(x + Game.SCREEN_WIDTH/2+6*38-24, y + Game.SCREEN_HEIGHT/2-5*35+2);
+					GL11.glVertex2f(x + Game.SCREEN_WIDTH/2+6*38-8, y + Game.SCREEN_HEIGHT/2-5*35+7);
+					GL11.glVertex2f(x + Game.SCREEN_WIDTH/2+6*38-24, y + Game.SCREEN_HEIGHT/2-5*35+12);
+					GL11.glEnd();
+					GL11.glEnable(GL11.GL_TEXTURE_2D);
+			
 			}
 			
 		}
@@ -183,6 +196,41 @@ public class QuestLog {
 			}
 			
 		}
+		}
+	}
+	
+	private static void renderRewards(int lines){
+		int x = Game.PLAYER.getCameraX();
+		int y = Game.PLAYER.getCameraY();
+		
+		Item[] rewards = selectedQuest.getReward();
+		
+		lines++;
+		Font.renderColored("Belohnungen:", x + Game.SCREEN_WIDTH/2-2*32 + 8, y + Game.SCREEN_HEIGHT/2+5*32 - 16 - lines* 16, 1, 0.2f, 0.2f, 0.2f);
+		lines++;
+		
+		int itemX = x + Game.SCREEN_WIDTH/2-2*32 + 8;
+		int itemY = y + Game.SCREEN_HEIGHT/2+5*32 - 48 - lines* 16;
+
+		for(int k = 0; k < rewards.length; k++){
+
+			
+			GL11.glDisable(GL11.GL_TEXTURE_2D);
+			
+			GL11.glColor3f(0.7f, 0.7f, 0.7f);
+			GL11.glBegin(GL11.GL_QUADS);
+			GL11.glVertex2f(itemX, itemY);
+			GL11.glVertex2f(itemX + 32, itemY);
+			GL11.glVertex2f(itemX + 32, itemY + 32);
+			GL11.glVertex2f(itemX, itemY + 32);
+			GL11.glEnd();
+
+			GL11.glEnable(GL11.GL_TEXTURE_2D);
+			
+			GL11.glColor3f(1, 1, 1);
+			rewards[k].render(itemX, itemY);
+			
+			itemX += 40;
 		}
 	}
 	
