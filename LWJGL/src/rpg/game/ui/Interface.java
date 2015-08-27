@@ -80,6 +80,7 @@ public class Interface {
 			if(mouseEvent) processMouseEvents();
 		
 			if(keyEvent && Keyboard.getEventKeyState()) processKeyEvents();
+			if(keyEvent && (renderSKillWindow || renderInventory)) ActionBar.detectPressedKey();
 		
 			
 			if(renderLootDialog && (playerX != Game.PLAYER.getX() || playerY != Game.PLAYER.getY())){
@@ -166,7 +167,6 @@ public class Interface {
 			renderPaused = Game.isPaused();
 			}
 		}
-		
 		
 		if(!renderPaused){
 			

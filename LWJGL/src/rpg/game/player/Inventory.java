@@ -2,6 +2,7 @@ package rpg.game.player;
 
 import java.util.ArrayList;
 
+import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.GL11;
 
 import rpg.game.Font;
@@ -187,6 +188,47 @@ public class Inventory {
 		if(index >= 0 && inventory[index] != null){
 			Item item = inventory[index];
 			if(button == 0){
+				
+				if(Keyboard.getEventKeyState()){
+					
+					if(Keyboard.getEventKey() == Keyboard.KEY_1){
+						ActionBar.actionBar[0] = inventory[index];
+					}
+					
+					if(Keyboard.getEventKey() == Keyboard.KEY_2){
+						ActionBar.actionBar[1] = inventory[index];
+					}
+					
+					if(Keyboard.getEventKey() == Keyboard.KEY_3){
+						ActionBar.actionBar[2] = inventory[index];
+					}
+					
+					if(Keyboard.getEventKey() == Keyboard.KEY_4){
+						ActionBar.actionBar[3] = inventory[index];
+					}
+					
+					if(Keyboard.getEventKey() == Keyboard.KEY_5){
+						ActionBar.actionBar[4] = inventory[index];
+					}
+					
+					if(Keyboard.getEventKey() == Keyboard.KEY_6){
+						ActionBar.actionBar[5] = inventory[index];
+					}
+					
+					if(Keyboard.getEventKey() == Keyboard.KEY_7){
+						ActionBar.actionBar[6] = inventory[index];
+					}
+					
+					if(Keyboard.getEventKey() == Keyboard.KEY_8){
+						ActionBar.actionBar[7] = inventory[index];
+					}
+					
+					if(Keyboard.getEventKey() == Keyboard.KEY_9){
+						ActionBar.actionBar[8] = inventory[index];
+					}
+					
+					return;
+				}
 
 				Game.UI.clickedInventorySlot = true;
 				// DRAG N DROP
