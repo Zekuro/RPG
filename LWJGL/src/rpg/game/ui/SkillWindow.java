@@ -1,9 +1,11 @@
 package rpg.game.ui;
 
+import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.GL11;
 
 import rpg.game.Font;
 import rpg.game.Game;
+import rpg.game.player.ActionBar;
 
 public class SkillWindow {
 
@@ -120,10 +122,46 @@ public class SkillWindow {
 					&&Game.PLAYER.getCameraY()+mouseY < itemY + 32
 					&& i+1 <= Game.PLAYER.getSkillList().size()){
 					
-//					Game.UI.setDragSkill(Game.PLAYER.getSkillList().get(i));
-//					Item item = Game.PLAYER.getSkillList().get(i);
-//					Game.UI.clickedInventorySlot = true;
-//					Game.UI.setDragItem(item);
+					if(Keyboard.getEventKeyState()){
+						
+						if(Keyboard.getEventKey() == Keyboard.KEY_1){
+							ActionBar.actionBar[0] = Game.PLAYER.getSkillList().get(i);
+						}
+						
+						if(Keyboard.getEventKey() == Keyboard.KEY_2){
+							ActionBar.actionBar[1] = Game.PLAYER.getSkillList().get(i);
+						}
+						
+						if(Keyboard.getEventKey() == Keyboard.KEY_3){
+							ActionBar.actionBar[2] = Game.PLAYER.getSkillList().get(i);
+						}
+						
+						if(Keyboard.getEventKey() == Keyboard.KEY_4){
+							ActionBar.actionBar[3] = Game.PLAYER.getSkillList().get(i);
+						}
+						
+						if(Keyboard.getEventKey() == Keyboard.KEY_5){
+							ActionBar.actionBar[4] = Game.PLAYER.getSkillList().get(i);
+						}
+						
+						if(Keyboard.getEventKey() == Keyboard.KEY_6){
+							ActionBar.actionBar[5] = Game.PLAYER.getSkillList().get(i);
+						}
+						
+						if(Keyboard.getEventKey() == Keyboard.KEY_7){
+							ActionBar.actionBar[6] = Game.PLAYER.getSkillList().get(i);
+						}
+						
+						if(Keyboard.getEventKey() == Keyboard.KEY_8){
+							ActionBar.actionBar[7] = Game.PLAYER.getSkillList().get(i);
+						}
+						
+						if(Keyboard.getEventKey() == Keyboard.KEY_9){
+							ActionBar.actionBar[8] = Game.PLAYER.getSkillList().get(i);
+						}
+						
+						
+					}
 					
 					break;
 				}
