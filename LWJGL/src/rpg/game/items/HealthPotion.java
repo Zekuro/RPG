@@ -9,6 +9,7 @@ public class HealthPotion extends Item{
 	public HealthPotion(String name, int heal, String texture) {
 		super(name, Tier.T1, 1, 5, 10, texture);
 		this.heal = heal;
+		setDescription("Stellt " + heal + " Leben her.");
 	}
 
 	@Override

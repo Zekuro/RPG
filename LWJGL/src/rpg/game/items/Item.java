@@ -12,6 +12,7 @@ import rpg.game.player.Inventory;
 public abstract class Item {
 
 	private String name;
+	private String description;
 	protected String texturePath;
 	private Texture texture;
 	protected Tier tier;
@@ -141,5 +142,13 @@ public abstract class Item {
 	
 	public Tier getTier(){
 		return tier;
+	}
+	
+	public String getDescription(){
+		return description;
+	}
+	
+	public void setDescription(String desc){
+		description = desc;
 	}
 }

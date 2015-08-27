@@ -28,6 +28,7 @@ public class Interface {
 	private boolean renderPlayerStats = false;
 	private boolean renderQuestLog = false;
 	private boolean renderMap = false;
+	private boolean renderSKillWindow = false;
 
 	public boolean renderLootDialog = false;
 	public boolean clickedInventorySlot = false;
@@ -58,6 +59,7 @@ public class Interface {
 		if(renderInventory)	Inventory.render(x, y);
 		if(renderQuestLog) QuestLog.render(x, y);
 		if(renderPlayerStats) PlayerStats.render();
+		if(renderSKillWindow) SkillWindow.render();
 		renderStandardUI();
 		renderInfos();
 		
@@ -166,7 +168,7 @@ public class Interface {
 			
 			
 			if(Keyboard.getEventKey() == Keyboard.KEY_C){
-				if(renderInventory || renderQuestLog || renderMap){
+				if(renderInventory || renderQuestLog || renderMap || renderSKillWindow){
 					renderInventory = false;
 					renderQuestLog = false;
 					renderMap = false;
@@ -178,7 +180,7 @@ public class Interface {
 			
 			
 			if(Keyboard.getEventKey() == Keyboard.KEY_I){
-				if(renderPlayerStats || renderQuestLog || renderMap){
+				if(renderPlayerStats || renderQuestLog || renderMap || renderSKillWindow){
 					renderQuestLog = false;
 					renderPlayerStats = false;
 					renderMap = false;
@@ -189,7 +191,7 @@ public class Interface {
 			}
 			
 			if(Keyboard.getEventKey() == Keyboard.KEY_L){
-				if(renderPlayerStats || renderInventory || renderMap){
+				if(renderPlayerStats || renderInventory || renderMap || renderSKillWindow){
 					renderPlayerStats = false;
 					renderInventory = false;
 					renderMap = false;
@@ -200,7 +202,7 @@ public class Interface {
 			}
 			
 			if(Keyboard.getEventKey() == Keyboard.KEY_M){
-				if(renderPlayerStats || renderInventory || renderQuestLog){
+				if(renderPlayerStats || renderInventory || renderQuestLog || renderSKillWindow){
 					renderPlayerStats = false;
 					renderInventory = false;
 					renderQuestLog = false;
@@ -208,6 +210,18 @@ public class Interface {
 					Game.setPaused(!Game.isPaused());
 				}
 				renderMap = !renderMap;
+			}
+			
+			if(Keyboard.getEventKey() == Keyboard.KEY_K){
+				if(renderPlayerStats || renderInventory || renderQuestLog || renderMap){
+					renderPlayerStats = false;
+					renderInventory = false;
+					renderQuestLog = false;
+					renderMap = false;
+				}else{
+					Game.setPaused(!Game.isPaused());
+				}
+				renderSKillWindow= !renderSKillWindow;
 			}
 			
 			if(Keyboard.getEventKey() == Keyboard.KEY_X){

@@ -2,7 +2,6 @@ package rpg.game.ui;
 
 import java.util.ArrayList;
 
-import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.GL11;
 
 import rpg.game.Font;
@@ -14,9 +13,9 @@ import rpg.game.player.Inventory;
 public class LootWindow {
 
 	private static String itemName = null;
-	private static boolean renderItemName = false;
 	public static ArrayList<Item> loot = null;
 	private static Armor hoveredArmor = null;
+	private static Item hoveredItem = null;
 	
 	public static void renderLootDialog(){
 		// in actual state it is centered
@@ -75,13 +74,8 @@ public class LootWindow {
 			if(item.isStackable()) Font.render(msg, dialogX + dialogWidth/2 + 16 - msg.length()* 8, y + Game.SCREEN_HEIGHT/2 + dialogHeight - i*4 - i*32 - 32);
 		}
 		
-		if(renderItemName){
-			Font.render(itemName, Mouse.getX() + Game.PLAYER.getCameraX(), Mouse.getY() + Game.PLAYER.getCameraY() + 10);
-		}
-		
-		if(hoveredArmor != null){
-			ArmorInfo.render(hoveredArmor);
-		}
+		if(hoveredItem!= null) ItemInfo.render(hoveredItem);
+		if(hoveredArmor != null) ArmorInfo.render(hoveredArmor);
 		
 	}
 	
@@ -132,13 +126,12 @@ public class LootWindow {
 				if(item.isArmor()){
 					hoveredArmor = (Armor) item;
 				}else{
-					renderItemName = true;
-					itemName = item.getName();
+					hoveredItem = item;
 				}
 			}
 		}else{
 			hoveredArmor = null;
-			renderItemName = false;
+			hoveredItem = null;
 		}
 	}
 	

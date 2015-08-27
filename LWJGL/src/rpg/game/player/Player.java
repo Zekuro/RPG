@@ -1,5 +1,6 @@
 package rpg.game.player;
 import java.io.IOException;
+import java.util.ArrayList;
 
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.GL11;
@@ -55,6 +56,7 @@ public class Player {
 	private Stats baseStats = new Stats();
 	private Stats stats = new Stats();
 	private Equip equip = new Equip();
+	private ArrayList<Skill> skillList = new ArrayList<Skill>();
 	
 	public Player(int x, int y){
 		this.x = x;
@@ -82,10 +84,21 @@ public class Player {
 		Inventory.add(new SimpleClothArmor(1, 5, Tier.T1));
 		
 		Item[] actionBar = ActionBar.getActionBar();
-		actionBar[0] = new Skill("Projektil", Tier.T1, SkillType.PROJECTILE);
-		actionBar[1] = new Skill("Laser", Tier.T1, SkillType.LASER);
-		actionBar[2] = new Skill("Impakt", Tier.T1, SkillType.IMPACT);
-		actionBar[3] = new Skill("Aura", Tier.T1, SkillType.AURA);
+		
+		Skill projectile = new Skill("Projektil", Tier.T1, SkillType.PROJECTILE);
+		Skill laser = new Skill("Laser", Tier.T1, SkillType.LASER);
+		Skill impact = new Skill("Impakt", Tier.T1, SkillType.IMPACT);
+		Skill aura = new Skill("Aura", Tier.T1, SkillType.AURA);
+		
+		actionBar[0] = projectile;
+		actionBar[1] = laser;
+		actionBar[2] = impact;
+		actionBar[3] = aura;
+		
+		skillList.add(projectile);
+		skillList.add(laser);
+		skillList.add(impact);
+		skillList.add(aura);
 		
 		QuestLog.add(new Quest(1, new Item[]{new SimpleBoots(1, 1, Tier.T1)}, "Tutorial1", "Beschreibung 1"));
 		
@@ -511,5 +524,9 @@ public class Player {
 		stats.setIceResistance(baseStats.getIceResistance() + equip.getIceResistance());
 		stats.setElectricResistance(baseStats.getElectricResistance() + equip.getElectricResistance());
 
+	}
+	
+	public ArrayList<Skill> getSkillList(){
+		return skillList;
 	}
 }

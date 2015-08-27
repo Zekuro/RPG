@@ -2,7 +2,6 @@ package rpg.game.player;
 
 import java.util.ArrayList;
 
-import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.GL11;
 
 import rpg.game.Font;
@@ -10,14 +9,15 @@ import rpg.game.Game;
 import rpg.game.armor.Armor;
 import rpg.game.items.Item;
 import rpg.game.ui.ArmorInfo;
+import rpg.game.ui.ItemInfo;
 
 public class Inventory {
 
 	private static final int space = 90;
 	public static int dragIndex = -1;
 	private static String itemName = null;
-	private static boolean renderItemName = false;
 	private static Armor hoveredArmor = null;
+	private static Item hoveredItem= null;
 	
 	private static Item[] inventory = new Item[space];
 	
@@ -153,10 +153,7 @@ public class Inventory {
 		
 		GL11.glEnable(GL11.GL_TEXTURE_2D);
 
-		if(renderItemName){
-			Font.render(itemName, Mouse.getX() + Game.PLAYER.getCameraX(), Mouse.getY() + Game.PLAYER.getCameraY() + 10);
-		}
-
+		if(hoveredItem != null) ItemInfo.render(hoveredItem);
 		if(hoveredArmor != null) ArmorInfo.render(hoveredArmor);
 		
 		String msg = "- I N V E N T A R -";
@@ -215,8 +212,7 @@ public class Inventory {
 				if(item.isArmor()){
 					hoveredArmor = (Armor) item;
 				}else{
-					renderItemName = true;
-					itemName = item.getName();
+					hoveredItem = item;
 				}
 			}
 		}else{
@@ -232,7 +228,7 @@ public class Inventory {
 				}
 			}
 			hoveredArmor = null;
-			renderItemName = false;
+			hoveredItem = null;
 		}
 		
 	}
