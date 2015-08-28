@@ -232,7 +232,11 @@ public class Interface {
 					Game.setPaused(!Game.isPaused());
 				}
 				renderSKillWindow= !renderSKillWindow;
-				if(renderSKillWindow == true) SkillWindow.renderOverview = true;
+				if(renderSKillWindow == true){
+					SkillWindow.renderOverview = true;
+					SkillWindow.renderCreateSkill = false;
+					SkillWindow.renderEditSkill = false;
+				}
 			}
 			
 			if(Keyboard.getEventKey() == Keyboard.KEY_X){

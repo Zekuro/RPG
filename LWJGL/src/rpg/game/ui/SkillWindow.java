@@ -17,8 +17,8 @@ public class SkillWindow {
 	private static Skill selectedSkill = null;
 	
 	public static boolean renderOverview = true;
-	private static boolean renderNewSkill = false;
-	private static boolean renderEditSkill = false;
+	public static boolean renderCreateSkill = false;
+	public static boolean renderEditSkill = false;
 	
 	public static void render(){
 		int x = Game.PLAYER.getCameraX();
@@ -51,7 +51,7 @@ public class SkillWindow {
 		
 		
 		if(renderOverview) renderSkillOverview(windowX, windowY);
-		if(renderNewSkill) renderCreateSkill(windowX, windowY);
+		if(renderEditSkill || renderCreateSkill) renderEditSkill(windowX, windowY);
 		
 	}
 	
@@ -112,7 +112,7 @@ public class SkillWindow {
 		
 	}
 	
-	private static void renderCreateSkill(int windowX, int windowY){
+private static void renderEditSkill(int windowX, int windowY){
 		
 		Font.render("Element", windowX + 16, windowY + height - 24);
 		
@@ -158,7 +158,7 @@ public class SkillWindow {
 			GL11.glEnable(GL11.GL_TEXTURE_2D);
 	
 			String msg = "";
-			if(i == 0) msg = "Erstellen";
+			if(i == 0) msg = "Übernehmen";
 			if(i == 1) msg = "Abbrechen";
 			Font.render(msg, windowX + (i+1)*16 + (i+1)*(width-48)/2 - (width-48)/4 - msg.length() * 4, windowY + 26);
 		}
@@ -166,8 +166,8 @@ public class SkillWindow {
 	
 	public static void processInput(int button, int mouseX, int mouseY){
 		
+		if(renderCreateSkill || renderEditSkill) processEditSkillInput(button, mouseX, mouseY);
 		if(renderOverview) processOverviewInput(button, mouseX, mouseY);
-//		if(renderNewSkill) processCreateSkillInput(button, mouseX, mouseY);
 	}
 	
 	private static void processOverviewInput(int button, int mouseX, int mouseY){
@@ -218,13 +218,15 @@ public class SkillWindow {
 						
 						switch (i) {
 						case 0:
+							renderCreateSkill = true;
 							renderOverview = false;
-							renderNewSkill = true;
 							selectedSkill = null;
 							break;
 						case 1:
-							renderOverview = false;
-							renderEditSkill = true;
+							if(selectedSkill != null){
+								renderOverview = false;
+								renderEditSkill = true;
+							}
 							break;
 						case 2:
 							
@@ -249,9 +251,13 @@ public class SkillWindow {
 		}
 	}
 	
-	private static void processCreateSkillInput(int button, int mouseX, int mouseY){
+	private static void processEditSkillInput(int button, int mouseX, int mouseY){
 		int windowX = Game.PLAYER.getCameraX() + Game.SCREEN_WIDTH/2-width/2;
 		int windowY = Game.PLAYER.getCameraY() + Game.SCREEN_HEIGHT/2-height/2;
+		
+		// if selectedSkill == null then create new skill and add it to skillList
+		// if selectedSkill != null then just get informations about it and save it when accepting changes
+		
 		
 		if(button == 0){
 			//Buttons
@@ -260,16 +266,17 @@ public class SkillWindow {
 						&&Game.PLAYER.getCameraX()+mouseX < windowX + (i+1)*16 + (i+1)*(width-48)/2
 						&&Game.PLAYER.getCameraY()+mouseY > windowY + 16
 						&&Game.PLAYER.getCameraY()+mouseY < windowY + 48){
-				}
-		
-				switch (i) {
-				case 0:
-					
-					break;
-				case 1:
-					renderNewSkill = false;
-					renderOverview = false;
-					break;
+				
+					switch (i) {
+					case 0:
+						
+						break;
+					case 1:
+						renderCreateSkill = false;
+						renderEditSkill = false;
+						renderOverview = true;
+						break;
+					}
 				}
 				
 			}
