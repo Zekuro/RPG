@@ -232,6 +232,7 @@ public class Interface {
 					Game.setPaused(!Game.isPaused());
 				}
 				renderSKillWindow= !renderSKillWindow;
+				if(renderSKillWindow == true) SkillWindow.renderOverview = true;
 			}
 			
 			if(Keyboard.getEventKey() == Keyboard.KEY_X){
