@@ -123,20 +123,18 @@ public class ActionBar {
 				
 				if(index != -1 && actionBar[index] == null){
 					// drop item on free slot
+					// item
 					if(Game.UI.getDragItem() != null && Inventory.dragIndex != -1){
 						actionBar[index] = Game.UI.getDragItem();
 						Game.UI.setDragItem(null);
 						Inventory.dragIndex = -1;
+					
+					// skill
 					}else if(Game.UI.getDragItem() != null && Game.UI.getDragItem() != null){
 						actionBar[index] = Game.UI.getDragItem();
 						Game.UI.setDragItem(null);
 						Inventory.dragIndex = -1;
 					}
-					// drop skill on free slot
-//					if(Game.UI.getDragSkill() != null){
-//						actionBar[index] = Game.UI.getDragSkill();
-//						Game.UI.setDragSkill(null);
-//					}
 					
 					//TODO double code???
 				}else if(index != -1 && dragIndex != -1 && actionBar[index] == null){
