@@ -1,10 +1,12 @@
 package rpg.game.ui;
 
+import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.GL11;
 
 import rpg.game.Font;
 import rpg.game.Game;
-import rpg.game.items.Item;
+import rpg.game.Sound;
+import rpg.game.player.ActionBar;
 
 public class SkillWindow {
 
@@ -121,10 +123,21 @@ public class SkillWindow {
 					&&Game.PLAYER.getCameraY()+mouseY < itemY + 32
 					&& i+1 <= Game.PLAYER.getSkillList().size()){
 					
-//					Game.UI.setDragSkill(Game.PLAYER.getSkillList().get(i));
-					Item item = Game.PLAYER.getSkillList().get(i);
-					Game.UI.clickedInventorySlot = true;
-					Game.UI.setDragItem(item);
+					if(Keyboard.getEventKeyState()){
+					
+						int[] keys = {Keyboard.KEY_1,Keyboard.KEY_2,Keyboard.KEY_3,Keyboard.KEY_4,Keyboard.KEY_5,Keyboard.KEY_6,Keyboard.KEY_7,Keyboard.KEY_8,Keyboard.KEY_9};
+						
+						for(int j=0; j < keys.length; j++){
+							
+							if(Keyboard.getEventKey() == keys[j]){
+								ActionBar.actionBar[j] = Game.PLAYER.getSkillList().get(i);
+								Sound.item.playAsSoundEffect(1, 0.1f, false);
+								break;
+							}
+							
+						}
+						
+					}
 					
 					break;
 				}

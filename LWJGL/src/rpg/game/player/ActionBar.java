@@ -6,6 +6,7 @@ import org.lwjgl.opengl.GL11;
 
 import rpg.game.Font;
 import rpg.game.Game;
+import rpg.game.Sound;
 import rpg.game.items.Item;
 import rpg.game.skills.Skill;
 
@@ -16,7 +17,11 @@ public class ActionBar {
 	private static String itemName = null;
 	private static boolean renderItemName = false;
 	
+	private static Item hoveredItem = null;
+	
 	private static int dragIndex = -1;
+	private static int selectedSlot = -1;
+	
 	public static Item[] actionBar = new Item[9];
 	
 	public static void render(){
@@ -40,7 +45,18 @@ public class ActionBar {
 			GL11.glVertex2f(Game.PLAYER.getCameraX() + Game.SCREEN_WIDTH / 2 - ACTIONSLOTS*17 + i*2 + i*32, Game.PLAYER.getCameraY() + 32 + 2);
 			GL11.glEnd();
 			
+			if(i == selectedSlot){
+					GL11.glColor3f(1f, 0.3f, 0.3f);
+					GL11.glBegin(GL11.GL_QUADS);
+					GL11.glVertex2f(Game.PLAYER.getCameraX() + Game.SCREEN_WIDTH / 2 - ACTIONSLOTS*17 + i*2 + i*32, Game.PLAYER.getCameraY() + 2);
+					GL11.glVertex2f(Game.PLAYER.getCameraX() + Game.SCREEN_WIDTH / 2 - ACTIONSLOTS*17 + i*2 + i*32 + 32, Game.PLAYER.getCameraY() + 2);
+					GL11.glVertex2f(Game.PLAYER.getCameraX() + Game.SCREEN_WIDTH / 2 - ACTIONSLOTS*17 + i*2 + i*32 + 32, Game.PLAYER.getCameraY() + 32 + 2);
+					GL11.glVertex2f(Game.PLAYER.getCameraX() + Game.SCREEN_WIDTH / 2 - ACTIONSLOTS*17 + i*2 + i*32, Game.PLAYER.getCameraY() + 32 + 2);
+					GL11.glEnd();
+			}
 			GL11.glEnable(GL11.GL_TEXTURE_2D);
+
+			
 			GL11.glColor3f(1, 1, 1);
 			
 			if(actionBar[i] != null){
@@ -59,9 +75,8 @@ public class ActionBar {
 				}
 			}
 			
-			
-			if(renderItemName){
-				Font.render(itemName, Mouse.getX() + Game.PLAYER.getCameraX(), Mouse.getY() + Game.PLAYER.getCameraY() + 10);
+			if(hoveredItem != null){
+				Font.render(hoveredItem.getName(), Mouse.getX() + Game.PLAYER.getCameraX(), Mouse.getY() + Game.PLAYER.getCameraY() + 10);
 			}
 			
 		}
@@ -90,37 +105,88 @@ public class ActionBar {
 			k++;
 		}
 		
-		// MouseButton: -1 = nothing, 0 = left, 1 = right
 		// DRAG ONTO FILLED SPACE
+//		if(index >= 0 && actionBar[index] != null){
+//			Item item = actionBar[index];
+//			if(button == 0){
+//				Game.UI.clickedActioBarSlot = true;
+//				// DRAG N DROP
+//				// nothing dragging and clicking on an item
+//				if(dragIndex < 0){
+//					Game.UI.setDragItem(item);
+//					dragIndex = index;
+//				}else{
+//					// dragging sth and clicking on an item
+//					actionBar[index] = Game.UI.getDragItem();
+//					Game.UI.setDragItem(null);
+//					dragIndex = -1;
+//				}
+//				
+//			}else if(button == 1){
+//				if(Game.isPaused() == false){
+//					item.use();
+//				}
+//			}else if(button == -1){
+//				hoveredItem = item;
+//			}
+//		}else{
+//			// DRAG ONTO FREE SPACE
+//			if(button == 0){
+//				
+//				if(index != -1 && actionBar[index] == null){
+//					// drop item on free slot
+//					if(Game.UI.getDragItem() != null && Inventory.dragIndex != -1){
+//						actionBar[index] = Game.UI.getDragItem();
+//						Game.UI.setDragItem(null);
+//						Inventory.dragIndex = -1;
+//					}
+//					
+//				}else if(index != -1 && dragIndex != -1 && actionBar[index] == null){
+//					actionBar[dragIndex] = null;
+//					actionBar[index] = Game.UI.getDragItem();
+//					Game.UI.setDragItem(null);
+//					dragIndex = -1;
+//				}else{
+//					// from actionbar to actionbar
+//					if(dragIndex >= 0){
+//						actionBar[dragIndex] = null;
+//						dragIndex = -1;
+//					}
+//					
+//					Game.UI.clickedActioBarSlot= false;
+//				}
+//			}
+//			hoveredItem = null;
+//		}
+		
+		
+		
+		// MouseButton: -1 = nothing, 0 = left, 1 = right
 		if(index >= 0 && actionBar[index] != null){
 			Item item = actionBar[index];
 			if(button == 0){
-				Game.UI.clickedActioBarSlot = true;
 
+				Game.UI.clickedActioBarSlot = true;
 				// DRAG N DROP
-				// nothing dragging and clicking on an item
 				if(dragIndex < 0){
 					Game.UI.setDragItem(item);
 					dragIndex = index;
 				}else{
-					// dragging sth and clicking on an item
+					actionBar[dragIndex] = item;
 					actionBar[index] = Game.UI.getDragItem();
 					Game.UI.setDragItem(null);
 					dragIndex = -1;
+					Sound.item.playAsSoundEffect(1, 0.1f, false);
 				}
-				
+			
+			
 			}else if(button == 1){
-				if(Game.isPaused() == false){
-					item.use();
-				}
+
 			}else if(button == -1){
-				renderItemName = true;
-				itemName = item.getName();
+					hoveredItem = item;
 			}
 		}else{
-			// DRAG ONTO FREE SPACE
 			if(button == 0){
-				
 				if(index != -1 && actionBar[index] == null){
 					// drop item on free slot
 					// item
@@ -142,18 +208,35 @@ public class ActionBar {
 					actionBar[index] = Game.UI.getDragItem();
 					Game.UI.setDragItem(null);
 					dragIndex = -1;
+					Sound.item.playAsSoundEffect(1, 0.1f, false);
 				}else{
-					// from actionbar to actionbar
 					if(dragIndex >= 0){
 						actionBar[dragIndex] = null;
 						dragIndex = -1;
+						Sound.item.playAsSoundEffect(1, 0.1f, false);
 					}
-					
 					Game.UI.clickedActioBarSlot= false;
 				}
 			}
-			renderItemName = false;
+			hoveredItem = null;
 		}
+		
+	}
+	
+	public static void detectPressedKey(){
+		
+			int[] keys = {Keyboard.KEY_1, Keyboard.KEY_2, Keyboard.KEY_3,Keyboard.KEY_4,Keyboard.KEY_5,Keyboard.KEY_6,Keyboard.KEY_7,Keyboard.KEY_8,Keyboard.KEY_9};
+			boolean found = false;
+			for(int i = 0; i < keys.length; i++){
+				
+				if(Keyboard.isKeyDown(keys[i])){
+					selectedSlot = i;
+					found = true;
+					break;
+				}
+				
+			}
+			if(found == false) selectedSlot = -1;
 		
 	}
 	

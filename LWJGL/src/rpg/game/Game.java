@@ -97,6 +97,8 @@ public class Game {
     	GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
     	Font.loadFonts();
     	
+    	Sound.loadSounds();
+    	
     	state = GameState.MENU;
     	MAINMENU = new MainMenu(this);
     	

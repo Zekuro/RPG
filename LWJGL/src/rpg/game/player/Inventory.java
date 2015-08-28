@@ -2,10 +2,12 @@ package rpg.game.player;
 
 import java.util.ArrayList;
 
+import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.GL11;
 
 import rpg.game.Font;
 import rpg.game.Game;
+import rpg.game.Sound;
 import rpg.game.armor.Armor;
 import rpg.game.items.Item;
 import rpg.game.ui.ArmorInfo;
@@ -187,6 +189,23 @@ public class Inventory {
 		if(index >= 0 && inventory[index] != null){
 			Item item = inventory[index];
 			if(button == 0){
+				
+				if(Keyboard.getEventKeyState()){
+					
+					int[] keys = {Keyboard.KEY_1,Keyboard.KEY_2,Keyboard.KEY_3,Keyboard.KEY_4,Keyboard.KEY_5,Keyboard.KEY_6,Keyboard.KEY_7,Keyboard.KEY_8,Keyboard.KEY_9};
+					
+					for(int i=0; i < keys.length; i++){
+						
+						if(Keyboard.getEventKey() == keys[i]){
+							ActionBar.actionBar[i] = inventory[index];
+							Sound.item.playAsSoundEffect(1, 0.1f, false);
+							break;
+						}
+						
+					}
+					
+					return;
+				}
 
 				Game.UI.clickedInventorySlot = true;
 				// DRAG N DROP
@@ -194,6 +213,7 @@ public class Inventory {
 					Game.UI.setDragItem(item);
 					dragIndex = index;
 				}else{
+					Sound.item.playAsSoundEffect(1, 0.1f, false);
 					inventory[dragIndex] = item;
 					inventory[index] = Game.UI.getDragItem();
 					Game.UI.setDragItem(null);
@@ -219,6 +239,7 @@ public class Inventory {
 			if(button == 0){
 				// DRAG ONTO FREE SPACE
 				if(index != -1 && dragIndex != -1 && inventory[index] == null){
+					Sound.item.playAsSoundEffect(1, 0.1f, false);
 					inventory[dragIndex] = null;
 					inventory[index] = Game.UI.getDragItem();
 					Game.UI.setDragItem(null);

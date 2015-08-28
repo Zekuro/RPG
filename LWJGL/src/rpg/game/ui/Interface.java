@@ -12,6 +12,7 @@ import org.newdawn.slick.util.ResourceLoader;
 
 import rpg.game.Font;
 import rpg.game.Game;
+import rpg.game.Sound;
 import rpg.game.World;
 import rpg.game.entities.Entity;
 import rpg.game.items.Item;
@@ -80,6 +81,7 @@ public class Interface {
 			if(mouseEvent) processMouseEvents();
 		
 			if(keyEvent && Keyboard.getEventKeyState()) processKeyEvents();
+			if(keyEvent && (renderSKillWindow || renderInventory)) ActionBar.detectPressedKey();
 		
 			
 			if(renderLootDialog && (playerX != Game.PLAYER.getX() || playerY != Game.PLAYER.getY())){
@@ -167,11 +169,11 @@ public class Interface {
 			}
 		}
 		
-		
 		if(!renderPaused){
 			
 			
 			if(Keyboard.getEventKey() == Keyboard.KEY_C){
+				Sound.click.playAsSoundEffect(1, 0.6f, false);
 				if(renderInventory || renderQuestLog || renderMap || renderSKillWindow){
 					renderInventory = false;
 					renderQuestLog = false;
@@ -184,6 +186,7 @@ public class Interface {
 			
 			
 			if(Keyboard.getEventKey() == Keyboard.KEY_I){
+				Sound.click.playAsSoundEffect(1, 0.6f, false);
 				if(renderPlayerStats || renderQuestLog || renderMap || renderSKillWindow){
 					renderQuestLog = false;
 					renderPlayerStats = false;
@@ -195,6 +198,7 @@ public class Interface {
 			}
 			
 			if(Keyboard.getEventKey() == Keyboard.KEY_L){
+				Sound.click.playAsSoundEffect(1, 0.6f, false);
 				if(renderPlayerStats || renderInventory || renderMap || renderSKillWindow){
 					renderPlayerStats = false;
 					renderInventory = false;
@@ -206,6 +210,7 @@ public class Interface {
 			}
 			
 			if(Keyboard.getEventKey() == Keyboard.KEY_M){
+				Sound.click.playAsSoundEffect(1, 0.6f, false);
 				if(renderPlayerStats || renderInventory || renderQuestLog || renderSKillWindow){
 					renderPlayerStats = false;
 					renderInventory = false;
@@ -217,6 +222,7 @@ public class Interface {
 			}
 			
 			if(Keyboard.getEventKey() == Keyboard.KEY_K){
+				Sound.click.playAsSoundEffect(1, 0.6f, false);
 				if(renderPlayerStats || renderInventory || renderQuestLog || renderMap){
 					renderPlayerStats = false;
 					renderInventory = false;
