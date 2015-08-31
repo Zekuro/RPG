@@ -378,4 +378,12 @@ public class Skill extends Item{
 	public void removeEffect(SkillEffect effect){
 		skillEffects.remove(effect);
 	}
+	
+	/**
+	 * Do not destroy this reference, i guess i have to make better method for just gettin the skillEffects
+	 * @return
+	 */
+	public ArrayList<SkillEffect> getEffetcs(){
+		return skillEffects;
+	}
 }

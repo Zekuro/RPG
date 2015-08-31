@@ -241,7 +241,7 @@ public class Interface {
 			
 			if(Keyboard.getEventKey() == Keyboard.KEY_X){
 				int exp = (int) (0.01*Math.pow(Game.PLAYER.getLvl(), 2)+Game.PLAYER.getLvl() + 10);
-				
+				Sound.theme01.stop();
 				Game.PLAYER.addExp(exp);
 			}
 		}

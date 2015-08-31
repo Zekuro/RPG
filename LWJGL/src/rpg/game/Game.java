@@ -38,7 +38,7 @@ public class Game {
 	
 	
 	public static enum GameState{
-		MENU, GAME
+		MENU, GAME, OPTIONS
 	}
 	
 	public static void main(String[] args) {
@@ -176,11 +176,18 @@ public class Game {
 		}
 
 		switch (state) {
+		case OPTIONS:
+			Options.update();
+			break;
 		case MENU:
 			MAINMENU.update();
 			break;
 
 		case GAME:
+			
+			if(!world.isLoading() && !Sound.theme01.playing()){
+				Sound.theme01.play(1, Options.BGVolume);
+			}
 			
 			if(!paused){
 				world.update();
@@ -201,6 +208,9 @@ public class Game {
 		GL11.glClear(GL11.GL_COLOR_BUFFER_BIT | GL11.GL_DEPTH_BUFFER_BIT);
 		
 		switch (state) {
+		case OPTIONS:
+			 Options.render();
+			break;
 		case MENU:
 			MAINMENU.render();
 			break;
@@ -248,6 +258,10 @@ public class Game {
 	
 	public static boolean isPaused(){
 		return paused;
+	}
+	
+	public static void setState(GameState t){
+		state = t;
 	}
 	
 }

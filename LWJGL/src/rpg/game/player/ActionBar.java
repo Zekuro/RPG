@@ -48,7 +48,7 @@ public class ActionBar {
 			GL11.glEnd();
 			
 			if(i == selectedSlot){
-					GL11.glColor3f(1f, 0.3f, 0.3f);
+					GL11.glColor3f(0.4f, 0.8f, 0.4f);
 					GL11.glBegin(GL11.GL_QUADS);
 					GL11.glVertex2f(Game.PLAYER.getCameraX() + Game.SCREEN_WIDTH / 2 - ACTIONSLOTS*17 + i*2 + i*32, Game.PLAYER.getCameraY() + 2);
 					GL11.glVertex2f(Game.PLAYER.getCameraX() + Game.SCREEN_WIDTH / 2 - ACTIONSLOTS*17 + i*2 + i*32 + 32, Game.PLAYER.getCameraY() + 2);

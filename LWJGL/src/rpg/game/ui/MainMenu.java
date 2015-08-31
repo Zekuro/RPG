@@ -7,6 +7,7 @@ import org.newdawn.slick.openal.SoundStore;
 
 import rpg.game.Font;
 import rpg.game.Game;
+import rpg.game.Game.GameState;
 import rpg.game.Sound;
 
 public class MainMenu {
@@ -54,6 +55,8 @@ public class MainMenu {
 					case 1:
 						break;
 					case 2:
+						Sound.menuBackground.stop();
+						game.setState(GameState.OPTIONS);
 						break;
 					case 3:
 						AL.destroy();
