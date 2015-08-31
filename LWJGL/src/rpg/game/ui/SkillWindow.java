@@ -27,6 +27,8 @@ public class SkillWindow {
 	private static Skill selectedSkill = null;
 	private static ArrayList<SkillEffect> effects = new ArrayList<>();
 	
+	private static Skill selectedOriginSkill = null;
+	
 	public static boolean renderOverview = true;
 	public static boolean renderCreateSkill = false;
 	public static boolean renderEditSkill = false;
@@ -210,6 +212,11 @@ private static void renderEditSkill(int windowX, int windowY){
 							break;
 						case 1:
 							if(selectedSkill != null){
+								selectedOriginSkill = new Skill(selectedSkill.getName(), selectedSkill.getTier(), selectedSkill.getType());
+								for (SkillEffect effect : selectedSkill.getSkillEffects()) {
+									selectedOriginSkill.addEffect(effect);
+								}
+								
 								renderOverview = false;
 								renderEditSkill = true;
 							}
@@ -240,7 +247,6 @@ private static void renderEditSkill(int windowX, int windowY){
 	private static void processEditSkillInput(int button, int mouseX, int mouseY){
 		int windowX = Game.PLAYER.getCameraX() + Game.SCREEN_WIDTH/2-width/2;
 		int windowY = Game.PLAYER.getCameraY() + Game.SCREEN_HEIGHT/2-height/2;
-		// if selectedSkill == null then create new skill and add it to skillList
 		// if selectedSkill != null then just get informations about it and save it when accepting changes
 		
 		if(selectedSkill == null){
@@ -263,16 +269,36 @@ private static void renderEditSkill(int windowX, int windowY){
 					case 0:
 						// TODO check costs
 						// TODO make name based of effects? or let user make a name
+						if(renderCreateSkill)Game.PLAYER.getSkillList().add(selectedSkill);
 						renderCreateSkill = false;
 						renderEditSkill = false;
-						Game.PLAYER.getSkillList().add(selectedSkill);
 						renderOverview = true;
 						break;
 					case 1:
+						
+						if(renderEditSkill){
+							int ind = Game.PLAYER.getSkillList().indexOf(selectedSkill);
+							
+							ArrayList<Skill> skillList = new ArrayList<>();
+							
+							for(int l = 0; l < Game.PLAYER.getSkillList().size(); l++){
+								
+								if(ind == l){
+									skillList.add(selectedOriginSkill);
+								}else{
+									skillList.add(Game.PLAYER.getSkillList().get(l));
+								}
+								
+							}
+							
+							Game.PLAYER.setSkillList(skillList);
+						}
+						
 						selectedSkill = null;
 						renderCreateSkill = false;
 						renderEditSkill = false;
 						renderOverview = true;
+						
 						break;
 					}
 				}

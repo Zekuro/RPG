@@ -28,10 +28,29 @@ public class Sound {
 				click = AudioLoader.getAudio("WAV", ResourceLoader.getResourceAsStream("res/sound/effects/click.wav"));
 				levelUp = AudioLoader.getAudio("WAV", ResourceLoader.getResourceAsStream("res/sound/effects/levelUp.wav"));
 				theme01 = new Music("res/sound/background/RedCurtain.wav");
-				
 			} catch (IOException | SlickException e) {
 				e.printStackTrace();
 			}
+	}
+	
+	public static void playAsBackground(Music music, float volume){
+		music.loop(1, volume);
+	}
+	
+	public static void fadeIn(Music music, float volumeRaise ,float endVolume, boolean background){
+
+		if(!music.playing()){
+			if(background){
+				music.loop(1, 0);
+			}else{
+				music.play();
+			}
+		}
+		
+		
+		if(music.playing() && music.getVolume() < endVolume){
+			music.setVolume(music.getVolume() + volumeRaise);
+		}
 	}
 	
 }

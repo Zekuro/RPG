@@ -88,22 +88,6 @@ public class Skill extends Item{
 		setEffectTextureRotation();
 		isSkill = true;
 		stackable = false;
-		
-		// TODO THESE ARE TESTCASES PLEASE REMOVE AFTER TEST!
-		switch (type) {
-		case PROJECTILE:
-			addEffect(SkillEffect.DOUBLE);
-			break;
-		case LASER:
-			addEffect(SkillEffect.DOUBLE);
-			break;
-		case IMPACT:
-			addEffect(SkillEffect.DOUBLE);
-			break;
-		case AURA:
-			break;
-		}
-		
 	}
 	
 	// change icon to same element

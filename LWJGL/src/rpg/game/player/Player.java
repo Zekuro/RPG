@@ -531,4 +531,8 @@ public class Player {
 	public ArrayList<Skill> getSkillList(){
 		return skillList;
 	}
+	
+	public void setSkillList(ArrayList<Skill> list){
+		skillList = list;
+	}
 }

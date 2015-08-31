@@ -185,8 +185,8 @@ public class Game {
 
 		case GAME:
 			
-			if(!world.isLoading() && !Sound.theme01.playing()){
-				Sound.theme01.loop(1, Options.BGVolume);
+			if(!world.isLoading()){
+				Sound.fadeIn(Sound.theme01, 0.0001f, Options.BGVolume, true);
 			}
 			
 			if(!paused){
