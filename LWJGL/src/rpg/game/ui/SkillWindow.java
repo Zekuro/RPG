@@ -1,8 +1,10 @@
 package rpg.game.ui;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 import org.lwjgl.input.Keyboard;
+import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.GL11;
 import org.newdawn.slick.opengl.Texture;
 import org.newdawn.slick.opengl.TextureLoader;
@@ -23,6 +25,7 @@ public class SkillWindow {
 	private static final int height = 500;
 	
 	private static Skill selectedSkill = null;
+	private static ArrayList<SkillEffect> effects = new ArrayList<>();
 	
 	public static boolean renderOverview = true;
 	public static boolean renderCreateSkill = false;
@@ -146,8 +149,11 @@ private static void renderEditSkill(int windowX, int windowY){
 	}
 	
 	public static void processInput(int button, int mouseX, int mouseY){
+		if(renderOverview){
+			processOverviewInput(button, mouseX, mouseY);
+			if(Mouse.isButtonDown(0)) return;
+		}
 		if(renderCreateSkill || renderEditSkill) processEditSkillInput(button, mouseX, mouseY);
-		if(renderOverview) processOverviewInput(button, mouseX, mouseY);
 	}
 	
 	private static void processOverviewInput(int button, int mouseX, int mouseY){
@@ -155,7 +161,7 @@ private static void renderEditSkill(int windowX, int windowY){
 		int windowY = Game.PLAYER.getCameraY() + Game.SCREEN_HEIGHT/2-height/2;
 		
 		// put skill into actionbar
-		if(button == 0){
+		if(Mouse.getEventButtonState() && Mouse.getEventButton() == 0){
 			for(int i = 0; i < 12; i++){
 				
 				int itemY = windowY + height - 48 - i*32 - i*4;
@@ -234,7 +240,6 @@ private static void renderEditSkill(int windowX, int windowY){
 	private static void processEditSkillInput(int button, int mouseX, int mouseY){
 		int windowX = Game.PLAYER.getCameraX() + Game.SCREEN_WIDTH/2-width/2;
 		int windowY = Game.PLAYER.getCameraY() + Game.SCREEN_HEIGHT/2-height/2;
-		
 		// if selectedSkill == null then create new skill and add it to skillList
 		// if selectedSkill != null then just get informations about it and save it when accepting changes
 		
@@ -243,8 +248,11 @@ private static void renderEditSkill(int windowX, int windowY){
 		}
 		
 		
-		if(button == 0){
-			//Buttons
+		if(Mouse.getEventButtonState() && Mouse.getEventButton() == 0){
+			processTypes(mouseX, mouseY, windowX, windowY);
+			processEffects(mouseX, mouseY, windowX, windowY);
+			
+			//BOTTOM (0 OK . 1 Cancel)Buttons
 			for(int i = 0; i < 2; i++){
 				if(	Game.PLAYER.getCameraX()+mouseX > windowX + (i+1)*16 + i*(width-48)/2
 						&&Game.PLAYER.getCameraX()+mouseX < windowX + (i+1)*16 + (i+1)*(width-48)/2
@@ -253,7 +261,12 @@ private static void renderEditSkill(int windowX, int windowY){
 				
 					switch (i) {
 					case 0:
-						
+						// TODO check costs
+						// TODO make name based of effects? or let user make a name
+						renderCreateSkill = false;
+						renderEditSkill = false;
+						Game.PLAYER.getSkillList().add(selectedSkill);
+						renderOverview = true;
 						break;
 					case 1:
 						selectedSkill = null;
@@ -446,4 +459,96 @@ private static void renderEditSkill(int windowX, int windowY){
 				Font.render(msg, windowX + 24 + 72, windowY + height - 148 - i* 36);
 		}
 	}
+	
+	/**
+	 * Requires Pressed Button
+	 * @param mouseX
+	 * @param mouseY
+	 * @param windowX
+	 * @param windowY
+	 */
+	private static void processTypes(int mouseX, int mouseY, int windowX, int windowY){
+		
+		for(int i = 0; i < 4; i++){
+			if(	Game.PLAYER.getCameraX()+mouseX > windowX + 16 + i*32 + i*4
+					&&Game.PLAYER.getCameraX()+mouseX < windowX + 48 + i*32 + i*4
+					&&Game.PLAYER.getCameraY()+mouseY > windowY + height - 108
+					&&Game.PLAYER.getCameraY()+mouseY < windowY + height - 76){
+
+				effects = selectedSkill.getSkillEffects();
+				
+				switch (i) {
+				case 0:
+					// PROJECTILE
+					selectedSkill = new Skill("NEW SKILL", Tier.T1, SkillType.PROJECTILE);
+					break;
+				case 1:
+					// LASER
+					selectedSkill = new Skill("NEW SKILL", Tier.T1, SkillType.LASER);
+					break;
+				case 2:
+					// IMPACT
+					selectedSkill = new Skill("NEW SKILL", Tier.T1, SkillType.IMPACT);
+					break;
+				case 3:
+					//AURA
+					selectedSkill = new Skill("NEW SKILL", Tier.T1, SkillType.AURA);
+					break;
+				}
+			
+				for (SkillEffect effect : effects) {
+					selectedSkill.addEffect(effect);
+				}
+			
+			}
+		}
+
+	}
+
+	
+	/**
+	 * Requires Pressed Button
+	 * @param mouseX
+	 * @param mouseY
+	 * @param windowX
+	 * @param windowY
+	 */
+	// TODO skillCosts
+	private static void processEffects(int mouseX, int mouseY, int windowX, int windowY){
+		
+		for(int i = 0; i < 4; i++){
+			if(	Game.PLAYER.getCameraX()+mouseX > windowX + 18
+					&&Game.PLAYER.getCameraX()+mouseX < windowX + 46
+					&&Game.PLAYER.getCameraY()+mouseY > windowY + height - 156 - i* 36
+					&&Game.PLAYER.getCameraY()+mouseY < windowY + height - 128 - i* 36){
+
+				SkillEffect effect = null;
+				
+				switch (i) {
+				case 0:
+					effect = SkillEffect.DOUBLE;
+					break;
+				case 1:
+					effect = SkillEffect.SPREAD;
+					break;
+				case 2:
+					effect = SkillEffect.RANGE;
+					break;
+				case 3:
+					effect = SkillEffect.SIZE;
+					break;
+				}
+			
+				if(selectedSkill.hasEffect(effect)){
+					selectedSkill.removeEffect(effect);
+				}else{
+					selectedSkill.addEffect(effect);
+				}
+				
+			}
+		}
+
+	}
+	
+	
 }

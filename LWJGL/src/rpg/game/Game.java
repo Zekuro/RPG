@@ -186,7 +186,7 @@ public class Game {
 		case GAME:
 			
 			if(!world.isLoading() && !Sound.theme01.playing()){
-				Sound.theme01.play(1, Options.BGVolume);
+				Sound.theme01.loop(1, Options.BGVolume);
 			}
 			
 			if(!paused){

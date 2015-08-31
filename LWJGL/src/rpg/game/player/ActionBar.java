@@ -189,7 +189,7 @@ public class ActionBar {
 			boolean found = false;
 			for(int i = 0; i < keys.length; i++){
 				
-				if(Keyboard.getEventKey() == keys[i]){
+				if(Keyboard.isKeyDown(keys[i])){
 					selectedSlot = i;
 					found = true;
 					break;
