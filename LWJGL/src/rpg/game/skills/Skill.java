@@ -366,12 +366,16 @@ public class Skill extends Item{
 		if(effectTexture.contains("Earth04")) effectTextureRotation = 90;
 	}
 	
-	private boolean hasEffect(SkillEffect effect){
+	public boolean hasEffect(SkillEffect effect){
 		
 		for (SkillEffect e: skillEffects) {
 			if(e == effect) return true;
 		}
 		
 		return false;
+	}
+	
+	public void removeEffect(SkillEffect effect){
+		skillEffects.remove(effect);
 	}
 }

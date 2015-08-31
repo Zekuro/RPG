@@ -1,13 +1,21 @@
 package rpg.game.ui;
 
+import java.io.IOException;
+
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.GL11;
+import org.newdawn.slick.opengl.Texture;
+import org.newdawn.slick.opengl.TextureLoader;
+import org.newdawn.slick.util.ResourceLoader;
 
 import rpg.game.Font;
 import rpg.game.Game;
 import rpg.game.Sound;
+import rpg.game.items.Item.Tier;
 import rpg.game.player.ActionBar;
 import rpg.game.skills.Skill;
+import rpg.game.skills.Skill.SkillEffect;
+import rpg.game.skills.Skill.SkillType;
 
 public class SkillWindow {
 
@@ -114,38 +122,11 @@ public class SkillWindow {
 	
 private static void renderEditSkill(int windowX, int windowY){
 		
-		Font.render("Element", windowX + 16, windowY + height - 24);
+		renderElements(windowX, windowY);
+		renderTypes(windowX, windowY);
+		renderEffects(windowX, windowY);
 		
-		GL11.glDisable(GL11.GL_TEXTURE_2D);
-		for(int i = 0; i < 3; i++){
-		// Elements
-			GL11.glColor3f(0.5f, 0.5f, 0.5f);
-			GL11.glBegin(GL11.GL_QUADS);
-			GL11.glVertex2f(windowX + 16 + i*32 + i*4, windowY + height - 26);
-			GL11.glVertex2f(windowX + 48 + i*32 + i*4, windowY + height - 26);
-			GL11.glVertex2f(windowX + 48 + i*32 + i*4, windowY + height - 58);
-			GL11.glVertex2f(windowX + 16 + i*32 + i*4, windowY + height - 58);
-			GL11.glEnd();
-		}
-		GL11.glEnable(GL11.GL_TEXTURE_2D);
-		
-		
-		Font.render("Typ", windowX + 16, windowY + height - 74);
-		
-		GL11.glDisable(GL11.GL_TEXTURE_2D);
-		for(int i = 0; i < 4; i++){
-		// Types
-			GL11.glColor3f(0.5f, 0.5f, 0.5f);
-			GL11.glBegin(GL11.GL_QUADS);
-			GL11.glVertex2f(windowX + 16 + i*32 + i*4, windowY + height - 76);
-			GL11.glVertex2f(windowX + 48 + i*32 + i*4, windowY + height - 76);
-			GL11.glVertex2f(windowX + 48 + i*32 + i*4, windowY + height - 108);
-			GL11.glVertex2f(windowX + 16 + i*32 + i*4, windowY + height - 108);
-			GL11.glEnd();
-		}
-		GL11.glEnable(GL11.GL_TEXTURE_2D);
-		
-		//Buttons
+		//Bottom Buttons
 		for(int i = 0; i < 2; i++){
 			GL11.glDisable(GL11.GL_TEXTURE_2D);
 			GL11.glColor3f(0.5f, 0.5f, 0.5f);
@@ -165,7 +146,6 @@ private static void renderEditSkill(int windowX, int windowY){
 	}
 	
 	public static void processInput(int button, int mouseX, int mouseY){
-		
 		if(renderCreateSkill || renderEditSkill) processEditSkillInput(button, mouseX, mouseY);
 		if(renderOverview) processOverviewInput(button, mouseX, mouseY);
 	}
@@ -258,6 +238,10 @@ private static void renderEditSkill(int windowX, int windowY){
 		// if selectedSkill == null then create new skill and add it to skillList
 		// if selectedSkill != null then just get informations about it and save it when accepting changes
 		
+		if(selectedSkill == null){
+			selectedSkill = new Skill("NEW SKILL", Tier.T1, SkillType.PROJECTILE);
+		}
+		
 		
 		if(button == 0){
 			//Buttons
@@ -272,6 +256,7 @@ private static void renderEditSkill(int windowX, int windowY){
 						
 						break;
 					case 1:
+						selectedSkill = null;
 						renderCreateSkill = false;
 						renderEditSkill = false;
 						renderOverview = true;
@@ -281,6 +266,184 @@ private static void renderEditSkill(int windowX, int windowY){
 				
 			}
 		
+		}
+	}
+	
+	
+	private static void renderElements(int windowX, int windowY){
+		Font.render("Element", windowX + 16, windowY + height - 24);
+		GL11.glDisable(GL11.GL_TEXTURE_2D);
+		for(int i = 0; i < 3; i++){
+			GL11.glColor3f(0.5f, 0.5f, 0.5f);
+			GL11.glBegin(GL11.GL_QUADS);
+			GL11.glVertex2f(windowX + 16 + i*32 + i*4, windowY + height - 26);
+			GL11.glVertex2f(windowX + 48 + i*32 + i*4, windowY + height - 26);
+			GL11.glVertex2f(windowX + 48 + i*32 + i*4, windowY + height - 58);
+			GL11.glVertex2f(windowX + 16 + i*32 + i*4, windowY + height - 58);
+			GL11.glEnd();
+		}
+		GL11.glEnable(GL11.GL_TEXTURE_2D);
+	}
+	
+	
+	private static void renderTypes(int windowX, int windowY){
+		Font.render("Typ", windowX + 16, windowY + height - 24 - 50);
+		for(int i = 0; i < 4; i++){
+			
+			String texturePath = "/res/skills/";
+			SkillType type = null;
+			
+			switch (i) {
+			case 0:
+				// PROJECTILE
+				type = SkillType.PROJECTILE;
+				texturePath += "S_Fire05.png";
+				break;
+			case 1:
+				// LASER
+				type = SkillType.LASER;
+				texturePath += "S_Fire01.png";
+				break;
+			case 2:
+				// IMPACT
+				type = SkillType.IMPACT;
+				texturePath += "S_Earth04.png";
+				break;
+			case 3:
+				//AURA
+				type = SkillType.AURA;
+				texturePath += "S_Buff05.png";
+				break;
+			}
+			
+			Texture texture = null;
+			try {
+				texture = TextureLoader.getTexture("PNG", ResourceLoader.getResourceAsStream(texturePath));
+				} catch (IOException e) {
+					e.printStackTrace();
+			}  
+			texture.bind();
+			GL11.glBindTexture(GL11.GL_TEXTURE_2D, texture.getTextureID());
+			
+			GL11.glDisable(GL11.GL_TEXTURE_2D);
+			if(selectedSkill != null && selectedSkill.getType() == type){
+				GL11.glColor3f(0.4f, 0.8f, 0.4f);
+			}else{
+				GL11.glColor3f(0.5f, 0.5f, 0.5f);
+			}
+			GL11.glBegin(GL11.GL_QUADS);
+			GL11.glVertex2f(windowX + 16 + i*32 + i*4, windowY + height - 76);
+			GL11.glVertex2f(windowX + 48 + i*32 + i*4, windowY + height - 76);
+			GL11.glVertex2f(windowX + 48 + i*32 + i*4, windowY + height - 108);
+			GL11.glVertex2f(windowX + 16 + i*32 + i*4, windowY + height - 108);
+			GL11.glEnd();
+			GL11.glEnable(GL11.GL_TEXTURE_2D);
+			
+			GL11.glColor3f(1, 1, 1);
+			GL11.glBegin(GL11.GL_QUADS);
+			GL11.glTexCoord2f(0,0);
+			GL11.glVertex2f(windowX + 16 + i*32 + i*4, windowY + height - 76);
+			GL11.glTexCoord2f(1,0);
+			GL11.glVertex2f(windowX + 48 + i*32 + i*4, windowY + height - 76);
+			GL11.glTexCoord2f(1,1);
+			GL11.glVertex2f(windowX + 48 + i*32 + i*4, windowY + height - 108);
+			GL11.glTexCoord2f(0, 1);
+			GL11.glVertex2f(windowX + 16 + i*32 + i*4, windowY + height - 108);
+			GL11.glEnd();
+		}
+
+	}
+	
+	
+	private static void renderEffects(int windowX, int windowY){
+		Font.render("Effekt", windowX + 16, windowY + height - 24 - 100);
+		for(int i = 0; i < 4; i++){
+			GL11.glDisable(GL11.GL_TEXTURE_2D);
+				// CHECKBOX OUTER RING
+				GL11.glColor3f(0.5f, 0.5f, 0.5f);
+				GL11.glBegin(GL11.GL_QUADS);
+				GL11.glVertex2f(windowX + 16, windowY + height - 126 - i* 36);
+				GL11.glVertex2f(windowX + 48, windowY + height - 126 - i* 36);
+				GL11.glVertex2f(windowX + 48, windowY + height - 158 - i* 36);
+				GL11.glVertex2f(windowX + 16, windowY + height - 158 - i* 36);
+				GL11.glEnd();
+				
+				// CHECKBOX INSIDE DARK
+				GL11.glColor3f(0.3f, 0.3f, 0.3f);
+				GL11.glBegin(GL11.GL_QUADS);
+				GL11.glVertex2f(windowX + 18, windowY + height - 128 - i* 36);
+				GL11.glVertex2f(windowX + 46, windowY + height - 128 - i* 36);
+				GL11.glVertex2f(windowX + 46, windowY + height - 156 - i* 36);
+				GL11.glVertex2f(windowX + 18, windowY + height - 156 - i* 36);
+				GL11.glEnd();
+				
+				SkillEffect effect= null;
+				switch (i) {
+				case 0:
+					effect = SkillEffect.DOUBLE;
+					break;
+				case 1:
+					effect = SkillEffect.SPREAD;
+					break;
+				case 2:
+					effect = SkillEffect.RANGE;
+					break;
+				case 3:
+					effect = SkillEffect.SIZE;
+					break;
+				}
+				
+				
+				// CHECKBOX IF CLICKED
+				if(selectedSkill != null && selectedSkill.hasEffect(effect)){
+				GL11.glColor3f(0.4f, 0.8f, 0.4f);
+				GL11.glBegin(GL11.GL_QUADS);
+				GL11.glVertex2f(windowX + 22, windowY + height - 132 - i* 36);
+				GL11.glVertex2f(windowX + 42, windowY + height - 132 - i* 36);
+				GL11.glVertex2f(windowX + 42, windowY + height - 152 - i* 36);
+				GL11.glVertex2f(windowX + 22, windowY + height - 152 - i* 36);
+				GL11.glEnd();
+				}
+				// ICON
+				GL11.glColor3f(0.5f, 0.5f, 0.5f);
+				GL11.glBegin(GL11.GL_QUADS);
+				GL11.glVertex2f(windowX + 16 + 36, windowY + height - 126 - i* 36);
+				GL11.glVertex2f(windowX + 48 + 36, windowY + height - 126 - i* 36);
+				GL11.glVertex2f(windowX + 48 + 36, windowY + height - 158 - i* 36);
+				GL11.glVertex2f(windowX + 16 + 36, windowY + height - 158 - i* 36);
+				GL11.glEnd();
+				
+				// NAME
+				GL11.glBegin(GL11.GL_QUADS);
+				GL11.glVertex2f(windowX + 16 + 72, windowY + height - 126 - i* 36);
+				GL11.glVertex2f(windowX + width - 16 - 36, windowY + height - 126 - i* 36);
+				GL11.glVertex2f(windowX + width - 16 - 36, windowY + height - 158 - i* 36);
+				GL11.glVertex2f(windowX + 16 + 72, windowY + height - 158 - i* 36);
+				GL11.glEnd();
+				
+				GL11.glEnable(GL11.GL_TEXTURE_2D);
+				
+				String msg = "";
+				
+				switch (i) {
+				case 0:
+					msg = "Dopplung";
+					break;
+				case 1:
+					msg = "Streuung";
+					break;
+				case 2:
+					msg = "Reichweite";
+					break;
+				case 3:
+					msg = "Grösse";
+					break;
+				default:
+					msg = "FEHLER 01";
+					break;
+				}
+				
+				Font.render(msg, windowX + 24 + 72, windowY + height - 148 - i* 36);
 		}
 	}
 }
