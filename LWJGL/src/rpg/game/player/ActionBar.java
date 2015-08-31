@@ -7,6 +7,7 @@ import org.lwjgl.opengl.GL11;
 import rpg.game.Font;
 import rpg.game.Game;
 import rpg.game.Sound;
+import rpg.game.armor.Armor;
 import rpg.game.items.Item;
 import rpg.game.skills.Skill;
 
@@ -18,6 +19,7 @@ public class ActionBar {
 	private static boolean renderItemName = false;
 	
 	private static Item hoveredItem = null;
+	private static Item hoveredArmor = null;
 	
 	private static int dragIndex = -1;
 	private static int selectedSlot = -1;
@@ -105,121 +107,80 @@ public class ActionBar {
 			k++;
 		}
 		
-		// DRAG ONTO FILLED SPACE
-//		if(index >= 0 && actionBar[index] != null){
-//			Item item = actionBar[index];
-//			if(button == 0){
-//				Game.UI.clickedActioBarSlot = true;
-//				// DRAG N DROP
-//				// nothing dragging and clicking on an item
-//				if(dragIndex < 0){
-//					Game.UI.setDragItem(item);
-//					dragIndex = index;
-//				}else{
-//					// dragging sth and clicking on an item
-//					actionBar[index] = Game.UI.getDragItem();
-//					Game.UI.setDragItem(null);
-//					dragIndex = -1;
-//				}
-//				
-//			}else if(button == 1){
-//				if(Game.isPaused() == false){
-//					item.use();
-//				}
-//			}else if(button == -1){
-//				hoveredItem = item;
-//			}
-//		}else{
-//			// DRAG ONTO FREE SPACE
-//			if(button == 0){
-//				
-//				if(index != -1 && actionBar[index] == null){
-//					// drop item on free slot
-//					if(Game.UI.getDragItem() != null && Inventory.dragIndex != -1){
-//						actionBar[index] = Game.UI.getDragItem();
-//						Game.UI.setDragItem(null);
-//						Inventory.dragIndex = -1;
-//					}
-//					
-//				}else if(index != -1 && dragIndex != -1 && actionBar[index] == null){
-//					actionBar[dragIndex] = null;
-//					actionBar[index] = Game.UI.getDragItem();
-//					Game.UI.setDragItem(null);
-//					dragIndex = -1;
-//				}else{
-//					// from actionbar to actionbar
-//					if(dragIndex >= 0){
-//						actionBar[dragIndex] = null;
-//						dragIndex = -1;
-//					}
-//					
-//					Game.UI.clickedActioBarSlot= false;
-//				}
-//			}
-//			hoveredItem = null;
-//		}
-		
-		
-		
 		// MouseButton: -1 = nothing, 0 = left, 1 = right
-		if(index >= 0 && actionBar[index] != null){
-			Item item = actionBar[index];
-			if(button == 0){
+				if(index >= 0 && actionBar[index] != null){
+					Item item = actionBar[index];
+					if(button == 0){
+						
+						if(Keyboard.getEventKeyState()){
+							
+							int[] keys = {Keyboard.KEY_1,Keyboard.KEY_2,Keyboard.KEY_3,Keyboard.KEY_4,Keyboard.KEY_5,Keyboard.KEY_6,Keyboard.KEY_7,Keyboard.KEY_8,Keyboard.KEY_9};
+							
+							for(int i=0; i < keys.length; i++){
+								
+								if(Keyboard.getEventKey() == keys[i]){
+									actionBar[i] = actionBar[index];
+									Sound.item.playAsSoundEffect(1, 0.1f, false);
+									break;
+								}
+								
+							}
+							
+							return;
+						}
 
-				Game.UI.clickedActioBarSlot = true;
-				// DRAG N DROP
-				if(dragIndex < 0){
-					Game.UI.setDragItem(item);
-					dragIndex = index;
-				}else{
-					actionBar[dragIndex] = item;
-					actionBar[index] = Game.UI.getDragItem();
-					Game.UI.setDragItem(null);
-					dragIndex = -1;
-					Sound.item.playAsSoundEffect(1, 0.1f, false);
-				}
-			
-			
-			}else if(button == 1){
+						Game.UI.clickedInventorySlot = true;
+						// DRAG N DROP
+						if(dragIndex < 0){
+							Game.UI.setDragItem(item);
+							dragIndex = index;
+						}else{
+							Sound.item.playAsSoundEffect(1, 0.1f, false);
+							actionBar[dragIndex] = item;
+							actionBar[index] = Game.UI.getDragItem();
+							Game.UI.setDragItem(null);
+							dragIndex = -1;
+						}
+					
+					
+					}else if(button == 1){
 
-			}else if(button == -1){
-					hoveredItem = item;
-			}
-		}else{
-			if(button == 0){
-				if(index != -1 && actionBar[index] == null){
-					// drop item on free slot
-					// item
-					if(Game.UI.getDragItem() != null && Inventory.dragIndex != -1){
-						actionBar[index] = Game.UI.getDragItem();
-						Game.UI.setDragItem(null);
-						Inventory.dragIndex = -1;
-					
-					// skill
-					}else if(Game.UI.getDragItem() != null && Game.UI.getDragItem() != null){
-						actionBar[index] = Game.UI.getDragItem();
-						Game.UI.setDragItem(null);
-						Inventory.dragIndex = -1;
+					if(item.isArmor() && Game.PLAYER.getLvl() >= item.getRequiredLvl()){
+						Armor armor = (Armor) item;
+						armor.equip(index);
 					}
-					
-					//TODO double code???
-				}else if(index != -1 && dragIndex != -1 && actionBar[index] == null){
-					actionBar[dragIndex] = null;
-					actionBar[index] = Game.UI.getDragItem();
-					Game.UI.setDragItem(null);
-					dragIndex = -1;
-					Sound.item.playAsSoundEffect(1, 0.1f, false);
+						
+					}else if(button == -1){
+						if(item.isArmor()){
+							hoveredArmor = (Armor) item;
+						}else{
+							hoveredItem = item;
+						}
+					}
 				}else{
-					if(dragIndex >= 0){
-						actionBar[dragIndex] = null;
-						dragIndex = -1;
-						Sound.item.playAsSoundEffect(1, 0.1f, false);
+					if(button == 0){
+						// DRAG ONTO FREE SPACE
+						if(index != -1 && dragIndex != -1 && actionBar[index] == null){
+							Sound.item.playAsSoundEffect(1, 0.1f, false);
+							actionBar[dragIndex] = null;
+							actionBar[index] = Game.UI.getDragItem();
+							Game.UI.setDragItem(null);
+							dragIndex = -1;
+						}else{
+							if(dragIndex != -1 && Game.UI.getDragItem() != null){
+								actionBar[dragIndex] = null;
+								dragIndex = -1;
+								Game.UI.setDragItem(null);
+							}
+							Game.UI.clickedInventorySlot= false;
+						}
 					}
-					Game.UI.clickedActioBarSlot= false;
+					hoveredArmor = null;
+					hoveredItem = null;
 				}
-			}
-			hoveredItem = null;
-		}
+		
+		
+		
 		
 	}
 	

@@ -13,6 +13,7 @@ public class Sound {
 	public static Audio equip;
 	public static Audio item;
 	public static Audio click;
+	public static Audio levelUp;
 	
 	public static void loadSounds(){
 		 try {
@@ -21,6 +22,7 @@ public class Sound {
 				equip = AudioLoader.getAudio("WAV", ResourceLoader.getResourceAsStream("res/sound/cloth.wav"));
 				item = AudioLoader.getAudio("WAV", ResourceLoader.getResourceAsStream("res/sound/ring.wav"));
 				click = AudioLoader.getAudio("WAV", ResourceLoader.getResourceAsStream("res/sound/click.wav"));
+				levelUp = AudioLoader.getAudio("WAV", ResourceLoader.getResourceAsStream("res/sound/levelUp.wav"));
 				
 			} catch (IOException e) {
 				e.printStackTrace();
