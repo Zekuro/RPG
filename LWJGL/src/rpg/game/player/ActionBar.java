@@ -185,12 +185,11 @@ public class ActionBar {
 	}
 	
 	public static void detectPressedKey(){
-		
 			int[] keys = {Keyboard.KEY_1, Keyboard.KEY_2, Keyboard.KEY_3,Keyboard.KEY_4,Keyboard.KEY_5,Keyboard.KEY_6,Keyboard.KEY_7,Keyboard.KEY_8,Keyboard.KEY_9};
 			boolean found = false;
 			for(int i = 0; i < keys.length; i++){
 				
-				if(Keyboard.isKeyDown(keys[i])){
+				if(Keyboard.getEventKey() == keys[i]){
 					selectedSlot = i;
 					found = true;
 					break;
@@ -198,12 +197,11 @@ public class ActionBar {
 				
 			}
 			if(found == false) selectedSlot = -1;
-		
 	}
 	
 	public static void respondToActionKeys(){
 		
-		if(Keyboard.isKeyDown(Keyboard.KEY_1) && actionBar[0] != null){
+		if(Keyboard.getEventKey() == Keyboard.KEY_1 && actionBar[0] != null){
 			actionBar[0].use();
 			if(actionBar[0].getClass() == Skill.class ){
 				Skill skill = (Skill) actionBar[0];
@@ -211,7 +209,7 @@ public class ActionBar {
 			}
 		}
 		
-		if(Keyboard.isKeyDown(Keyboard.KEY_2) && actionBar[1] != null){
+		if(Keyboard.getEventKey() == Keyboard.KEY_2 && actionBar[1] != null){
 			actionBar[1].use();
 			if(actionBar[1].getClass() == Skill.class){
 				Skill skill = (Skill) actionBar[1];
@@ -219,7 +217,7 @@ public class ActionBar {
 			}
 		}
 		
-		if(Keyboard.isKeyDown(Keyboard.KEY_3) && actionBar[2] != null){
+		if(Keyboard.getEventKey() == Keyboard.KEY_3 && actionBar[2] != null){
 			actionBar[2].use();
 			if(actionBar[2].getClass() == Skill.class){
 				Skill skill = (Skill) actionBar[2];
@@ -227,7 +225,7 @@ public class ActionBar {
 			}
 		}
 		
-		if(Keyboard.isKeyDown(Keyboard.KEY_4) && actionBar[3] != null){
+		if(Keyboard.getEventKey() == Keyboard.KEY_4 && actionBar[3] != null){
 			actionBar[3].use();
 			if(actionBar[3].getClass() == Skill.class){
 				Skill skill = (Skill) actionBar[3];
@@ -235,7 +233,7 @@ public class ActionBar {
 			}
 		}
 		
-		if(Keyboard.isKeyDown(Keyboard.KEY_5) && actionBar[4] != null){
+		if(Keyboard.getEventKey() == Keyboard.KEY_5 && actionBar[4] != null){
 			actionBar[4].use();
 			if(actionBar[4].getClass() == Skill.class){
 				Skill skill = (Skill) actionBar[4];
@@ -243,7 +241,7 @@ public class ActionBar {
 			}
 		}
 		
-		if(Keyboard.isKeyDown(Keyboard.KEY_6) && actionBar[5] != null){
+		if(Keyboard.getEventKey() == Keyboard.KEY_6 && actionBar[5] != null){
 			actionBar[5].use();
 			if(actionBar[5].getClass() == Skill.class){
 				Skill skill = (Skill) actionBar[5];
@@ -251,7 +249,7 @@ public class ActionBar {
 			}
 		}
 		
-		if(Keyboard.isKeyDown(Keyboard.KEY_7) && actionBar[6] != null){
+		if(Keyboard.getEventKey() == Keyboard.KEY_7 && actionBar[6] != null){
 			actionBar[6].use();
 			if(actionBar[6].getClass() == Skill.class){
 				Skill skill = (Skill) actionBar[6];
@@ -259,7 +257,7 @@ public class ActionBar {
 			}
 		}
 		
-		if(Keyboard.isKeyDown(Keyboard.KEY_8) && actionBar[7] != null){
+		if(Keyboard.getEventKey() == Keyboard.KEY_8 && actionBar[7] != null){
 			actionBar[7].use();
 			if(actionBar[7].getClass() == Skill.class){
 				Skill skill = (Skill) actionBar[7];
@@ -267,7 +265,7 @@ public class ActionBar {
 			}
 		}
 		
-		if(Keyboard.isKeyDown(Keyboard.KEY_9) && actionBar[8] != null){
+		if(Keyboard.getEventKey() == Keyboard.KEY_9 && actionBar[8] != null){
 			actionBar[8].use();
 			if(actionBar[8].getClass() == Skill.class){
 				Skill skill = (Skill) actionBar[8];
