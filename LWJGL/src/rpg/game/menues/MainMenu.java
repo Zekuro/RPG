@@ -1,4 +1,4 @@
-package rpg.game.ui;
+package rpg.game.menues;
 
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.openal.AL;
@@ -8,14 +8,13 @@ import org.newdawn.slick.openal.SoundStore;
 import rpg.game.Font;
 import rpg.game.Game;
 import rpg.game.Game.GameState;
-import rpg.game.Options;
 import rpg.game.Sound;
 
 public class MainMenu {
 
 	private int size = 3;
 	
-	private String[] options = { "Start Game","Resume","Options", "Exit"};
+	private String[] options = { "Start Game","Load Game","Options", "Exit"};
 	private int selectedIndex = 0;
 	
 	private Game game;
@@ -57,7 +56,7 @@ public class MainMenu {
 						break;
 					case 2:
 						Sound.menuBackground.stop();
-						Options.previousState = GameState.MENU;
+						Options.previousState = GameState.MAINMENU;
 						game.setState(GameState.OPTIONS);
 						break;
 					case 3:
@@ -91,13 +90,14 @@ public class MainMenu {
 	
 		
 		for(int i = 0; i <= options.length-1; i++){
-			
+		
 			if(i == selectedIndex){
 				Font.renderColored(options[i], Game.SCREEN_WIDTH/2 - size*8*options[i].length()/2, Game.SCREEN_HEIGHT/2 - options.length * 8 * (size+1) + (options.length-i) * 8 * (size+1), size,0,0,0);
 			}else{
 				Font.render(options[i], Game.SCREEN_WIDTH/2 - size*8*options[i].length()/2, Game.SCREEN_HEIGHT/2 - options.length * 8 * (size+1) + (options.length-i) * 8 * (size+1), size);
 			}
 		}
+		
 	}
 	
 }

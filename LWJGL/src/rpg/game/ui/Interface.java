@@ -12,11 +12,12 @@ import org.newdawn.slick.util.ResourceLoader;
 
 import rpg.game.Font;
 import rpg.game.Game;
-import rpg.game.Options;
+import rpg.game.Game.GameState;
 import rpg.game.Sound;
 import rpg.game.World;
 import rpg.game.entities.Entity;
 import rpg.game.items.Item;
+import rpg.game.menues.Options;
 import rpg.game.objects.GameObject;
 import rpg.game.player.ActionBar;
 import rpg.game.player.Inventory;
@@ -242,6 +243,14 @@ public class Interface {
 					SkillWindow.renderCreateSkill = false;
 					SkillWindow.renderEditSkill = false;
 				}
+			}
+			
+			if(Keyboard.getEventKey() == Keyboard.KEY_ESCAPE){
+				GL11.glMatrixMode(GL11.GL_PROJECTION);
+				GL11.glLoadIdentity();
+				GL11.glOrtho(0, Game.SCREEN_WIDTH, 0, Game.SCREEN_HEIGHT, 0, -1);
+
+				Game.setState(GameState.MENU);
 			}
 			
 			if(Keyboard.getEventKey() == Keyboard.KEY_X){

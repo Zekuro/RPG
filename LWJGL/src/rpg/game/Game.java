@@ -9,9 +9,11 @@ import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.DisplayMode;
 import org.lwjgl.opengl.GL11;
 
+import rpg.game.menues.MainMenu;
+import rpg.game.menues.Menu;
+import rpg.game.menues.Options;
 import rpg.game.player.Player;
 import rpg.game.ui.Interface;
-import rpg.game.ui.MainMenu;
 import rpg.game.ui.Map;
 
 
@@ -27,7 +29,7 @@ public class Game {
 	public static Player PLAYER;
 	public static Interface UI;
 	public static MainMenu MAINMENU;
-	private World world;
+	public static World world;
 	public static int FPS;
 	public static int UPS;
 	public static int SECONDS = 0;
@@ -38,7 +40,7 @@ public class Game {
 	
 	
 	public static enum GameState{
-		MENU, GAME, OPTIONS
+		MAINMENU, GAME, OPTIONS, MENU
 	}
 	
 	public static void main(String[] args) {
@@ -99,7 +101,7 @@ public class Game {
     	
     	Sound.loadSounds();
     	
-    	state = GameState.MENU;
+    	state = GameState.MAINMENU;
     	MAINMENU = new MainMenu(this);
     	
     	render();
@@ -179,10 +181,12 @@ public class Game {
 		case OPTIONS:
 			Options.update();
 			break;
-		case MENU:
+		case MAINMENU:
 			MAINMENU.update();
 			break;
-
+		case MENU:
+			Menu.update();
+			break;
 		case GAME:
 			
 			if(!world.isLoading()){
@@ -211,8 +215,11 @@ public class Game {
 		case OPTIONS:
 			 Options.render();
 			break;
-		case MENU:
+		case MAINMENU:
 			MAINMENU.render();
+			break;
+		case MENU:
+			Menu.render();
 			break;
 		case GAME:
 			if(world.isLoading()){

@@ -1,15 +1,19 @@
-package rpg.game;
+package rpg.game.menues;
 
 import org.lwjgl.input.Keyboard;
+import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.GL11;
 
+import rpg.game.Font;
+import rpg.game.Game;
 import rpg.game.Game.GameState;
 
 public class Options {
 
 	public static float BGVolume = 0.3f;
 	public static float FXVolume = 0.3f;
-	public static GameState previousState = null;
+	
+	public static GameState previousState = GameState.MAINMENU;
 	
 	public static void render(){
 		
@@ -77,16 +81,44 @@ public class Options {
 	public static void update(){
 		
 		while(Keyboard.next()){
-			
-			if(Keyboard.getEventKeyState()){
-				if(Keyboard.getEventKey() == Keyboard.KEY_ESCAPE){
-					Game.setState(previousState);
-				}
-			}
-			
+			processKeyEvents();
 		}
 		
+		while(Mouse.next()){
+			processMouseEvents();
+		}
+	}
+
+	private static void processMouseEvents(){
+
+			if( Mouse.isButtonDown(0)){
+				// FX VOLUME
+				if(	Mouse.getX() > Game.SCREEN_WIDTH/4
+						&& Mouse.getX() < Game.SCREEN_WIDTH/4*3
+						&& Mouse.getY() > Game.SCREEN_HEIGHT - 166
+						&& Mouse.getY() < Game.SCREEN_HEIGHT - 146){
+					
+						Options.FXVolume = (float) (Mouse.getX() - Game.SCREEN_WIDTH/4) / (Game.SCREEN_WIDTH/4*2);
+				}
+				
+				// BG VOLUME
+				if(	Mouse.getX() > Game.SCREEN_WIDTH/4
+						&& Mouse.getX() < Game.SCREEN_WIDTH/4*3
+						&& Mouse.getY() > Game.SCREEN_HEIGHT - 116
+						&& Mouse.getY() < Game.SCREEN_HEIGHT - 96){
+					
+						Options.BGVolume = (float) (Mouse.getX() - Game.SCREEN_WIDTH/4) / (Game.SCREEN_WIDTH/4*2);
+				}
+				
+			}
 		
 	}
 	
+	private static void processKeyEvents(){
+		if(Keyboard.getEventKeyState()){
+			if(Keyboard.getEventKey() == Keyboard.KEY_ESCAPE){
+				Game.setState(previousState);
+			}
+		}
+	}
 }

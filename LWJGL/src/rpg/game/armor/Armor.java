@@ -1,10 +1,10 @@
 package rpg.game.armor;
 
 import rpg.game.Game;
-import rpg.game.Options;
 import rpg.game.Sound;
 import rpg.game.Stats;
 import rpg.game.items.Item;
+import rpg.game.menues.Options;
 import rpg.game.player.Inventory;
 
 public class Armor extends Item{

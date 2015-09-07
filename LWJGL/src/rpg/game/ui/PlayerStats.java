@@ -4,10 +4,10 @@ import org.lwjgl.opengl.GL11;
 
 import rpg.game.Font;
 import rpg.game.Game;
-import rpg.game.Options;
 import rpg.game.Sound;
 import rpg.game.Stats;
 import rpg.game.armor.Armor;
+import rpg.game.menues.Options;
 import rpg.game.player.Inventory;
 
 public class PlayerStats {

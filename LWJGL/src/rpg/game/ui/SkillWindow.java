@@ -12,9 +12,9 @@ import org.newdawn.slick.util.ResourceLoader;
 
 import rpg.game.Font;
 import rpg.game.Game;
-import rpg.game.Options;
 import rpg.game.Sound;
 import rpg.game.items.Item.Tier;
+import rpg.game.menues.Options;
 import rpg.game.player.ActionBar;
 import rpg.game.skills.Skill;
 import rpg.game.skills.Skill.SkillEffect;

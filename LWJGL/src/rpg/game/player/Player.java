@@ -9,7 +9,6 @@ import org.newdawn.slick.opengl.TextureLoader;
 import org.newdawn.slick.util.ResourceLoader;
 
 import rpg.game.Game;
-import rpg.game.Options;
 import rpg.game.Quest;
 import rpg.game.Sound;
 import rpg.game.Stats;
@@ -20,6 +19,7 @@ import rpg.game.entities.Entity;
 import rpg.game.items.Item;
 import rpg.game.items.Item.ItemObject;
 import rpg.game.items.Item.Tier;
+import rpg.game.menues.Options;
 import rpg.game.objects.Chest;
 import rpg.game.objects.GameObject;
 import rpg.game.objects.Portal;

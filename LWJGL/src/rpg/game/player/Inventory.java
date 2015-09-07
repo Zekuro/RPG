@@ -7,10 +7,10 @@ import org.lwjgl.opengl.GL11;
 
 import rpg.game.Font;
 import rpg.game.Game;
-import rpg.game.Options;
 import rpg.game.Sound;
 import rpg.game.armor.Armor;
 import rpg.game.items.Item;
+import rpg.game.menues.Options;
 import rpg.game.ui.ArmorInfo;
 import rpg.game.ui.ItemInfo;
 
