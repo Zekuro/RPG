@@ -12,6 +12,7 @@ import org.newdawn.slick.util.ResourceLoader;
 
 import rpg.game.Font;
 import rpg.game.Game;
+import rpg.game.Options;
 import rpg.game.Sound;
 import rpg.game.items.Item.Tier;
 import rpg.game.player.ActionBar;
@@ -182,7 +183,7 @@ private static void renderEditSkill(int windowX, int windowY){
 							
 							if(Keyboard.getEventKey() == keys[j]){
 								ActionBar.actionBar[j] = Game.PLAYER.getSkillList().get(i);
-								Sound.item.playAsSoundEffect(1, 0.1f, false);
+								Sound.item.playAsSoundEffect(1, Options.FXVolume, false);
 								return;
 							}
 							

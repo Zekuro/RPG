@@ -12,6 +12,7 @@ import org.newdawn.slick.util.ResourceLoader;
 
 import rpg.game.Font;
 import rpg.game.Game;
+import rpg.game.Options;
 import rpg.game.Sound;
 import rpg.game.World;
 import rpg.game.entities.Entity;
@@ -173,7 +174,7 @@ public class Interface {
 			
 			
 			if(Keyboard.getEventKey() == Keyboard.KEY_C){
-				Sound.click.playAsSoundEffect(1, 0.6f, false);
+				Sound.click.playAsSoundEffect(1, Options.FXVolume, false);
 				if(renderInventory || renderQuestLog || renderMap || renderSKillWindow){
 					renderInventory = false;
 					renderQuestLog = false;
@@ -187,7 +188,7 @@ public class Interface {
 			
 			
 			if(Keyboard.getEventKey() == Keyboard.KEY_I){
-				Sound.click.playAsSoundEffect(1, 0.6f, false);
+				Sound.click.playAsSoundEffect(1, Options.FXVolume, false);
 				if(renderPlayerStats || renderQuestLog || renderMap || renderSKillWindow){
 					renderQuestLog = false;
 					renderPlayerStats = false;
@@ -200,7 +201,7 @@ public class Interface {
 			}
 			
 			if(Keyboard.getEventKey() == Keyboard.KEY_L){
-				Sound.click.playAsSoundEffect(1, 0.6f, false);
+				Sound.click.playAsSoundEffect(1, Options.FXVolume, false);
 				if(renderPlayerStats || renderInventory || renderMap || renderSKillWindow){
 					renderPlayerStats = false;
 					renderInventory = false;
@@ -213,7 +214,7 @@ public class Interface {
 			}
 			
 			if(Keyboard.getEventKey() == Keyboard.KEY_M){
-				Sound.click.playAsSoundEffect(1, 0.6f, false);
+				Sound.click.playAsSoundEffect(1, Options.FXVolume, false);
 				if(renderPlayerStats || renderInventory || renderQuestLog || renderSKillWindow){
 					renderPlayerStats = false;
 					renderInventory = false;
@@ -226,7 +227,7 @@ public class Interface {
 			}
 			
 			if(Keyboard.getEventKey() == Keyboard.KEY_K){
-				Sound.click.playAsSoundEffect(1, 0.6f, false);
+				Sound.click.playAsSoundEffect(1, Options.FXVolume, false);
 				if(renderPlayerStats || renderInventory || renderQuestLog || renderMap){
 					renderPlayerStats = false;
 					renderInventory = false;
@@ -266,7 +267,9 @@ public class Interface {
 		if(!renderInfos)return;
 		
 		Font.render("FPS: " + Game.FPS, x + Game.SCREEN_WIDTH - 80, y + Game.SCREEN_HEIGHT - 15);
-		
+		Font.render("BGM: " + Options.BGVolume, x + Game.SCREEN_WIDTH - 80, y + Game.SCREEN_HEIGHT - 45);
+		Font.render("FXM: " + Options.FXVolume, x + Game.SCREEN_WIDTH - 80, y + Game.SCREEN_HEIGHT - 60);
+
 	}
 	
 	

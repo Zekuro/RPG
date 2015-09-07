@@ -6,6 +6,7 @@ import org.lwjgl.opengl.GL11;
 
 import rpg.game.Font;
 import rpg.game.Game;
+import rpg.game.Options;
 import rpg.game.Sound;
 import rpg.game.armor.Armor;
 import rpg.game.items.Item;
@@ -120,7 +121,7 @@ public class ActionBar {
 								
 								if(Keyboard.getEventKey() == keys[i]){
 									actionBar[i] = actionBar[index];
-									Sound.item.playAsSoundEffect(1, 0.1f, false);
+									Sound.item.playAsSoundEffect(1, Options.FXVolume, false);
 									break;
 								}
 								
@@ -135,7 +136,7 @@ public class ActionBar {
 							Game.UI.setDragItem(item);
 							dragIndex = index;
 						}else{
-							Sound.item.playAsSoundEffect(1, 0.1f, false);
+							Sound.item.playAsSoundEffect(1, Options.FXVolume, false);
 							actionBar[dragIndex] = item;
 							actionBar[index] = Game.UI.getDragItem();
 							Game.UI.setDragItem(null);
@@ -161,7 +162,7 @@ public class ActionBar {
 					if(button == 0){
 						// DRAG ONTO FREE SPACE
 						if(index != -1 && dragIndex != -1 && actionBar[index] == null){
-							Sound.item.playAsSoundEffect(1, 0.1f, false);
+							Sound.item.playAsSoundEffect(1, Options.FXVolume, false);
 							actionBar[dragIndex] = null;
 							actionBar[index] = Game.UI.getDragItem();
 							Game.UI.setDragItem(null);

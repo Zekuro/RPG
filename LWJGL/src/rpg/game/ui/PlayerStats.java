@@ -4,6 +4,7 @@ import org.lwjgl.opengl.GL11;
 
 import rpg.game.Font;
 import rpg.game.Game;
+import rpg.game.Options;
 import rpg.game.Sound;
 import rpg.game.Stats;
 import rpg.game.armor.Armor;
@@ -190,7 +191,7 @@ public class PlayerStats {
 				if(Inventory.hasSpace()){
 					Inventory.add(armor);
 					Game.PLAYER.getEquip().remove(armor);
-					Sound.equip.playAsSoundEffect(1, 0.1f, false);
+					Sound.equip.playAsSoundEffect(1, Options.FXVolume, false);
 				}
 			}else if(button == -1){
 				renderArmorInfo = true;

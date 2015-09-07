@@ -9,6 +9,7 @@ import org.newdawn.slick.opengl.TextureLoader;
 import org.newdawn.slick.util.ResourceLoader;
 
 import rpg.game.Game;
+import rpg.game.Options;
 import rpg.game.Quest;
 import rpg.game.Sound;
 import rpg.game.Stats;
@@ -315,7 +316,7 @@ public class Player {
 		exp = exp - maxExp;
 		lvl++;
 		maxExp = (int) (16*Math.pow(lvl, 2)+lvl+100);		
-		Sound.levelUp.playAsSoundEffect(1, 1, false);
+		Sound.levelUp.playAsSoundEffect(1, Options.FXVolume, false);
 	}
 	
 	public boolean hasCollision(int x, int y){

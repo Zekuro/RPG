@@ -1,6 +1,7 @@
 package rpg.game.armor;
 
 import rpg.game.Game;
+import rpg.game.Options;
 import rpg.game.Sound;
 import rpg.game.Stats;
 import rpg.game.items.Item;
@@ -30,7 +31,7 @@ public class Armor extends Item{
 	
 	public void equip(int inventoryIndex){
 
-		Sound.equip.playAsSoundEffect(1, 0.1f, false);
+		Sound.equip.playAsSoundEffect(1, Options.FXVolume, false);
 		
 		Armor wearing = null;
 		
