@@ -22,12 +22,12 @@ public class Menu {
 		while (Keyboard.next()) {
 			if (Keyboard.getEventKeyState()) {
 				if (Keyboard.getEventKey() == Keyboard.KEY_W || Keyboard.getEventKey() == Keyboard.KEY_UP) {
-					Sound.menuClick.playAsSoundEffect(1.0f, 1.0f, false);
+					Sound.menuClick.playAsSoundEffect(1.0f, Options.FXVolume, false);
 					if(selectedIndex - 1 >= 0) selectedIndex--;
 				}
 				
 				if(Keyboard.getEventKey() == Keyboard.KEY_S || Keyboard.getEventKey() == Keyboard.KEY_DOWN){
-					Sound.menuClick.playAsSoundEffect(1.0f, 1.0f, false);
+					Sound.menuClick.playAsSoundEffect(1.0f, Options.FXVolume, false);
 					if(selectedIndex + 1 <= options.length-1) selectedIndex++;
 				}
 				
@@ -42,7 +42,7 @@ public class Menu {
 					switch (selectedIndex) {
 					case 0:
 						Game.setState(GameState.GAME);
-						Sound.menuClick.playAsSoundEffect(1.0f, 1.0f, false);
+						Sound.menuClick.playAsSoundEffect(1.0f, Options.FXVolume, false);
 						break;
 					case 1:
 						break;
