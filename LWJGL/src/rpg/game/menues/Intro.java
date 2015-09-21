@@ -11,6 +11,7 @@ public class Intro {
 	private static int delta = 0;
 	private static int y = Game.SCREEN_HEIGHT + 390;
 	private static int radius = 100;
+	private static float alpha = 1f;
 	
 	public static void update()
 	{
@@ -32,8 +33,6 @@ public class Intro {
 		
 		drawCircle(Game.SCREEN_WIDTH/2, y, radius);
 		 
-		GL11.glEnd();
-		
 		GL11.glEnable(GL11.GL_TEXTURE_2D);
 		Game.logo.render();
 	}
@@ -53,6 +52,7 @@ public class Intro {
 				    y2 = y+Math.cos(angle)*radius;
 				    GL11.glVertex2d(x2,y2);
 				}
+				GL11.glEnd();
 	}
 	
 }
