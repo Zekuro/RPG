@@ -41,6 +41,17 @@ public class Menu {
 					 */
 					switch (selectedIndex) {
 					case 0:
+						GL11.glMatrixMode(GL11.GL_PROJECTION);
+						GL11.glLoadIdentity();
+						GL11.glOrtho(Game.PLAYER.getCameraX(), Game.SCREEN_WIDTH, Game.PLAYER.getCameraY(), Game.SCREEN_HEIGHT, 0, -1);
+
+						// no weird screen bug
+						try {
+							Thread.sleep(20);
+						} catch (InterruptedException e) {
+							e.printStackTrace();
+						}
+						
 						Game.setState(GameState.GAME);
 						Sound.menuClick.playAsSoundEffect(1.0f, Options.FXVolume, false);
 						break;

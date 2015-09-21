@@ -42,7 +42,6 @@ public class GameObject {
 	public GameObject(boolean solid, boolean background,int width, int height, String texture){
 		this.width = width;
 		this.height = height;
-		this.tile = tile;
 		this.solid = solid;
 		this.isBackground = background;
 		setTexture(texture);

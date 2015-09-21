@@ -9,9 +9,11 @@ import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.DisplayMode;
 import org.lwjgl.opengl.GL11;
 
+import rpg.game.menues.Intro;
 import rpg.game.menues.MainMenu;
 import rpg.game.menues.Menu;
 import rpg.game.menues.Options;
+import rpg.game.objects.GameObject;
 import rpg.game.player.Player;
 import rpg.game.ui.Interface;
 import rpg.game.ui.Map;
@@ -33,14 +35,17 @@ public class Game {
 	public static int FPS;
 	public static int UPS;
 	public static int SECONDS = 0;
+	public static int delta = 0;
 	
 	public static GameState state;
 	
 	private static boolean paused = false;
 	
+	public static GameObject logo;
+	
 	
 	public static enum GameState{
-		MAINMENU, GAME, OPTIONS, MENU
+		INTRO, MAINMENU, GAME, OPTIONS, MENU
 	}
 	
 	public static void main(String[] args) {
@@ -98,10 +103,12 @@ public class Game {
     	GL11.glEnable(GL11.GL_BLEND);
     	GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
     	Font.loadFonts();
-    	
     	Sound.loadSounds();
     	
-    	state = GameState.MAINMENU;
+    	logo = new GameObject(true, false, 300, 300, "res/logo/ZekuroLogo.png");
+    	logo.setPosition( SCREEN_WIDTH/2 - 90, SCREEN_HEIGHT + 180);
+    	
+    	state = GameState.INTRO;
     	MAINMENU = new MainMenu(this);
     	
     	render();
@@ -178,6 +185,9 @@ public class Game {
 		}
 
 		switch (state) {
+		case INTRO:
+			Intro.update();
+			break;
 		case OPTIONS:
 			Options.update();
 			break;
@@ -205,13 +215,16 @@ public class Game {
 			break;
 		}
 		
+		delta++;
 	}
 	
 	// FIXME not showing correct on different resolution
 	public void render(){
 		GL11.glClear(GL11.GL_COLOR_BUFFER_BIT | GL11.GL_DEPTH_BUFFER_BIT);
-		
 		switch (state) {
+		case INTRO:
+			Intro.render();
+			break;
 		case OPTIONS:
 			 Options.render();
 			break;
@@ -254,8 +267,6 @@ public class Game {
 		default:
 			break;
 		}
-		
-		
 		Display.update();
 	}
 	
